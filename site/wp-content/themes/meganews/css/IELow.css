@@ -1,0 +1,19 @@
+.cbp-qtrotator .cbp-qtcontent {
+	position: relative !important;
+}
+
+img {
+	width: auto;
+}
+
+h1.post_cat_title_large, h1.post_cat_title_small, .icon-for-post-format {
+	background: #222;
+}
+
+#container .wpb_widgetised_column ul.tweet_list li {
+	background-image: url(../images/icon-twitter-widget-ie.png) !important;
+}
+
+#footer  ul.tweet_list li {
+	background-image: url(../images/icon-twitter-widget-light-ie.png) !important;
+}

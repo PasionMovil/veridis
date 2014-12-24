@@ -1,0 +1,6 @@
+<wpml-config>
+    <custom-types>
+		<custom-type translate="1">testimonials</custom-type>
+		<custom-type translate="0">sidebars</custom-type>
+    </custom-types>  
+</wpml-config>

@@ -1,0 +1,262 @@
+# Copyright (C) 2013 Google Maps Widget
+# This file is distributed under the same license as the Google Maps Widget package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Google Maps Widget 1.20\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/google-maps-widget\n"
+"POT-Creation-Date: 2013-12-17 11:55:38+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: gmw-widget.php:11
+msgid ""
+"Displays a map image thumbnail with a larger map available in a lightbox."
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Google Maps Widget 1.20)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: gmw-widget.php:13
+msgid "Google Maps Widget"
+msgstr ""
+
+#: gmw-widget.php:18
+msgid "Map"
+msgstr ""
+
+#: gmw-widget.php:19
+msgid "New York, USA"
+msgstr ""
+
+#: gmw-widget.php:68 gmw-widget.php:73
+msgid "Road (default)"
+msgstr ""
+
+#: gmw-widget.php:69 gmw-widget.php:74
+msgid "Satellite"
+msgstr ""
+
+#: gmw-widget.php:70 gmw-widget.php:75
+msgid "Terrain"
+msgstr ""
+
+#: gmw-widget.php:71 gmw-widget.php:76
+msgid "Hybrid"
+msgstr ""
+
+#: gmw-widget.php:78
+msgid "Black"
+msgstr ""
+
+#: gmw-widget.php:79
+msgid "Brown"
+msgstr ""
+
+#: gmw-widget.php:80
+msgid "Green"
+msgstr ""
+
+#: gmw-widget.php:81
+msgid "Purple"
+msgstr ""
+
+#: gmw-widget.php:82
+msgid "Yellow"
+msgstr ""
+
+#: gmw-widget.php:83
+msgid "Blue"
+msgstr ""
+
+#: gmw-widget.php:84
+msgid "Gray"
+msgstr ""
+
+#: gmw-widget.php:85
+msgid "Orange"
+msgstr ""
+
+#: gmw-widget.php:86
+msgid "Red (default)"
+msgstr ""
+
+#: gmw-widget.php:87
+msgid "White"
+msgstr ""
+
+#: gmw-widget.php:89
+msgid "Tiny"
+msgstr ""
+
+#: gmw-widget.php:90
+msgid "Small"
+msgstr ""
+
+#: gmw-widget.php:91
+msgid "Medium"
+msgstr ""
+
+#: gmw-widget.php:92
+msgid "Large (default)"
+msgstr ""
+
+#: gmw-widget.php:94
+msgid "0 - entire world"
+msgstr ""
+
+#: gmw-widget.php:99
+msgid "White with rounded corners (default)"
+msgstr ""
+
+#: gmw-widget.php:100
+msgid "Black with rounded corners"
+msgstr ""
+
+#: gmw-widget.php:101
+msgid "White with square corners"
+msgstr ""
+
+#: gmw-widget.php:102
+msgid "Black with square corners"
+msgstr ""
+
+#: gmw-widget.php:104
+msgid "Lightbox"
+msgstr ""
+
+#: gmw-widget.php:105
+msgid "Custom link"
+msgstr ""
+
+#: gmw-widget.php:106
+msgid "Disable link"
+msgstr ""
+
+#: gmw-widget.php:109
+msgid "Title"
+msgstr ""
+
+#: gmw-widget.php:110
+msgid "Address"
+msgstr ""
+
+#: gmw-widget.php:112
+msgid "Thumbnail map"
+msgstr ""
+
+#: gmw-widget.php:112
+msgid "Lightbox map"
+msgstr ""
+
+#: gmw-widget.php:115 gmw-widget.php:161
+msgid "Map Size"
+msgstr ""
+
+#: gmw-widget.php:120 gmw-widget.php:166
+msgid "Map Type"
+msgstr ""
+
+#: gmw-widget.php:125
+msgid "Pin Color"
+msgstr ""
+
+#: gmw-widget.php:130
+msgid "Pin Size"
+msgstr ""
+
+#: gmw-widget.php:135 gmw-widget.php:171
+msgid "Zoom Level"
+msgstr ""
+
+#: gmw-widget.php:140
+msgid "Link To"
+msgstr ""
+
+#: gmw-widget.php:145
+msgid "Custom Link"
+msgstr ""
+
+#: gmw-widget.php:148
+msgid "Use New Color Scheme"
+msgstr ""
+
+#: gmw-widget.php:152
+msgid "Text Above Map"
+msgstr ""
+
+#: gmw-widget.php:155
+msgid "Text Below Map"
+msgstr ""
+
+#: gmw-widget.php:176
+msgid "Skin"
+msgstr ""
+
+#: gmw-widget.php:181
+msgid "Show Address Bubble"
+msgstr ""
+
+#: gmw-widget.php:185
+msgid "Show Title Below Lightbox"
+msgstr ""
+
+#: gmw-widget.php:189
+msgid "Header Text"
+msgstr ""
+
+#: gmw-widget.php:192
+msgid "Footer Text"
+msgstr ""
+
+#: gmw-widget.php:197
+msgid "If you like the plugin give us a shout. Thanks!"
+msgstr ""
+
+#: gmw-widget.php:282 gmw-widget.php:286
+msgid "Click to open larger map"
+msgstr ""
+
+#: google-maps-widget.php:72
+msgid "Configure Google Maps Widget"
+msgstr ""
+
+#: google-maps-widget.php:72
+msgid "Widgets"
+msgstr ""
+
+#: google-maps-widget.php:81
+msgid "View Google Maps Widget documentation"
+msgstr ""
+
+#: google-maps-widget.php:81
+msgid "Documentation"
+msgstr ""
+
+#: google-maps-widget.php:82
+msgid "Problems? We are here to help!"
+msgstr ""
+
+#: google-maps-widget.php:82
+msgid "Support"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.googlemapswidget.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Display a single-image super-fast loading Google map in a widget. A larger, "
+"full featured map is available on click in a lightbox."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Web factory Ltd"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.webfactoryltd.com/"
+msgstr ""

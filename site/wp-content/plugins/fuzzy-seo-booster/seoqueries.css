@@ -1,0 +1,4 @@
+ul.seoqueries-terms li,
+ul.seoqueries-terms li *{
+	display:inline;
+}

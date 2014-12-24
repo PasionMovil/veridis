@@ -1,34 +1,11 @@
-# Only allow direct access to specific Web-available files.
+Order Deny,Allow
+Deny from all
 
-# Apache 2.2
-<IfModule !mod_authz_core.c>
-	Order Deny,Allow
-	Deny from all
-</IfModule>
-
-# Apache 2.4
-<IfModule mod_authz_core.c>
-	Require all denied
-</IfModule>
-
-# Akismet CSS and JS
 <FilesMatch "^(form|akismet)\.(css|js)$">
-	<IfModule !mod_authz_core.c>
-		Allow from all
-	</IfModule>
-	
-	<IfModule mod_authz_core.c>
-		Require all granted
-	</IfModule>
+	Allow from all
 </FilesMatch>
 
-# Akismet images
+#allow access to any image
 <FilesMatch "^(.+)\.(png|gif)$">
-	<IfModule !mod_authz_core.c>
-		Allow from all
-	</IfModule>
-	
-	<IfModule mod_authz_core.c>
-		Require all granted
-	</IfModule>
+	Allow from all
 </FilesMatch>

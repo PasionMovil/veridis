@@ -1,0 +1,735 @@
+/*-------------------------
+Plugin Settings
+--------------------------*/
+.FeedwebSettingsTab
+{
+    float: left;
+    height: 18px;
+	width: 270px;
+	color: #000000;
+	display: block;
+	font-size: 12px;
+    padding: 6px 8px;
+	font-weight: bold;
+    margin: 0 10px 0 0;
+    text-decoration: none;	
+    border: 1px solid #C0C0C0;
+	border-bottom-style: none;
+	background-color: #ffffff;
+}
+
+.FeedwebSettingsContent select
+{
+	width: 200px;
+}
+
+.FeedwebSettingsContent td
+{
+	border: 1px solid #C0C0C0;
+	border-bottom-style: none;
+	overflow: hidden;
+}
+
+.FeedwebSettingsCommitButton td
+{
+	background-color: #E0E0FF;
+	border: 1px solid #C0C0C0;
+	padding: 8px 8px 8px 8px;
+	border-top-style: none;
+}
+
+.FeedwebSettingsTable tr
+{
+	height: 32px;
+}
+
+.FeedwebSettingsTable td
+{
+	padding-top: 2px;
+	padding-left: 8px;
+	padding-bottom: 2px;
+	border-color: #C0C0C0;
+	border-top-style: none;
+	border-left-style: none;
+	border-right-style: none;
+	border-bottom-style: dotted;
+}
+
+.DescriptionColumn
+{
+	vertical-align: middle;
+}
+
+#ChooseColorSchemePrompt
+{
+	position: relative;
+	font-style: italic;
+	display: block;
+	top: 6px;	
+}
+
+#CustomCSSValidityPrompt
+{
+	position: relative;
+	font-style: italic;
+	visibility: hidden;
+	display: block;
+	color: red;
+	top: 24px;	
+}
+
+.RadioDiv
+{
+	top: 4px;
+	left: 0px;
+	width: 100%;
+	height: 24px;
+	display: block;
+	position: relative;
+}
+
+#WidgetPlaceTopRadio
+{
+	position: absolute;
+	left: 4px;
+	top: 4px;
+}
+
+#WidgetPlaceTopLabel
+{
+	position: absolute;
+	left: 25px;
+	top: 0px;
+}
+
+#WidgetPlaceBottomRadio
+{
+	position: absolute;
+	left: 94px;
+	top: 4px;
+}
+
+#WidgetPlaceBottomLabel
+{
+	position: absolute;
+	left: 115px;
+	top: 0px;
+}
+
+#WidgetWidthEdit
+{
+	top: -2px; 
+	width: 100px; 
+	position: relative; 
+	border-radius: 2px;
+}
+
+#ExternalBackgroundBox
+{
+	top: -2px; 
+	width: 100px; 
+	position: relative; 
+	border-radius: 2px;
+	border: 1px solid #D0D0D0; 
+}
+
+#EditWidgetCSSButton
+{
+	top: 1px; 
+	left: 2px;
+	width: 200px; 
+	position: relative; 
+}
+
+#ExternalBackgroundResetButton
+{
+	position: relative; 
+	cursor: pointer;
+	left: 76px;
+	top: 4px;
+}
+
+#WidgetWidthResetButton
+{
+	position: relative; 
+	cursor: pointer;
+	left: 72px;
+	top: 4px;
+}
+
+#LayoutInfoText
+{
+	display: block;
+	margin-top: 6px;
+}
+
+#WideLayoutDisclaimer
+{
+	display: block;
+	margin-top: -4px;
+}
+
+.DescriptionWarningText
+{
+	font-size: 8pt; 
+	color: #ff0000;
+}
+
+#PurgeInactiveWidgetsButton
+{
+	background-color: #ff0000;
+	border-radius: 12px;
+	padding-right: 20px;
+	padding-left: 20px;
+	font-weight: bold;
+	color: #ffffff;
+	float: right;
+}
+
+#WidgetPreviewTitle
+{
+	font-weight: bold;
+}
+
+#CSSEditorDiv
+{
+	top: 90px;
+	left: 0px;
+	z-index: 100;
+	width: 1000px; 
+	height: 500px; 
+	display: block; 
+	visibility: hidden; 
+	position: absolute;
+	border: 1px solid #808080;
+	background-color: #E0E0E0;
+}
+
+#CSSEditorTitle
+{
+	top: 14px;
+	left: 12px;
+	font-size: 12pt;
+	position: absolute;
+}
+
+#CSSTextEditor
+{
+	top: 48px;
+	left: 8px;
+	width: 982px;    
+	resize: none;
+	height: 440px;
+    position: absolute;
+    background-color: #ffffff;
+    border: solid 1px #808080;
+}
+
+#OriginalCSSText
+{
+	display: none;
+	visibility: hidden;
+}
+
+#RestoreCSSButton
+{
+	top: 10px;
+	right: 60px;
+	width: 150px;
+	height: 28px;
+	position: absolute;
+}
+
+#SaveCSSButton
+{
+	top: 10px;
+	right: 240px;
+	width: 150px;
+	height: 28px;
+	position: absolute;
+}
+
+#CloseCSSEditorButton
+{
+	top: 12px;
+	right: 12px;
+	position: absolute;
+}
+
+/*-------------------------
+Widget Wizard
+--------------------------*/
+#WidgetDialog, #WidgetDialog span, #WidgetDialog input, #WidgetDialog select
+{
+	font-family: Verdana;
+	font-size: 9pt;
+}
+
+.WidgetWizardPage
+{
+	position: absolute;
+	visibility: hidden;
+	left: 0;
+	top: 0;
+}
+
+/*-------------------------
+Widget Navigator
+--------------------------*/
+#WizardNavigatorDiv
+{
+	top: 320px; 
+	width: 100%; 
+	height: 50px;
+	display: block;
+	position: absolute; 
+} 
+
+#WizardNavigatorDiv input
+{
+	position: absolute; 
+	width: 150px;
+	height: 28px;
+	top: 10px;
+}
+
+#WizardNavigatorDiv #DeleteButton
+{
+	left: 20px; 
+}
+
+#WizardNavigatorDiv #BackButton
+{
+	visibility: hidden;
+	left: 20px; 
+}
+
+#WizardNavigatorDiv #NextButton
+{
+	left: 360px; 	
+}
+
+#WizardNavigatorDiv #OkButton
+{
+	visibility: hidden;
+	left: 360px; 	
+}
+
+#WizardNavigatorDiv #CancelButton
+{
+	left: 530px;
+}
+
+/*-------------------------
+Widget Wizard - Title Div
+--------------------------*/
+#TitleLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 16px;
+}
+
+#TitleText, #TitleBox
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 34px;
+}
+
+#UrlLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 74px;
+}
+
+#UrlText, #UrlBox
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 92px;
+}
+
+#AuthorLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 132px;
+}
+
+#AuthorBox
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 150px;
+}
+
+#LanguageLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 190px;
+}
+
+#WidgetTitleDiv #WidgetLanguageBox
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 208px;
+}
+
+#PublishWidgetCheckBox
+{
+	position: absolute;
+	left: 16px;
+	top: 256px;
+}
+
+#PublishWidgetLabel
+{
+	position: absolute;
+	font-weight: bold;
+	width: 600px;
+	left: 40px;
+	top: 258px;
+}
+
+/*-------------------------
+Widget Wizard - Brief Div
+--------------------------*/
+#SummaryLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 10px;
+}
+
+#SummaryText
+{
+	position: absolute;
+	resize: none;
+	height: 36px;
+	width: 660px;
+	left: 20px;
+	top: 28px;
+}
+
+#CategoryLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 75px;
+}
+
+#CategoryText
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 93px;
+}
+
+#TagLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 128px;
+}
+
+#TagText
+{
+	position: absolute;
+	width: 660px;
+	height: 24px;
+	left: 20px;
+	top: 146px;
+}
+
+#ChannelPlaceholder
+{
+	position: absolute;
+	display: block;
+	width: 100%;
+	top: 180px;
+	left: 20px;
+}
+
+#ChannelLabel
+{
+	position: absolute;
+	top: 0px;
+}
+
+#ChannelBox
+{
+	position: absolute;
+	width: 200px;
+	height: 24px;
+	top: 18px;
+}
+
+#ChannelDescriptionLink
+{
+	position: absolute;
+	font-style: italic;	
+	width: 400px;
+	height: 40px;
+	left: 230px;
+	top: 20px;
+}
+
+#CensorshipLabel
+{
+	position: absolute;
+	left: 20px;
+	top: 232px;
+}
+
+#CensorshipBox
+{
+	position: absolute;
+	width: 200px;
+	height: 24px;
+	left: 20px;
+	top: 250px;
+}
+
+.CensorshipText
+{
+	font-style: italic;	
+	position: absolute;
+	display: none;
+	width: 400px;
+	height: 40px;
+	left: 250px;
+	top: 252px;
+}
+
+#AdContentCheckBox
+{
+	position: absolute;
+	left: 18px;
+	top: 290px;
+}
+
+#AdContentLabel
+{
+	position: absolute;
+	font-weight: bold;
+	width: 600px;
+	left: 40px;
+	top: 292px;
+}
+
+/*-------------------------
+Widget Wizard - Image Div
+--------------------------*/
+#ImageUrlLabel
+{
+	position: absolute;
+	width: 660px;
+	left: 20px;
+	top: 16px;
+}
+
+#WidgetImageList, #WidgetImageUrl
+{
+	position: absolute;
+	width: 490px;
+	height: 24px;
+	left: 20px;
+	top: 34px;
+}
+
+#SetImageButton
+{
+	position: absolute;
+	width: 150px;
+	height: 28px;
+	left: 530px;
+	top: 31px;
+}
+
+#WidgetImageBox
+{
+	border: 1px solid #C0C0C0; 
+	position: absolute;
+	text-align: center; 
+	overflow: hidden; 
+	height: 220px; 
+	width: 656px;
+	left: 21px;
+	top: 80px;
+}
+
+#WidgetImage
+{
+	position: relative; 
+	display: none;
+}
+
+/*-------------------------
+Widget Wizard - Question Div
+--------------------------*/
+#OldQuestionsLabel
+{
+	position: absolute;
+	width: 490px;
+	left: 20px;
+	top: 16px;
+}
+
+#OldQuestionsList
+{
+	position: absolute;
+	width: 490px;
+	height: 24px;
+	left: 20px;
+	top: 34px;
+}
+
+#SelectQuestionButton
+{
+	position: absolute;
+	width: 150px;
+	height: 28px;
+	left: 530px;
+	top: 30px;
+}
+
+#NewQuestionLabel
+{
+	position: absolute;
+	width: 490px;
+	left: 20px;
+	top: 74px;
+}
+
+#NewQuestionText
+{
+	position: absolute;
+	width: 490px;
+	height: 24px;
+	left: 20px;
+	top: 92px;
+}
+
+#AddQuestionButton
+{
+	position: absolute;
+	width: 150px;
+	height: 28px;
+	left: 530px;
+	top: 90px;
+}
+
+#QuestionsLabel
+{
+	position: absolute;
+	width: 490px;
+	left: 20px;
+	top: 132px;
+}
+
+#QuestionsList
+{
+	position: absolute;
+	height: 148px;
+	width: 490px;
+	left: 20px;
+	top: 150px;
+}
+
+#MoveUpQuestionButton
+{
+	position: absolute;
+	left: 530px;
+	width: 150px;
+	height: 28px;
+	top: 150px;
+}
+
+#MoveDownQuestionButton
+{
+	position: absolute;
+	width: 150px;
+	height: 28px;
+	left: 530px;
+	top: 210px;
+}
+
+#RemoveQuestionButton
+{
+	position: absolute;
+	width: 150px;
+	height: 28px;
+	left: 530px;
+	top: 270px;
+}
+
+/*-------------------------
+Widget Wizard - TOS
+--------------------------*/
+#TermsOfServiceDisclaimer
+{
+	position: absolute;
+	font-size: 8pt;
+	display: none;
+	width: 600px;
+	left: 40px;
+	top: 280px;
+}
+
+#TermsOfServiceDiv
+{
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: relative;
+}
+
+#TermsOfServiceTitle
+{
+	position: absolute;
+	font-weight: bold;
+	left: 20px;
+	top: 15px;
+}
+
+#TermsOfServiceText
+{
+	top: 40px;
+	left: 20px;
+	width: 660px;
+	resize: none;
+	height: 264px;
+	position: absolute;
+}
+
+#TermsOfServiceCloseButton
+{
+	top: 330px;
+	right: 20px;
+	width: 150px;
+	height: 28px;
+	position: absolute;
+}
