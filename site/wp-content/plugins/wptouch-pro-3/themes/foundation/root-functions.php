@@ -637,7 +637,7 @@ function foundation_load_theme_modules() {
 			} else if ( !defined( 'WPTOUCH_IS_FREE' ) ) {
 				$alternate_location = WPTOUCH_DIR . '/pro/modules/' . $module . '/' . $module . '.php';
 
-				require_once( $alternate_location );
+				//require_once( $alternate_location );
 
 				$defined_name = 'WPTOUCH_MODULE_' . str_replace( '-', '_', strtoupper( $module ) ) . '_INSTALLED';
 				define( $defined_name, '1' );
