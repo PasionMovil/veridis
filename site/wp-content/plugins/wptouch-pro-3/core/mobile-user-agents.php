@@ -3,9 +3,10 @@
 /* Smartphones */
 global $wptouch_smartphone_list;
 $wptouch_smartphone_list = array(
-	array( 'iPhone', 'Mobile' ), 					// iPhone
+	array( 'iPhone' ), 								// iPhone
 	array( 'iPod', 'Mobile' ),						// iPod touch
 	array( 'Android', 'Mobile' ), 					// Android devices
+	array( 'Opera', 'Mini/7' ), 					// Opera Mini 7
 	array( 'BB', 'Mobile Safari' ), 				// BB10 devices
 	array( 'BlackBerry', 'Mobile Safari' ),			// BB 6, 7 devices
 	array( 'IEMobile/10', 'Touch' ),				// Windows IE 10 touch devices

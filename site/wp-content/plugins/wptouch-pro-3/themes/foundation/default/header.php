@@ -6,9 +6,6 @@
 		<?php wptouch_head(); ?>
 	</head>
 	
-	<!-- Help speed up display of the page -->
-	<?php flush(); ?>
-	
 	<body <?php body_class( wptouch_get_body_classes() ); ?>>
 		
 		<?php do_action( 'wptouch_preview' ); ?>
@@ -16,3 +13,5 @@
 		<?php do_action( 'wptouch_body_top' ); ?>
 		
 		<?php get_template_part( 'header-bottom' ); ?>
+
+		<?php do_action( 'wptouch_body_top_second' ); ?>

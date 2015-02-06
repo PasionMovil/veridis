@@ -121,10 +121,18 @@ function foundation_determine_images() {
 			$new_posts = new WP_Query( 'category_name=' . $settings->featured_category . '&posts_per_page=' . $args[ 'max_search' ] );
 			break;
 		case 'posts':
+			if ( function_exists( 'wptouch_custom_posts_add_to_search' ) ) {
+				$post_types = wptouch_custom_posts_add_to_search( array( 'post', 'page' ) );
+			} else {
+				$post_types = array( 'post', 'page' );
+			}
 			$post_ids = explode( ',', str_replace( ' ', '', $settings->featured_post_ids ) );
 			if ( is_array( $post_ids ) && count( $post_ids ) ) {
-				$new_posts = new WP_Query( array( 'post__in'  => $post_ids, 'posts_per_page' => $args[ 'max_search' ], 'post_type' => 'any', 'orderby' => 'post__in' ) );
+				$new_posts = new WP_Query( array( 'post__in'  => $post_ids, 'posts_per_page' => $args[ 'max_search' ], 'post_type' => $post_types, 'orderby' => 'post__in' ) );
 			}
+			break;
+		case 'post_type':
+			$new_posts = new WP_Query( 'post_type=' . $settings->featured_post_type . '&posts_per_page=' . $args[ 'max_search' ] );
 			break;
 		case 'latest':
 		default:
@@ -289,7 +297,7 @@ function foundation_featured_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'checkbox',
 				'featured_continuous',
 				__( 'Continuously slide', 'wptouch-pro' ),
@@ -345,6 +353,7 @@ function foundation_featured_settings( $page_options ) {
 					'latest' => __( 'Show latest posts', 'wptouch-pro' ),
 					'tag' => __( 'Show posts from a specific tag', 'wptouch-pro' ),
 					'category' => __( 'Show posts from a specific category', 'wptouch-pro' ),
+					'post_type' => __( 'Show posts from a specific post type', 'wptouch-pro' ),
 					'posts' => __( 'Show only specific posts or pages', 'wptouch-pro' )
 				)
 			),
@@ -365,6 +374,15 @@ function foundation_featured_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0',
 				false //foundation_get_category_list()
+			),
+			wptouch_add_setting(
+				'list',
+				'featured_post_type',
+				__( 'Only this post type', 'wptouch-pro' ),
+				'',
+				WPTOUCH_SETTING_BASIC,
+				'3.5.3',
+				array_merge( array( 'Select Post Type' ), wptouch_custom_posts_get_list() )
 			),
 			wptouch_add_setting(
 				'text',

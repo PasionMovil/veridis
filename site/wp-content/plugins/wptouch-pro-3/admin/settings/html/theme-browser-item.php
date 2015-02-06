@@ -1,13 +1,20 @@
 <li class="<?php wptouch_the_theme_classes(); ?>">
 	<?php if ( wptouch_get_theme_screenshot() ) { ?>
 	<div class="image-wrapper">
+		<?php if ( isset( $cloud_themes[ wptouch_convert_to_class_name( wptouch_get_theme_title() ) ] ) && wptouch_get_theme_title() != 'Scaffold' ) { ?>
+			<input type="hidden" id="<?php echo wptouch_convert_to_class_name( wptouch_get_theme_title() ); ?>-preview" class="preview-button" data-url="http://demo.wptouch.com/<?php echo wptouch_convert_to_class_name( wptouch_get_theme_title() ); ?>?wptouch_preview_theme=enabled" value="Preview" />
+		<?php } ?>
 		<?php if ( wptouch_is_theme_in_cloud() ) { ?>
-			<img src="<?php wptouch_the_theme_screenshot(); ?>" alt="<?php wptouch_the_theme_title(); ?>" />
-			<span class="view"><?php _e( 'Click to view screenshots', 'wptouch-pro' ); ?></span>
+			<img src="<?php wptouch_the_theme_screenshot(); ?>" alt="<?php wptouch_the_theme_title(); ?>" id="<?php echo wptouch_convert_to_class_name( wptouch_get_theme_title() ); ?>" />
+			<?php if ( isset( $cloud_themes[ wptouch_convert_to_class_name( wptouch_get_theme_title() ) ] ) && wptouch_get_theme_title() != 'Scaffold' ) { ?>
+				<span class="view"><?php _e( 'Click to view screenshots', 'wptouch-pro' ); ?></span>
+			<?php } ?>
 		<?php }  else { ?>
 		<a href="#" data-toggle="modal" data-target="#modal-<?php echo wptouch_convert_to_class_name( wptouch_get_theme_title() ); ?>">
-			<img src="<?php wptouch_the_theme_screenshot(); ?>" alt="<?php wptouch_the_theme_title(); ?>" />
-			<span class="view"><?php _e( 'Click to view screenshots', 'wptouch-pro' ); ?></span>
+			<img src="<?php wptouch_the_theme_screenshot(); ?>" alt="<?php wptouch_the_theme_title(); ?>" id="<?php echo wptouch_convert_to_class_name( wptouch_get_theme_title() ); ?>" />
+				<?php if ( isset( $cloud_themes[ wptouch_convert_to_class_name( wptouch_get_theme_title() ) ] ) && wptouch_get_theme_title() != 'Scaffold' ) { ?>
+					<span class="view"><?php _e( 'Click to view screenshots', 'wptouch-pro' ); ?></span>
+				<?php } ?>
 		</a>
 		<?php } ?>
 
@@ -44,7 +51,7 @@
 
 	<div class="item-information">
 		<?php if ( wptouch_cloud_theme_update_available() ) { ?>
-			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) ) { ?>
+			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) && wptouch_is_site_licensed() ) { ?>
 				<?php if ( wptouch_can_cloud_install( true ) ) { ?>
 				<a class="button-primary upgrade" href="#" data-name="<?php wptouch_the_theme_base(); ?>" data-url="<?php wptouch_the_theme_download_url(); ?>" data-loading-text="<i class='icon-cloud-download'></i> <?php _e( 'Updating...', 'wptouch-pro' ); ?>">
 					<i class="icon-cloud-download"></i>

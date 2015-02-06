@@ -2,28 +2,32 @@
 /*
 	Plugin Name: WPtouch Pro
 	Plugin URI: http://www.wptouch.com/
-	Version: 3.2.4
+	Version: 3.6.6
 	Description: The easy way to create great mobile experiences with your WordPress website.
 	Author: BraveNewCode Inc.
-	Author URI: http://www.wtouch.com/
+	Author URI: http://www.wptouch.com/
 	Text Domain: wptouch-pro
 	Domain Path: /lang
 	License: GNU General Public License 2.0 (GPL) http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 	Trademark: 'WPtouch Pro' is a registered trademark of BraveNewCode Inc., and can not be re-used in conjuction with GPL v2 distributions or conveyances of this software under the license terms of the GPL v2 without express prior permission of BraveNewCode Inc.
 */
 
-define( 'WPTOUCH_VERSION', '3.2.4' );
+define( 'WPTOUCH_IS_PRO', true );
 
-define( 'WPTOUCH_BASE_NAME', basename( __FILE__, '.php' ) . '.php' );
-define( 'WPTOUCH_DIR', WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . basename( __FILE__, '.php' ) );
+function wptouch_pro_create_three_object() {
+	define( 'WPTOUCH_VERSION', '3.6.6' );
 
-$data = explode( DIRECTORY_SEPARATOR, WPTOUCH_DIR );
-define( 'WPTOUCH_ROOT_NAME', $data[ count( $data ) - 1 ] );
+	define( 'WPTOUCH_BASE_NAME', basename( __FILE__, '.php' ) . '.php' );
+	define( 'WPTOUCH_DIR', WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . basename( __FILE__, '.php' ) );
 
-function wptouch_create_three_object() {
+	$data = explode( DIRECTORY_SEPARATOR, WPTOUCH_DIR );
+	define( 'WPTOUCH_ROOT_NAME', $data[ count( $data ) - 1 ] );
+
 	global $wptouch_pro;
 
 	if ( !$wptouch_pro ) {
+		require_once( 'core/bncid.php' );
+
 		// Load main configuration information - sets up directories and constants
 		require_once( 'core/config.php' );
 
@@ -50,28 +54,29 @@ function wptouch_create_three_object() {
 }
 
 // Global WPtouch Pro activation hook
-function wptouch_handle_activation() {
+function wptouch_pro_handle_activation() {
 	global $wptouch_pro;
 	if ( !$wptouch_pro ) {
-		wptouch_create_three_object();
+		wptouch_pro_create_three_object();
 	}
 
 	$wptouch_pro->handle_activation();
 }
 
 // Global WPtouch Pro deactivation hook
-function wptouch_handle_deactivation() {
+function wptouch_pro_handle_deactivation() {
 	global $wptouch_pro;
 	if ( !$wptouch_pro ) {
-		wptouch_create_three_object();
+		wptouch_pro_create_three_object();
 	}
 
 	$wptouch_pro->handle_deactivation();
 }
 
 // Activation hook for some basic initialization
-register_activation_hook( __FILE__,  'wptouch_handle_activation' );
-register_deactivation_hook( __FILE__, 'wptouch_handle_deactivation' );
+register_activation_hook( __FILE__,  'wptouch_pro_handle_activation' );
+register_deactivation_hook( __FILE__, 'wptouch_pro_handle_deactivation' );
 
 // Main WPtouch Pro activation hook
-add_action( 'plugins_loaded', 'wptouch_create_three_object' );
+add_action( 'plugins_loaded', 'wptouch_pro_create_three_object' );
+

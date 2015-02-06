@@ -27,9 +27,9 @@ class WPtouchDefaultSettings30 extends WPtouchSettings {
 		if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 			$this->show_wptouch_in_footer = false;
 		} else {
-			$this->show_wptouch_in_footer = true;	
+			$this->show_wptouch_in_footer = true;
 		}
-		
+
 		$this->add_referral_code = false;
 
 		// Setup - Desktop / Mobile Switching
@@ -64,7 +64,14 @@ class WPtouchDefaultSettings30 extends WPtouchSettings {
 		$this->functions_php_loading_method = 'translate';
 
 		$this->remove_shortcodes = '';
-		$this->ignore_urls = '';
+		if ( isset( $this->ignore_urls ) ) {
+			$this->enable_url_filter = true;
+			$this->filtered_urls = $this->ignore_urls;
+		} else {
+			$this->enable_url_filter = false;
+			$this->filtered_urls = '';
+		}
+		$this->url_filter_behaviour = 'exclude_urls';
 		$this->custom_user_agents = '';
 
 		// Default Theme
@@ -121,8 +128,11 @@ class WPtouchDefaultSettingsBNCID30 extends WPtouchSettings {
 
 		$this->license_accepted = false;
 		$this->license_accepted_time = 0;
+
 		$this->next_update_check_time = 0;
-		$this->failures = 0;
+
+		$this->license_expired = false;
+		$this->license_expiry_date = 0;
 
 		$this->referral_user_id = false;
 	}

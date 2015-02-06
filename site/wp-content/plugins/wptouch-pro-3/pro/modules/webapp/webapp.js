@@ -4,7 +4,7 @@ function _wptouchWebAppSetupEachLink( oneLink ) {
 	var targetURL = oneLink.attr( 'href' );
 	var targetLink = oneLink;
 
-	var localDomain = location.protocol + '//' + location.hostname;
+	var localDomain = '//' + location.hostname;
 	var rootDomain = location.hostname.split( '.' );
 	var masterDomain = rootDomain[1] + '.' + rootDomain[2];
 
@@ -48,13 +48,22 @@ function _wptouchWebAppSetupEachLink( oneLink ) {
 		return false;
 	} else if ( oneLink.hasClass( 'img-link' ) ) {
 		return false;
-	} else if ( thisTargetUrl.match( localDomain ) || !thisTargetUrl.match( 'http://' ) ) {
+	} else if ( thisTargetUrl.match( localDomain ) || ( !thisTargetUrl.match( 'http://' )  && !thisTargetUrl.match( 'https://' ) ) ) {
 		// This is a local HTTP address, or HTTP is missing from the URL
 		// First, let's make sure it's not in the ignored list first
 		if ( oneLink.hasClass( 'ignored' ) || oneLink.parent( 'li' ).hasClass( 'ignored' ) ) {
 			// This is *not* a local link or one that has been ignored, so let's ask what to do
 	       	return confirm( wptouchWebApp.externalLinkText );
-		} else if ( thisTargetAnchor ) {
+		} else if ( thisTargetAnchor && thisTargetUrl.match( '//' ) ) {
+			wptouchWebAppLoadPage( thisTargetUrl );
+			return false;
+		} else if ( thisTargetAnchor && thisTargetAnchor == 'respond' && !thisTargetUrl.match( '//' ) ) {
+			wptouchWebAppLoadPage( targetLink.attr( 'href' ) );
+			return false;
+		} else if ( thisTargetAnchor && !thisTargetUrl.match( '//' ) ) {
+			return true;
+		} else if ( oneLink.attr( 'href' ) == '#' ) {
+			// Allow local JS to execute
 			return true;
 		} else {
 			// This is a local link that hasn't been ignored, so let's move to it
@@ -114,10 +123,44 @@ function wptouchWebAppOnly() {
 	}
 	jQuery( 'body' ).addClass( 'web-app-mode' );
 
+	wptouchWebAppBackButton();
+
+    if( window.location.hash ) { // just in case there is no hash
+    	jQuery( document.body ).animate( {
+            'scrollTop': jQuery( window.location.hash ).offset().top
+        }, 500);
+    }
+
+
+	jQuery( '#switch' ).remove();
+}
+
+function wptouchWebAppBackButton(){
+	if ( jQuery( '.back-button' ).length ) {
+		var startPosition = 0;
+		var backButton = jQuery( '.back-button' );
+
+		jQuery( window ).scroll( function () {
+			var newPosition = jQuery( this ).scrollTop();
+			if ( newPosition > startPosition ) {
+				backButton.removeClass( 'visible' );
+			} else {
+				if ( !backButton.hasClass( 'visible' ) ) {
+					backButton.addClass( 'visible' );
+				}
+			}
+			startPosition = newPosition;
+		});
+
+		// New back button history handling
+		if ( history.length == '1' || document.referrer == '' ) {
+			backButton.hide();
+		}
+	}
 }
 
 function wptouchWebAppSaveState( url ) {
-	if ( wptouchWebApp.persistence == 1 ) {
+	if ( wptouchWebApp.persistence == 1 && !url.match( 'action=logout' ) ) {
 		wptouchCreateCookie( 'wptouch-webapp-persist-' + wptouchWebApp.persistenceSalt, url, 365 );
 	}
 }

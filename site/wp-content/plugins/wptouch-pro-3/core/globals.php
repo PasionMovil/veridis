@@ -122,7 +122,7 @@ function wptouch_is_device_real_ipad() {
 
 function wptouch_capture_include_file( $file_name ) {
 	ob_start();
-	require_once( $file_name );
+	require( $file_name );
 	$contents = ob_get_contents();
 	ob_end_clean();
 
@@ -131,6 +131,11 @@ function wptouch_capture_include_file( $file_name ) {
 
 function wptouch_is_multisite_enabled() {
 	return is_multisite();
+}
+
+function wptouch_get_supported_user_agents() {
+	global $wptouch_pro;
+	return $wptouch_pro->get_supported_user_agents();
 }
 
 function wptouch_is_showing_mobile_theme_on_mobile_device() {
@@ -215,7 +220,7 @@ function wptouch_get_desktop_switch_link() {
 	if ( isset( $wptouch_pro->post[ 'wptouch_switch_location' ] ) ) {
 		$redirect_location = $wptouch_pro->post[ 'wptouch_switch_location' ];
 	} else {
-		$redirect_location = $_SERVER['REQUEST_URI'];
+		$redirect_location = esc_url_raw( $_SERVER['REQUEST_URI'], array( 'http', 'https' ) );
 	}
 
 	return apply_filters( 'wptouch_desktop_switch_link', get_bloginfo( 'url' ) . '?wptouch_switch=mobile&amp;redirect=' . urlencode( $redirect_location ) );
@@ -227,6 +232,10 @@ if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 	}
 
 	function wptouch_should_show_license_nag() {
+		return false;
+	}
+
+	function wptouch_show_renewal_notice() {
 		return false;
 	}
 }
@@ -326,7 +335,7 @@ function wptouch_get_bloginfo( $setting_name ) {
 			$setting = $total_icons;
 			break;
 		case 'support_licenses_remaining':
-			$licenses = $wptouch_pro->bnc_api->user_list_licenses( 'wptouch-pro' );
+			$licenses = $wptouch_pro->bnc_api->user_list_licenses();
 			if ( $licenses ) {
 				$setting = $licenses['remaining'];
 			} else {
@@ -334,7 +343,7 @@ function wptouch_get_bloginfo( $setting_name ) {
 			}
 			break;
 		case 'support_licenses_total':
-			$licenses = $wptouch_pro->bnc_api->get_total_licenses( 'wptouch-pro' );
+			$licenses = $wptouch_pro->bnc_api->get_total_licenses();
 			if ( $licenses ) {
 				$setting = $licenses;
 			} else {
@@ -395,7 +404,7 @@ function wptouch_get_desktop_bloginfo( $param ) {
                 case 'stylesheet_directory':
                 case 'template_url':
                 case 'template_directory':
-                        return WP_CONTENT_URL . '/themes/' . get_option( 'template' );
+                        return content_url() . '/themes/' . get_option( 'template' );
                 default:
                         return get_bloginfo( $param );
         }

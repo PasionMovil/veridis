@@ -19,15 +19,24 @@
 				<img src="<?php echo WPTOUCH_ADMIN_URL; ?>/images/loading.gif" alt="Loading image" />
 			</div>
 		</h2>
-		<?php if ( wptouch_should_show_license_nag() && $_GET['page'] != 'wptouch-admin-license' ) { ?>
+		<?php if ( wptouch_show_renewal_notice() ) { ?>
 			<div class="alert-wrap">
 				<div class="alert">
-			  		<?php echo sprintf( __( 'This copy of %s is currently unlicensed!', 'wptouch-pro' ), 'WPtouch Pro' ); ?>
-			  		<?php if ( wptouch_should_show_activation_nag() ) { ?>
-			  			<a href="<?php echo wptouch_get_license_activation_url(); ?>" class="btn btn-small btn-warning"><?php echo sprintf( __( 'Add a license %s', 'wptouch-pro' ), '&raquo;'); ?></a>
-			  		<?php } ?>
+					<?php _e( 'Your WPtouch Pro license has expired. Renew now at a discount to continue receiving product updates and support.', 'wptouch-pro' ); ?>
+					<a href="http://www.wptouch.com/renew/?utm_campaign=renew-in-product&utm_medium=web&utm_source=wptouch" target="_blank" class="btn btn-small btn-warning"><?php _e( 'Renew Now', 'wptouch-pro' ); ?></a>
 				</div>
 			</div>
+		<?php } else { ?>
+			<?php if ( wptouch_should_show_license_nag() && $_GET['page'] != 'wptouch-admin-license' ) { ?>
+				<div class="alert-wrap">
+					<div class="alert">
+				  		<?php echo sprintf( __( 'This copy of %s is currently unlicensed!', 'wptouch-pro' ), 'WPtouch Pro' ); ?>
+				  		<?php if ( wptouch_should_show_activation_nag() ) { ?>
+				  			<a href="<?php echo wptouch_get_license_activation_url(); ?>" class="btn btn-small btn-warning"><?php echo sprintf( __( 'Add a license %s', 'wptouch-pro' ), '&raquo;'); ?></a>
+				  		<?php } ?>
+					</div>
+				</div>
+			<?php } ?>
 		<?php } ?>
 
 		<?php if ( is_array( $panel_options ) ) { ?>
@@ -55,7 +64,7 @@
 								<ul class="padded">
 								<?php foreach( $section->settings as $setting ) { ?>
 									<?php if ( wptouch_admin_can_render_setting( $setting ) ) { ?>
-									<li class="wptouch-setting" id="setting-<?php echo wptouch_convert_to_class_name( $setting->name ); ?>">
+									<li class="wptouch-setting<?php if ( $setting->is_pro ) echo " pro-setting"; ?>" id="setting-<?php echo wptouch_convert_to_class_name( $setting->name ); ?>">
 										<?php wptouch_admin_render_setting( $setting ); ?>
 									</li>
 									<?php } ?>
@@ -76,7 +85,7 @@
 		<?php } ?>
 		</div>
 	</div>
-	<?php if ( ( $_GET['page'] != 'wptouch-admin-touchboard' ) && ( $_GET['page'] != 'wptouch-admin-license' ) && ( $_GET['page'] != 'wptouch-admin-themes-and-addons' ) && ( $_GET['page'] != 'wptouch-admin-upgrade' ) ) { ?>
+	<?php if ( ( $_GET['page'] != 'wptouch-admin-touchboard' ) && ( $_GET['page'] != 'wptouch-admin-license' ) && ( $_GET['page'] != 'wptouch-admin-themes-and-addons' ) && ( $_GET['page'] != 'wptouch-admin-upgrade' ) &&  ( $_GET['page'] != 'wptouch-admin-upgrade-license' ) ) { ?>
 		<br /><br /><br /><!-- add some space above -->
 		<input type="submit" name="wptouch-submit-3" id="submit" class="button-primary" value="<?php _e( 'Save Changes', 'wptouch-pro' ); ?>" />
 		<input type="submit" name="wptouch-preview-theme" id="preview" class="preview-button button-secondary" value="<?php _e( "Preview Theme", "wptouch-pro" ); ?>" data-url="<?php wptouch_bloginfo( 'url' ); ?>/?wptouch_preview_theme=enabled"  />

@@ -56,7 +56,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'2.0.1'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_pinterest_url',
 				'Pinterest',
@@ -64,7 +64,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_vimeo_url',
 				'Vimeo',
@@ -72,7 +72,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_youtube_url',
 				'YouTube',
@@ -80,13 +80,21 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.5'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_linkedin_url',
 				__( 'LinkedIn', 'wptouch-pro' ),
 				__( 'Full URL to your LinkedIn profile', 'wptouch-pro' ),
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
+			),
+			wptouch_add_setting(
+				'text',
+				'social_yelp_url',
+				'Yelp',
+				__( 'Full URL to your Yelp profile', 'wptouch-pro' ),
+				WPTOUCH_SETTING_BASIC,
+				'1.0'
 			),
 			wptouch_add_setting(
 				'text',
@@ -147,13 +155,16 @@ function foundation_social_links(){
 		foundation_social_show_one_link( $settings->social_pinterest_url, 'pinterest-sign', 'Pinterest' );
 	}
 	if ( $settings->social_vimeo_url ) {
-		foundation_social_show_one_link( $settings->social_vimeo_url, 'ticket', 'Vimeo' );
+		foundation_social_show_one_link( $settings->social_vimeo_url, 'vimeo', 'Vimeo' );
 	}
 	if ( $settings->social_youtube_url ) {
 		foundation_social_show_one_link( $settings->social_youtube_url, 'youtube', 'YouTube' );
 	}
 	if ( $settings->social_linkedin_url ) {
 		foundation_social_show_one_link( $settings->social_linkedin_url, 'linkedin-sign', 'LinkedIn' );
+	}
+	if ( $settings->social_yelp_url ) {
+		foundation_social_show_one_link( $settings->social_yelp_url, 'yelp', 'Yelp' );
 	}
 	if ( $settings->social_email_url ) {
 		foundation_social_show_one_link( 'mailto:' . $settings->social_email_url, 'envelope-alt', 'Mail' );
