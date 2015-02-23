@@ -5,7 +5,7 @@ Plugin Settings
 {
     float: left;
     height: 18px;
-	width: 270px;
+	width: 300px;
 	color: #000000;
 	display: block;
 	font-size: 12px;
@@ -46,13 +46,19 @@ Plugin Settings
 .FeedwebSettingsTable td
 {
 	padding-top: 2px;
-	padding-left: 8px;
 	padding-bottom: 2px;
 	border-color: #C0C0C0;
 	border-top-style: none;
 	border-left-style: none;
 	border-right-style: none;
 	border-bottom-style: dotted;
+}
+
+.FeedwebSettingsTable td span
+{
+	display: block;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 .DescriptionColumn
@@ -175,15 +181,40 @@ Plugin Settings
 	color: #ff0000;
 }
 
+.FeedwebSettingsCommitButton div
+{
+	position: relative;
+	display: block;
+	height: 40px;
+	width: 100%;
+}
+
+.FeedwebSettingsCommitButton div input
+{
+	position: absolute;
+	font-weight: bold;
+	width: 250px;
+	height: 28px;
+	top: 6px;
+}
+
 #PurgeInactiveWidgetsButton
 {
 	background-color: #ff0000;
-	border-radius: 12px;
-	padding-right: 20px;
-	padding-left: 20px;
-	font-weight: bold;
+	border-radius: 4px;
 	color: #ffffff;
-	float: right;
+	border: none;
+	right: 8px;
+}
+
+#ResetFeederButton
+{
+	background-color: #445566;
+	border-radius: 4px;
+	visibility: hidden;
+	color: #ffffff;
+	border: none;
+	right: 8px;
 }
 
 #WidgetPreviewTitle
@@ -293,29 +324,29 @@ Widget Navigator
 	top: 10px;
 }
 
-#WizardNavigatorDiv #DeleteButton
+#WizardNavigatorDiv #FeedwebWizardDeleteButton
 {
 	left: 20px; 
 }
 
-#WizardNavigatorDiv #BackButton
+#WizardNavigatorDiv #FeedwebWizardBackButton
 {
 	visibility: hidden;
 	left: 20px; 
 }
 
-#WizardNavigatorDiv #NextButton
+#WizardNavigatorDiv #FeedwebWizardNextButton
 {
 	left: 360px; 	
 }
 
-#WizardNavigatorDiv #OkButton
+#WizardNavigatorDiv #FeedwebWizardOkButton
 {
 	visibility: hidden;
 	left: 360px; 	
 }
 
-#WizardNavigatorDiv #CancelButton
+#WizardNavigatorDiv #FeedwebWizardCancelButton
 {
 	left: 530px;
 }

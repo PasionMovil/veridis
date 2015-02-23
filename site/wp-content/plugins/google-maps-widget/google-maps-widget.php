@@ -2,14 +2,14 @@
 /*
 Plugin Name: Google Maps Widget
 Plugin URI: http://www.googlemapswidget.com/
-Description: Display a single-image super-fast loading Google map in a widget. A larger, full featured map is available on click in a lightbox.
+Description: Display a single-image super-fast loading Google map in a widget. A larger, full featured map is available on click in a lightbox. Includes shortcode support and numerous options.
 Author: Web factory Ltd
-Version: 1.75
+Version: 2.25
 Author URI: http://www.webfactoryltd.com/
 Text Domain: google-maps-widget
 Domain Path: lang
 
-  Copyright 2012 - 2014  Web factory Ltd  (email : gmw@webfactoryltd.com)
+  Copyright 2012 - 2015  Web factory Ltd  (email : gmw@webfactoryltd.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
 }
 
 
-define('GMW_VER', '1.75');
+define('GMW_VER', '2.25');
 define('GMW_OPTIONS', 'gmw_options');
 define('GMW_CRON', 'gmw_cron');
 
@@ -42,13 +42,14 @@ require_once 'gmw-tracking.php';
 
 class GMW {
   // hook everything up
-   static function init() {
-     GMW_tracking::init();
+  static function init() {
+    GMW_tracking::init();
 
-     if (is_admin()) {
+    if (is_admin()) {
       // check if minimal required WP version is used
       self::check_wp_version(3.3);
 
+      // check some variables
       self::upgrade();
 
       // aditional links in plugin description
@@ -59,11 +60,21 @@ class GMW {
       // enqueue admin scripts
       add_action('admin_enqueue_scripts', array(__CLASS__, 'admin_enqueue_scripts'));
       add_action('customize_controls_enqueue_scripts', array(__CLASS__, 'admin_enqueue_scripts'));
+
+      // JS dialog markup
+      add_action('admin_footer', array(__CLASS__, 'admin_dialogs_markup'));
+
+      // register AJAX endpoints
+      add_action('wp_ajax_gmw_subscribe', array(__CLASS__, 'email_subscribe'));
+      add_action('wp_ajax_gmw_activate', array(__CLASS__, 'activate_via_code'));
     } else {
       // enqueue frontend scripts
       add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
       add_action('wp_footer', array(__CLASS__, 'dialogs_markup'));
     }
+
+    // add shortcode support
+    self::add_shortcode();
   } // init
 
 
@@ -163,64 +174,197 @@ class GMW {
        } // foreach $widgets
 
        echo $out;
-   } // run_scroller
+  } // dialogs_markup
 
 
-   // enqueue frontend scripts if necessary
-   static function enqueue_scripts() {
-     if (is_active_widget(false, false, 'googlemapswidget', true)) {
-       wp_enqueue_style('gmw', plugins_url('/css/gmw.css', __FILE__), array(), GMW_VER);
-       wp_enqueue_script('gmw-colorbox', plugins_url('/js/jquery.colorbox-min.js', __FILE__), array('jquery'), GMW_VER, true);
-       wp_enqueue_script('gmw', plugins_url('/js/gmw.js', __FILE__), array('jquery'), GMW_VER, true);
-     }
-    } // enqueue_scripts
+  // check availability and register shortcode
+  static function add_shortcode() {
+    global $shortcode_tags;
+
+    if (isset($shortcode_tags['gmw'])) {
+      add_action('admin_notices', array(__CLASS__, 'notice_sc_conflict_error'));
+    } else {
+      add_shortcode('gmw', array(__CLASS__, 'do_shortcode'));
+    }
+  } // add_shortcode
 
 
-    // enqueue CSS and JS scripts on widgets page
-    static function admin_enqueue_scripts() {
-      global $wp_customize;
+  // display notice if shortcode name is already taken
+  static function notice_sc_conflict_error() {
+    if (!self::is_activated()) {
+      return;
+    }
 
-      if (self::is_plugin_admin_page() || isset($wp_customize)) {
-        wp_enqueue_script('jquery-ui-tabs');
-        wp_enqueue_script('gmw-cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'), GMW_VER, true);
-        wp_enqueue_script('gmw-admin', plugins_url('js/gmw-admin.js', __FILE__), array('jquery'), GMW_VER, true);
-        wp_enqueue_style('gmw-admin', plugins_url('css/gmw-admin.css', __FILE__), array(), GMW_VER);
-      } // if
-    } // admin_enqueue_scripts
+    echo '<div class="error"><p><strong>' . __('Google Maps Widget shortcode is not active!', 'google-maps-widget') . '</strong>' . __(' Shortcode <i>[gmw]</i> is already in use by another plugin or theme. Please deactivate that theme or plugin.', 'google-maps-widget') . '</p></div>';
+  } // notice_sc_conflict_error
 
 
-    // check if plugin's admin page is shown
-    static function is_plugin_admin_page() {
-      $current_screen = get_current_screen();
+  // enqueue frontend scripts if necessary
+  static function enqueue_scripts() {
+    if (is_active_widget(false, false, 'googlemapswidget', true)) {
+      wp_enqueue_style('gmw', plugins_url('/css/gmw.css', __FILE__), array(), GMW_VER);
+      wp_enqueue_script('gmw-colorbox', plugins_url('/js/jquery.colorbox.min.js', __FILE__), array('jquery'), GMW_VER, true);
+      wp_enqueue_script('gmw', plugins_url('/js/gmw.js', __FILE__), array('jquery'), GMW_VER, true);
+    }
+  } // enqueue_scripts
 
-      if ($current_screen->id == 'widgets') {
-        return true;
+
+  // enqueue CSS and JS scripts on widgets page
+  static function admin_enqueue_scripts() {
+    global $wp_customize;
+
+    if (self::is_plugin_admin_page() || isset($wp_customize)) {
+      wp_enqueue_script('jquery-ui-tabs');
+      wp_enqueue_script('jquery-ui-dialog');
+      wp_enqueue_script('gmw-cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'), GMW_VER, true);
+      wp_enqueue_script('gmw-admin', plugins_url('js/gmw-admin.js', __FILE__), array('jquery'), GMW_VER, true);
+
+      wp_enqueue_style('wp-jquery-ui-dialog');
+      wp_enqueue_style('gmw-admin', plugins_url('css/gmw-admin.css', __FILE__), array(), GMW_VER);
+
+      $js_localize = array('subscribe_ok' => __('Check your inbox. Email with activation code is on its way.', 'google-maps-widget'),
+                           'subscribe_duplicate' => __('You are already subscribed to our list. One activation code is valid for all sites so just use the code you already have.', 'google-maps-widget'),
+                           'subscribe_error' => __('Something is not right on our end. Sorry :( Try again later.', 'google-maps-widget'),
+                           'activate_ok' => __('Superb! Extra features are active ;)', 'google-maps-widget'),
+                           'dialog_title' => __('GOOGLE MAPS WIDGET - Activate Extra Features', 'google-maps-widget'));
+      wp_localize_script('gmw-admin', 'gmw', $js_localize);
+    } // if
+  } // admin_enqueue_scripts
+
+
+  // check if plugin's admin page is shown
+  static function is_plugin_admin_page() {
+    $current_screen = get_current_screen();
+
+    if ($current_screen->id == 'widgets') {
+      return true;
+    } else {
+      return false;
+    }
+  } // is_plugin_admin_page
+
+
+  // check if activate-by-subscribing features have been activated
+  static function is_activated() {
+    $options = get_option(GMW_OPTIONS);
+
+    if (isset($options['activated']) && $options['activated'] === true) {
+      return true;
+    } else {
+      return false;
+    }
+  } // is_activated
+
+
+  // echo markup for promo dialog; only on widgets page
+  static function admin_dialogs_markup() {
+    if (!self::is_plugin_admin_page()) {
+      return false;
+    }
+
+    $current_user = wp_get_current_user();
+    if (empty($current_user->user_firstname)) {
+      $name = $current_user->display_name;
+    } else {
+      $name = $current_user->user_firstname;
+    }
+
+    $out = '<div id="gmw_promo_dialog">';
+    $out .= '<div id="gmw_dialog_subscribe"><div class="content"><h3 class="center">' . __('Subscribe to our newsletter<br>and get extra features &amp; options <b>for FREE</b>!', 'google-maps-widget') . '</h3>';
+    $out .= '<p class="input_row"><input value="' . $name . '" type="text" id="gmw_name" name="gmw_name" placeholder="Your name"><span class="error name" style="display: none;">Please enter your name.</span></p>';
+    $out .= '<p class="input_row"><input value="' . $current_user->user_email . '" type="text" name="gmw_email" id="gmw_email" placeholder="Your email address"><span style="display: none;" class="error email">Please double check your email address.</span></p>';
+    $out .= '<p class="center"><a id="gmw_subscribe" href="#" class="button button-primary big-button">Subscribe &amp; activate extra features</a><br><a href="#" class="" id="gmw_already_subscribed">I\'m already subscribed</a></p></div>';
+    $out .= '<div class="footer"><p><b>Why subscribe?</b></p><ul><li>We\'ll never share your email address</li><li>We won\'t spam you or overwhelm with emails</li><li>Be the first to get notified about new features</li><li>You\'ll get all future upgrades for free as well</li><li>You\'ll get discounts for our premium WP plugins</li></ul></div>';
+    $out .= '</div>'; // dialog subscribe
+    $out .= '<div id="gmw_dialog_activate"><div class="content"><h3 class="center">' . __('Enter your code and activate extra features', 'google-maps-widget') . '</h3>';
+    $out .= '<p class="input_row"><input type="text" id="gmw_code" name="gmw_code" placeholder="Your activation code"><span style="display: none;" class="error gmw_code">Please double check the activation code.</span></p><p class="center"><a href="#" class="button button-primary big-button" id="gmw_activate">Activate extra features</a></p></div>';
+    $out .= '<div class="footer"><p><b>FAQ</b></p><ul><li>Already subscribed? Enter your activation code above.</li><li>Didn\'t receive the email? Check your SPAM folder.</li><li>Lost your code or having other problems? <a href="mailto:gmw@webfactoryltd.com?subject=Lost%20activation%20code">Email us</a>.</li><li>Code is valid for an unlimited number of plugin installations.</li></ul></div>';
+    $out .= '</div>'; // activate screen
+    $out .= '</div>'; // dialog
+
+    echo $out;
+  } // admin_dialogs_markup
+
+
+  // send user's email to MailChimp via our server
+  static function email_subscribe() {
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    if (defined('WPLANG')) {
+      $lang = strtolower(substr(WPLANG, 0, 2));
+    } else {
+      $lang = 'en';
+    }
+
+    $res = wp_remote_post('http://www.googlemapswidget.com/subscribe.php', array('body' => array('name' => $name, 'email' => $email, 'lang' => $lang, 'ip' => $_SERVER['REMOTE_ADDR'], 'site' => get_home_url())));
+
+    // something's wrong with our server
+    if ($res['response']['code'] != 200 || is_wp_error($res)) {
+      echo 'err';
+      die();
+    }
+
+    if ($res['body'] == 'ok') {
+      echo "ok";
+      die();
+    } elseif ($res['body'] == 'duplicate') {
+      echo "duplicate";
+      die();
+    } else {
+      // todo var_dump($res['body']);
+      echo 'err';
+      die();
+    }
+  } // email_subscribe
+
+
+  // check activation code and save if valid
+  static function activate_via_code() {
+    $code = trim($_GET['code']);
+
+    if (self::validate_activation_code($code)) {
+      $options = get_option(GMW_OPTIONS);
+      $options['activation_code'] = $code;
+      $options['activated'] = true;
+      update_option(GMW_OPTIONS, $options);
+
+      die("1");
+    } else {
+      die("0");
+    }
+  } // email_activate
+
+
+  // check if activation code for additional features is valid
+  static function validate_activation_code($code) {
+    if (strlen($code) == 6 && ($code[0] + $code[5]) == 9) {
+      return true;
+    } else {
+      return false;
+    }
+  } // validate_activation_code
+
+
+  // helper function for creating dropdowns
+  static function create_select_options($options, $selected = null, $output = true) {
+    $out = "\n";
+
+    foreach ($options as $tmp) {
+      if ($selected == $tmp['val']) {
+        $out .= "<option selected=\"selected\" value=\"{$tmp['val']}\">{$tmp['label']}&nbsp;</option>\n";
       } else {
-        return false;
+        $out .= "<option value=\"{$tmp['val']}\">{$tmp['label']}&nbsp;</option>\n";
       }
-    } // is_plugin_admin_page
+    } // foreach
+
+    if ($output) {
+      echo $out;
+    } else {
+      return $out;
+    }
+  } // create_select_options
 
 
-    // helper function for creating dropdowns
-    static function create_select_options($options, $selected = null, $output = true) {
-        $out = "\n";
-
-        foreach ($options as $tmp) {
-            if ($selected == $tmp['val']) {
-                $out .= "<option selected=\"selected\" value=\"{$tmp['val']}\">{$tmp['label']}&nbsp;</option>\n";
-            } else {
-                $out .= "<option value=\"{$tmp['val']}\">{$tmp['label']}&nbsp;</option>\n";
-            }
-        } // foreach
-
-        if ($output) {
-            echo $out;
-        } else {
-            return $out;
-        }
-    } // create_select_options
-
-  
   // fetch coordinates based on the address
   static function get_coordinates($address, $force_refresh = false) {
     $address_hash = md5('gmw' . $address);
@@ -231,7 +375,7 @@ class GMW {
 
       if (!is_wp_error($result) && $result['response']['code'] == 200) {
         $data = new SimpleXMLElement($result['body']);
-        
+
         if ($data->status == 'OK') {
           $cache_value['lat']     = (string) $data->result->geometry->location->lat;
           $cache_value['lng']     = (string) $data->result->geometry->location->lng;
@@ -257,6 +401,31 @@ class GMW {
   } // get_coordinates
 
 
+  // shortcode support for any GMW instance
+  static function do_shortcode($atts, $content = null) {
+    if (!self::is_activated()) {
+      return;
+    }
+
+    global $wp_widget_factory;
+    $atts = shortcode_atts(array('id' => 0), $atts);
+    $id = (int) $atts['id'];
+    $widgets = get_option('widget_googlemapswidget');
+
+    if (!$id || !isset($widgets[$id]) || empty($widgets[$id])) {
+      echo '<span class="gmw-error">Google Maps Widget shortcode error - please double-check the widget ID.</span>';
+    } else {
+      $widget_args = $widgets[$id];
+      $widget_instance['widget_id'] = 'googlemapswidget-' . $id;
+      $widget_instance['widget_name'] = 'Google Maps Widget';
+
+      echo '<span class="gmw-shortcode-widget">';
+      the_widget('GoogleMapsWidget', $widget_args, $widget_instance);
+      echo '</span>';
+    }
+  } // do_shortcode
+
+
   // activate doesn't get fired on upgrades so we have to compensate
   public static function upgrade() {
     $options = get_option(GMW_OPTIONS);
@@ -267,6 +436,7 @@ class GMW {
       update_option(GMW_OPTIONS, $options);
     }
   } // upgrade
+
 
   // write down a few things on plugin activation
   // NO DATA is sent anywhere unless user explicitly agrees to it!
@@ -286,19 +456,27 @@ class GMW {
   static function deactivate() {
     $options = get_option(GMW_OPTIONS);
 
-    if (isset($options['allow_tracking']) && $options['allow_tracking'] === false) {
-      unset($options['allow_tracking']);
-      update_option(GMW_OPTIONS, $options);
-    } elseif (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
+    if (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
       GMW_tracking::clear_cron();
     }
-  } // activate
+  } // deactivate
+
+
+  // clean up on uninstall / delete
+  static function uninstall() {
+    if (!defined('WP_UNINSTALL_PLUGIN')) {
+      return;
+    }
+
+    delete_option(GMW_OPTIONS);
+  } // uninstall
 } // class GMW
 
 
 // hook everything up
 register_activation_hook(__FILE__, array('GMW', 'activate'));
 register_deactivation_hook(__FILE__, array('GMW', 'deactivate'));
+register_uninstall_hook(__FILE__, array('GMW', 'uninstall'));
 add_action('init', array('GMW', 'init'));
 add_action('plugins_loaded', array('GMW', 'plugins_loaded'));
 add_action('widgets_init', array('GMW', 'widgets_init'));

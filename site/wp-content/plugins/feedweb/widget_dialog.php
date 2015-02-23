@@ -963,10 +963,10 @@ function YesNoQuestionPrompt()
 				if (box.checked == true)
 					new_page = old_page - 1;
 					
-				var del_button = document.getElementById("DeleteButton");
-				var next_button = document.getElementById("NextButton");
-				var back_button = document.getElementById("BackButton");
-				var ok_button = document.getElementById("OkButton");
+				var del_button = document.getElementById("FeedwebWizardDeleteButton");
+				var next_button = document.getElementById("FeedwebWizardNextButton");
+				var back_button = document.getElementById("FeedwebWizardBackButton");
+				var ok_button = document.getElementById("FeedwebWizardOkButton");
 				
 				if (new_page == 0)
 				{
@@ -1015,7 +1015,7 @@ function YesNoQuestionPrompt()
 			
 			function CheckAuthor()
 			{
-				var bad_names = ["admin", "webmaster", "editor", "publisher", "author"];
+				var bad_names = ["admin", "editor", "publisher", "author", "master", "moderator", "owner", "blogger"];
 				var author = document.getElementById("AuthorText").value;
 				if (author == "")
 				{
@@ -1069,12 +1069,12 @@ function YesNoQuestionPrompt()
 				if (page < 0)
 					return;
 					
+				var del_button = document.getElementById("FeedwebWizardDeleteButton");
+				var back_button = document.getElementById("FeedwebWizardBackButton");
+				var next_button = document.getElementById("FeedwebWizardNextButton");
+				var ok_button = document.getElementById("FeedwebWizardOkButton");
 				var divs = document.getElementsByClassName("WidgetWizardPage");
 				var box = document.getElementById("PublishWidgetCheckBox");
-				var del_button = document.getElementById("DeleteButton");
-				var back_button = document.getElementById("BackButton");
-				var next_button = document.getElementById("NextButton");
-				var ok_button = document.getElementById("OkButton");
 				switch(page)
 				{
 					case 0: // Title Div
@@ -1204,7 +1204,7 @@ function YesNoQuestionPrompt()
 				var version = '<?php echo $wp_version ?>';
 				if (version != "3.5")
 				{
-					var button = document.getElementById("DeleteButton");
+					var button = document.getElementById("FeedwebWizardDeleteButton");
 					if ($state == true)
 					{
 						button.style.backgroundColor = '#ff0000';
@@ -1296,7 +1296,7 @@ function YesNoQuestionPrompt()
 
 		<link rel='stylesheet' id='thickbox-css'  href='<?php echo get_bloginfo('url') ?>/wp-includes/js/thickbox/thickbox.css' type='text/css' media='all' />
 		<link rel='stylesheet' id='colors-css'  href='<?php echo get_bloginfo('url') ?>/wp-admin/css/colors-fresh.css' type='text/css' media='all' />
-		<link href='<?php echo plugin_dir_url(__FILE__)?>Feedweb.css?v=2.4.3' rel='stylesheet' type='text/css' />
+		<link href='<?php echo plugin_dir_url(__FILE__)?>Feedweb.css?v=3.0.2' rel='stylesheet' type='text/css' />
 	</head>
 	<body style="margin: 0px; overflow: hidden;" onload="OnLoad()">
 		<div id="WidgetDialog" >
@@ -1327,9 +1327,9 @@ function YesNoQuestionPrompt()
 				<div id="WidgetBriefDiv" class="WidgetWizardPage">
 					<span id='SummaryLabel'><b><?php _e("Summary:", "FWTD")?></b></span>
 					<?php GetPostSummaryControl() ?>
-					<span id='CategoryLabel'><b><?php _e("Categories:")?></b></span>
+					<span id='CategoryLabel'><b><?php _e("Categories:", "FWTD")?></b></span>
 					<?php GetCategoryControl() ?>
-					<span id='TagLabel'><b><?php _e("Tags:")?></b></span>
+					<span id='TagLabel'><b><?php _e("Tags:", "FWTD")?></b></span>
 					<?php GetTagControl() ?>
 					<div id="ChannelPlaceholder"></div>
 					<span id="CensorshipLabel"><b><?php _e("Censorship:", "FWTD")?></b></span>
@@ -1338,7 +1338,7 @@ function YesNoQuestionPrompt()
 				</div>
 				
 				<div id="WidgetImageDiv" class="WidgetWizardPage">
-					<span id='ImageUrlLabel'><b><?php _e("Image Url")?></b></span>
+					<span id='ImageUrlLabel'><b><?php _e("Image Url", "FWTD")?></b></span>
 					<?php GetPostImageUrlControl() ?>
 					<input id='SetImageButton' type='button' value='<?php _e("Set", "FWTD")?>' onclick='OnSetImage()'/>
 					<div id="WidgetImageBox">
@@ -1352,7 +1352,7 @@ function YesNoQuestionPrompt()
 					<input id='SelectQuestionButton' type='button' value='<?php _e("Select")?>' onclick='OnSelect()'/>
 					<span id='NewQuestionLabel'><b><?php _e("New Question", "FWTD")?></b> (<i><?php YesNoQuestionPrompt()?></i>)<b>:</b></span>
 					<input type='text' id='NewQuestionText' name='NewQuestionText'/>
-					<input id='AddQuestionButton' type='button' value='<?php _e("Add")?>' onclick="OnAddNew()"/>
+					<input id='AddQuestionButton' type='button' value='<?php _e("Add", "FWTD")?>' onclick="OnAddNew()"/>
 					<span id='QuestionsLabel'><b><?php _e("Selected Questions:", "FWTD")?></b></span>
 					<?php BuildQuestionsListControl() ?>
 					<input id='MoveUpQuestionButton' type='button' value='<?php _e("Move Up", "FWTD")?>' onclick='OnMoveUp()'/>
@@ -1364,21 +1364,21 @@ function YesNoQuestionPrompt()
 					<!-- Remove -->
 					<?php 
 						if($_GET["mode"] == "edit") 
-							echo "<input type='button' value='".__("Remove Widget", "FWTD")."' id='DeleteButton' ". 
+							echo "<input type='button' value='".__("Remove Widget", "FWTD")."' id='FeedwebWizardDeleteButton' ". 
 								"onmouseover='OnDeleteMouseOver(true)' onmouseout='OnDeleteMouseOver(false)' onclick='OnDelete()'/>";
 					?>								
 					
 					<!-- Back -->
-					<input type='button' id='BackButton' value='<?php _e("< Back", "FWTD")?>' onclick='OnBack()'/> 
+					<input type='button' id='FeedwebWizardBackButton' value='<?php _e("< Back", "FWTD")?>' onclick='OnBack()'/> 
 					
 					<!-- Next -->
-					<input type='button' id='NextButton' value='<?php _e("Next >", "FWTD")?>' onclick='OnNext()'/>
+					<input type='button' id='FeedwebWizardNextButton' value='<?php _e("Next >", "FWTD")?>' onclick='OnNext()'/>
 					
 					<!-- Done -->
-					<input type='submit' id='OkButton' value='<?php _e("Done", "FWTD")?>' />
+					<input type='submit' id='FeedwebWizardOkButton' value='<?php _e("Done", "FWTD")?>' />
 					
 					<!-- Cancel -->
-					<input type='button' id='CancelButton' value='<?php _e("Cancel")?>' onclick='OnCancel()'/>
+					<input type='button' id='FeedwebWizardCancelButton' value='<?php _e("Cancel")?>' onclick='OnCancel()'/>
 				</div>
 			</form>
 		</div>

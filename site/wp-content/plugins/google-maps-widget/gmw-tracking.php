@@ -2,7 +2,7 @@
 /*
  * Google Maps Widget
  * Plugin usage tracking
- * (c) Web factory Ltd, 2012 - 2014
+ * (c) Web factory Ltd, 2012 - 2015
  */
 
 
@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
 
 
 class GMW_tracking {
+  // set things up
   public static function init() {
     $options = get_option(GMW_OPTIONS);
 
@@ -84,7 +85,7 @@ class GMW_tracking {
     $optout_url = add_query_arg('gmw_tracking', 'opt_out');
 
     echo '<div class="updated"><p>';
-    echo __( 'Please help us improve <strong>Google Maps Widget</strong> by allowing us to track anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.googlemapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>). As a thank you we\'ll email you a 25% discount coupon for all our premium plugins &amp; themes.', 'google-maps-widget');
+    echo __( 'Please help us improve <strong>Google Maps Widget</strong> by allowing us to track anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.googlemapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>).', 'google-maps-widget');
     echo '<br /><a href="' . esc_url($optin_url) . '" style="vertical-align: baseline;" class="button-primary">' . __('Allow', 'google-maps-widget') . '</a>';
     echo '&nbsp;&nbsp;<a href="' . esc_url($optout_url) . '" class="">' . __('Do not allow tracking', 'google-maps-widget') . '</a>';
     echo '</p></div>';
@@ -120,13 +121,20 @@ class GMW_tracking {
   public static function prepare_data() {
     $options = get_option(GMW_OPTIONS);
     $data = array();
+    $current_user = wp_get_current_user();
 
     $data['url'] = home_url();
-    $data['admin_email'] = get_bloginfo('admin_email');
+    if ($current_user && isset($current_user->user_email) && !empty($current_user->user_email)) {
+      $data['admin_email'] = $current_user->user_email;
+    } else {
+      $data['admin_email'] = get_bloginfo('admin_email');
+    }
     $data['wp_version'] = get_bloginfo('version');
     $data['gmw_version'] = GMW_VER;
     $data['gmw_first_version'] = $options['first_version'];
     $data['gmw_first_install'] = $options['first_install'];
+    $data['gmw_activated'] = GMW::is_activated();
+    $data['ioncube'] = extension_loaded('IonCube Loader');
 
     $data['gmw_count'] = 0;
     $sidebars = get_option('sidebars_widgets', array());

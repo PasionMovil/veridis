@@ -1,20 +1,142 @@
 /*
  * Google Maps Widget
- * (c) Web factory Ltd, 2012 - 2014
+ * (c) Web factory Ltd, 2012 - 2015
  */
 
 .gmw-label {
-  width: 80px;
+  width: 115px;
   display: inline-block;
 }
 
+.gmw-label-wide {
+  width: 90%;
+}
+
 .gmw-tabs {
-  border-bottom: 1px solid #CCCCCC !important;
+  border-bottom: 1px solid #e5e5e5 !important;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 .gmw-tabs input.small-text {
   width: 50px;
   padding: 1px 6px;
+}
+
+.gmw-tabs select {
+  min-width: 230px;
+  max-width: 331px;
+  width: 100%;
+}
+
+.gmw-tabs input {
+  max-width: 331px;
+}
+
+option.promo {
+  color: #e14d43;
+}
+
+#gmw_promo_dialog {
+  padding: 0;
+  display: none;
+}
+
+.gmw-dialog .ui-dialog-titlebar {
+  height: 60px;
+  background-color: rgb(48, 48, 48);
+  text-align: center;
+}
+
+.gmw-dialog .footer {
+  padding: 30px 135px;
+  background-color: rgb(48, 48, 48);
+  color: rgb(137, 137, 137);
+}
+
+.gmw-dialog .content {
+  padding: 30px 135px;
+  background-color: #FFF;
+}
+
+.gmw-dialog h3 b {
+  color: rgb(225, 77, 67);
+}
+
+.gmw-dialog h3 {
+  line-height: 150%;
+  font-weight: normal;
+  margin: 0 0 30px 0;
+}
+
+.gmw-dialog .ui-dialog-title {
+  line-height: 60px;
+  color: rgb(137, 137, 137);
+}
+
+.gmw-dialog .ui-dialog-titlebar-close {
+  top: 12px;
+}
+
+#gmw_promo_dialog ul {
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+.gmw-dialog input {
+  width: 100%;
+  height: 45px;
+}
+
+.gmw-dialog input.error {
+  border-color: rgb(225, 77, 67);
+  outline-color: rgb(225, 77, 67);
+  -webkit-box-shadow: rgba(225, 77, 67, 0.8) 0px 0px 2px 0px;
+}
+
+.gmw-dialog .input_row {
+  margin-bottom: 16px;
+}
+
+.gmw-dialog .big-button {
+  height: 54px;
+  line-height: 53px;
+  width: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.gmw-dialog #gmw_already_subscribed {
+  margin-top: 18px;
+  display: inline-block;
+  color: #999;
+}
+
+#gmw_promo_dialog span.error {
+  color: #dd3d36;
+  padding: 8px 0 0 1px;
+  display: inline-block;
+
+}
+
+#gmw_promo_dialog .center {
+  text-align: center;
+}
+
+#gmw_dialog_activate {
+  display: none;
+}
+
+
+#gmw-info h3, #gmw-info h4, #gmw-info h5 {
+  margin: 25px 0 5px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#gmw-info p {
+  margin-top: 5px;
 }
 
 /*
@@ -26,23 +148,23 @@
  *
  * http://docs.jquery.com/UI/Tabs#theming
  */
-.ui-tabs { position: relative; padding: .2em; zoom: 1;margin-top:25px } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
-.ui-tabs .ui-tabs-nav { margin: 0; padding: .2em .2em 0; }
+.ui-tabs { position: relative; padding: 0; zoom: 1;margin-top:25px } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { margin: 0; padding: 0 0 0 5px; box-sizing: border-box; }
 .ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap; }
 .ui-tabs .ui-tabs-nav li a { text-decoration: none; }
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; border-bottom: 1px solid #F8F8F8 !important; }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active { margin-bottom: 0; border-bottom: 1px solid #F8F8F8 !important; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; border-bottom: 1px solid white !important; }
+.ui-tabs .ui-tabs-nav li.ui-tabs-active { margin-bottom: 0; border-bottom: 1px solid white !important; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a { outline: none;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0.3em 1.4em; background: none; }
+.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0 15px; background: none; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
 
 .ui-tabs .ui-tabs-nav li a {
   font-weight: 200;
   line-height: 32px;
   color: #AAAAAA;
-  padding: 0 15px;
+  padding: 0 9px;
 }
 
 .ui-tabs ul.ui-tabs-nav li {
@@ -61,7 +183,7 @@
 
 ul.ui-tabs-nav{
   float: left;
-  border-bottom: 1px solid #CCCCCC;
+  border-bottom: 1px solid #e5e5e5;
   padding-bottom: 0;
   width: 100%;
   margin-bottom: 20px !important

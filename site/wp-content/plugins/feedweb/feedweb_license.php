@@ -5,6 +5,9 @@ if ( !defined('ABSPATH') )
 require_once( ABSPATH.'wp-load.php');
 require_once( 'feedweb_util.php');
 
+if (!current_user_can('manage_options'))
+	wp_die(__("You are not allowed to be here"));
+
 function GetPaymentModulePath()
 {
 	echo GetFeedwebUrl()."PM/PM.aspx?lang=".GetDefaultLanguage()."&bac=".GetBac(true)."&client=WP:".GetPluginVersion();

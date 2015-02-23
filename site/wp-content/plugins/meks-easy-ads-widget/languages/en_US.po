@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2014-04-04 22:49+0100\n"
+"PO-Revision-Date: 2014-04-04 22:49+0100\n"
+"Last-Translator: MeksHQ <support@mekshq.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../inc/class-ads-widget.php:9
+msgid "You can place advertisement links with images here"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:11
+msgid "Meks Ads Widget"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:134
+msgid "Advertisement"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:149
+msgid "Title"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:154
+msgid "Ads Size"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:156
+msgid "Small (125x125 px)"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:158
+msgid "Large (300x250 px)"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:160
+msgid "Custom"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:166
+msgid "Width"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:168
+msgid "Height"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:172
+msgid "Options"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:175
+msgid "Rotate (slide) Ads"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:180
+msgid "Randomize Ads"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:184
+msgid "Number of Ads per view"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:186
+msgid "Means how many ads to display per page load or slide"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:190
+msgid "Ads"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:194 ../inc/class-ads-widget.php:208
+msgid "Ad Image URL"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:196
+msgid "Ad Link"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:203
+msgid "Add New"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:210
+msgid "Ad Link URL"
+msgstr ""

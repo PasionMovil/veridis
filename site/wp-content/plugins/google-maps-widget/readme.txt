@@ -1,18 +1,18 @@
 === Google Maps Widget ===
 Contributors: WebFactory
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gordan%40webfactoryltd%2ecom&lc=US&item_name=Google%20Maps%20Widget&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest
-Tags: google maps, maps, gmaps, widget, lightbox, map, google map, fancybox, fancybox2, multilingual, sidebar, chinese
+Tags: google maps, maps, gmaps, widget, lightbox, map, google map, fancybox, fancybox2, multilingual, sidebar, chinese, shortcode, gmw, fast
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 3.9
-Stable tag: 1.75
+Tested up to: 4.1
+Stable tag: 2.25
 
 Displays a single-image super-fast loading Google map in a widget. A larger map with all the usual features is available on click in a lightbox.
 
 == Description ==
 
-Check out some examples on the <a href="http://www.googlemapswidget.com/">official plugin site</a>, view the [Google Maps Widget video](http://www.youtube.com/watch?v=y1siX9ha7Pw) or give us a shout <a href="http://twitter.com/WebFactoryLtd">@WebFactoryLtd</a>.
+Check out some examples on the <a href="http://www.googlemapswidget.com/">official plugin site</a>, view the [Google Maps Widget video](http://www.youtube.com/watch?v=y1siX9ha7Pw) or give us a shout on Twitter <a href="http://twitter.com/WebFactoryLtd">@WebFactoryLtd</a>.
 
 http://www.youtube.com/watch?v=y1siX9ha7Pw&hd=1
 
@@ -27,39 +27,57 @@ http://www.youtube.com/watch?v=y1siX9ha7Pw&hd=1
 * map type - road, satellite, map or hybrid
 * pin color
 * pin size
+* custom pin icon - any image can be used
 * zoom level
 * link type - lightbox, custom URL or disable link
-* map color scheme - new & old
+* map color scheme - default, refreshed, apple, gray, paper
 * text above map
 * text below map
 
 **Lightbox map options**
 
-* map size - width & height
+* map size - width & height (auto-adjusted on smaller screens)
 * map type - road, satellite, map or hybrid
 * zoom level
-* skin - light & dark
+* skin - light, dark, blue, rounded
 * show/hide address bubble
 * show/hide map title
 * header text
 * footer text
 
+**Shortcode**
+
+* by using the _[gmw id="#"]_ shortcode you can display the map in any page, post, or custom post type
+
+
 > If you need a Google Maps shortcode plugin you might be interested in purchasing our premium <a title="5sec Google Maps" href="http://5sec-google-maps-pro.webfactoryltd.com/">5sec Google Maps PRO</a> plugin.
 
-The plugin was voted on the <a href="http://themesplugins.com/Plugin-detail/google-maps-widget-google-map-free-plugin-for-wordpress/" title="Top 100 WordPressian plugin">Top 100 List</a> by WordPressian and made it on the <a href="http://tidyrepo.com/google-maps-widget/">Tidy Repo</a> list.
+
+**What others say about the plugin**
+
+* voted on the <a href="http://themesplugins.com/Plugin-detail/google-maps-widget-google-map-free-plugin-for-wordpress/" title="Top 100 WordPressian plugin">Top 100 List</a> by WordPressian
+* made it on the <a href="http://tidyrepo.com/google-maps-widget/">Tidy Repo</a> list
+* reviewed 5/5 by <a href="http://websmush.com/google-maps-widget-plugin-review/">Web Smush</a>
+* one of 3 best map plugins by <a href="http://torquemag.io/the-3-best-map-plugins-for-wordpress/">The Torque Mag</a>
+* "an easier way to add Google maps to your site" says <a href="http://www.wpbeginner.com/wp-tutorials/how-to-add-google-maps-in-wordpress/">WP Beginner</a>
+* <a href="http://designscrazed.org/wordpress-google-map-plugins/">Design Crazed</a> puts in on the top 20 Google maps list
+* <a href="http://www.inkthemes.com/easily-integrate-google-map-in-your-wordpress-themes-widget-area/09/">InkThemes</a> shows how easy it is to use GMW
+* <a href="http://www.indexwp.com/google-maps-widget/">IndexWP</a> calls it a "handy map plugin"
+
 
 **Translators (thank you!)**
 
 * English - original :)
 * Swedish - Sofia Asklund
 * Spanish - Jesus Garica
-* Croatian - Gordan
+* Croatian - Gordan from <a href="http://www.webfactoryltd.com/">Web factory Ltd</a>
 * German - Karimba
 * French - Karimba
 * Chinese simplified  - Wyeoh
 * Chinese traditional - Wyeoh
 * Dutch - Arno
 * Ukrainian - Victor Shutovskiy
+* Serbian - Ogi Djuraskovic from <a href="http://firstsiteguide.com/">FirstSiteGuide</a>
 
 == Installation ==
 
@@ -81,7 +99,7 @@ Or if needed, upload manually;
 
 = Who is this plugin for? =
 
-For just about anyone who needs a map on their site.
+For just about anyone who needs a map on their site in 5 seconds.
 
 = Thumbnail map works but lightbox won't open on click =
 
@@ -89,8 +107,8 @@ You most probably have Fancybox JS and CSS files included twice; once by the the
 
 = It's not working!!! Arrrrrrrrr =
 
-A more detailed help is coming soon. Till then check 2 things: does your theme have wp_footer() function call in the footer and if there are any jQuery errors on the site.
-If you can figure it out open a thread in the support forums.
+A more detailed help is coming soon. Till then check 2 things: does your theme have _wp_footer()_ function call in the footer and if there are any jQuery errors on the site.
+If you can't figure it out open a thread in the support forums.
 
 == Screenshots ==
 
@@ -98,8 +116,81 @@ If you can figure it out open a thread in the support forums.
 2. Larger map with all features is available in the lightbox
 3. Widget options - thumbnail map
 4. Widget options - lightbox map
+5. Widget options - shortcode
+6. Widget options - info & support
 
 == Changelog ==
+= 2.25 =
+* 2015/02/23
+* a few visual enhancements
+* new screenshots
+* shortcode name availability is checked before registering it
+* visual builder compatibility fix
+
+= 2.20 =
+* 2015/02/16
+* added shortcode support
+
+= 2.15 =
+* 2015/02/09
+* fixed a _plugin_deactivate_ bug nobody noticed for 2 years :(
+* all JS texts are now loaded via wp_localize_script()
+
+= 2.10 =
+* 2015/02/02
+* auto-adjust map size on smaller screens - thanks bruzm!
+* marked each widget with core version for future updates
+
+= 2.06 =
+* 2015/01/26
+* language file updated
+* preparing for JS rewrite
+
+= 2.05 =
+* 2015/01/19
+* code rewriting
+* minor bug fixes
+
+= 2.01 =
+* 2015/01/13
+* somehow one JS file got renamed :(
+
+= 2.0 =
+* 2015/01/13
+* lots of rewrites
+* additional features can now be activated by subscribing to our newsletter
+
+= 1.95 =
+* 2014/12/19
+* minor WP v4.1 updates
+
+= 1.93 =
+* 2014/12/03
+* due to someone being a huge cun* we can no longer offer discounts for our Envato products in GMW
+* so no changes to the plugin, just some messages edited
+
+= 1.92 =
+* 2014/11/12
+* minor bug fixes
+* preparations for admin JS rewrite
+
+= 1.90 =
+* 2014/10/20
+* added Serbian translation; thanks Ogi!
+
+= 1.86 =
+* 2014/10/12
+* updated POT file
+* updated Croatian translation
+
+= 1.85 =
+* 2014/09/22
+* added custom pin image option for thumbnail map - thanks Rudloff!
+
+= 1.80 =
+* 2014/09/08
+* minor updates for WordPress v4.0
+
 = 1.75 =
 * 2014/07/29
 * lightbox skins are back; light and dark for now, more coming soon
@@ -297,15 +388,3 @@ If you can figure it out open a thread in the support forums.
 = 0.1 =
 * 2012/08/03
 * Initial release
-
-
-== Upgrade Notice ==
-
-= 0.2 =
-Due to variable name changes footer text will be reset
-
-= 0.1x =
-Upgrade without any fear :)
-
-= 0.1 =
-Initial release

@@ -16,6 +16,8 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		protected $options;
 		protected $option_name;
 		protected $default_options;
+		protected $help_text = Array();
+		protected $help_anchors = Array();
 		protected $locations = null;	// organize settings into settings pages with a menu items and/or metaboxes on post types edit screen; optional
 		protected $layout = null;		// organize settings on a settings page into multiple, separate metaboxes; optional
 		protected $tabs = null;			// organize layouts on a settings page into multiple, separate tabs; optional
@@ -29,7 +31,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		protected $script_data = null;	// used for passing data to JavaScript
 		protected $plugin_path = null;
 		protected $pointers = Array();
-		protected $form = 'post';
+		protected $form = 'dofollow';
 		
 		/**
 		 * Handles calls to display_settings_page_{$location}, does error checking.
@@ -299,15 +301,15 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			if ( !empty( $matches ) ) {
 				if ( !empty( $matches[1] ) ) {
 					if ( function_exists( 'get_field' ) ) $result = get_field( $matches[1] );
-						if ( empty( $result ) ) {
-							global $post;
-							if ( !empty( $post ) ) $result = get_post_meta( $post->ID, $matches[1], true );
-							}
-							if ( empty( $result ) ) $result = $matches[0];
-						} else $result = $matches[0];
-		        }
-				$result = strip_tags( $result );
-		        return $result;
+					if ( empty( $result ) ) {
+						global $post;
+						if ( !empty( $post ) ) $result = get_post_meta( $post->ID, $matches[1], true );
+					}
+					if ( empty( $result ) ) $result = $matches[0];
+				} else $result = $matches[0];
+			}
+			$result = strip_tags( $result );
+			return $result;
 		}
 		
 		/**
@@ -751,9 +753,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					else
 						$wp_query->is_single = true;
 					if 	( get_option( 'show_on_front' ) == 'page' ) {
-						if ( is_page() && $post->ID == get_option( 'page_on_front' ) )
-							$wp_query->is_front_page = true;
-						elseif ( $post->ID == get_option( 'page_for_posts' ) )
+						if ( $post->ID == get_option( 'page_for_posts' ) )
 							$wp_query->is_home = true;
 					}
 					$args['options']['type'] = 'html';
@@ -935,6 +935,46 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			return current_user_can( 'level_8' );
 		}
 		
+		function help_text_helper( &$default_options, $options, $help_link = '' ) {
+			foreach( $options as $o ) {
+				$ht = '';
+				if ( !empty( $this->help_text[$o] ) )
+					$ht = $this->help_text[$o];
+				elseif ( !empty( $default_options[$o]["help_text"] ) )
+					$ht = $default_options[$o]["help_text"];
+				if ( $ht && !is_array( $ht ) ) {
+					$ha = '';
+					$hl = $help_link;
+					if ( strpos( $o, 'ga_' ) === 0 ) { // special case -- pdb
+						$hl = 'http://semperplugins.com/documentation/advanced-google-analytics-settings/';
+					}
+					if ( !empty( $this->help_anchors[$o] ) ) $ha = $this->help_anchors[$o];
+					if ( ( !empty( $ha ) && ( $pos = strrpos( $hl, '#' ) ) ) ) {
+						$hl = substr( $hl, 0, $pos );
+					}
+					if ( ( !empty( $ha ) && ( $ha[0] == 'h' ) ) ) $hl = '';
+					if ( !empty( $ha ) || !isset( $this->help_anchors[$o] ) ) {
+						$ht .= "<br /><a href='" . $hl . $ha . "' target='_blank'>" . __( "Click here for documentation on this setting", 'all_in_one_seo_pack' ) . "</a>";						
+					}
+					$default_options[$o]['help_text'] = $ht;
+				}
+			}
+		}
+		
+		function add_help_text_links() {
+			if ( !empty( $this->help_text ) ) {
+				foreach( $this->layout as $k => $v ) {
+					$this->help_text_helper( $this->default_options, $v['options'], $v['help_link'] );
+				}
+				if ( !empty( $this->locations ) )
+					foreach( $this->locations as $k => $v ) {
+						if ( !empty( $v['default_options'] ) && !empty( $v['options'] ) ) {
+							$this->help_text_helper( $this->locations[$k]['default_options'], $v['options'], $v['help_link'] );
+						}
+					}
+			}
+		}
+		
 		/**
 		 * Load scripts and styles for metaboxes.
 		 */
@@ -942,15 +982,23 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			$screen = '';
 			if ( function_exists( 'get_current_screen' ) )
 				$screen = get_current_screen();
-			if ( empty( $screen ) ) return;
-			if ( ( $screen->base != 'post' ) && ( $screen->base != 'edit-tags' ) && ( $screen->base != 'toplevel_page_shopp-products' ) ) return;
+			$bail = false;
+			if ( empty( $screen ) ) $bail = true;
+			if ( ( $screen->base != 'post' ) && ( $screen->base != 'edit-tags' ) && ( $screen->base != 'toplevel_page_shopp-products' ) ) $bail = true;
+			$prefix = $this->get_prefix();
+			$bail = apply_filters( $prefix . 'bail_on_enqueue', $bail, $screen );
+			if ( $bail ) return;
+			$this->form = 'post';
 			if ( $screen->base == 'edit-tags' ) $this->form = 'edittag';
 			if ( $screen->base == 'toplevel_page_shopp-products' ) $this->form = 'product';
+			$this->form = apply_filters( $prefix . 'set_form_on_enqueue', $this->form, $screen );
 			foreach( $this->locations as $k => $v ) {
 				if ( $v['type'] === 'metabox' ) {
 					if ( isset( $v['display'] ) && !empty( $v['display'] ) ) {
-						if ( ( ( ( $screen->base == 'toplevel_page_shopp-products' ) && in_array( 'shopp_product', $v['display'] ) ) ) 
-							|| in_array( $screen->post_type, $v['display'] ) ) {
+						$enqueue_scripts = false;
+						$enqueue_scripts = ( ( ( $screen->base == 'toplevel_page_shopp-products' ) && in_array( 'shopp_product', $v['display'] ) ) ) || in_array( $screen->post_type, $v['display'] );
+						$enqueue_scripts = apply_filters( $prefix . 'enqueue_metabox_scripts', $enqueue_scripts, $screen, $v );
+						if ( $enqueue_scripts ) {
 							add_filter( 'aioseop_localize_script_data', Array( $this, 'localize_script_data' ) );	
 							add_action( "admin_print_scripts", Array( $this, 'enqueue_scripts' ), 20 );
 							add_action( "admin_print_scripts", Array( $this, 'enqueue_styles' ), 20 );
@@ -1253,8 +1301,8 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 			$onload = '';
 			if ( !empty( $options['count'] ) ) {
 				$n++;
-				$attr .= " onKeyDown='countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n)' onKeyUp='countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n)'";
-				$onload = "countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n);";
+				$attr .= " onKeyDown='if (typeof countChars == \"function\") countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n)' onKeyUp='if (typeof countChars == \"function\") countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n)'";
+				$onload = "if (typeof countChars == \"function\") countChars(document.{$this->form}.$name,document.{$this->form}.{$prefix}length$n);";
 			}
 			if ( isset( $opts['id'] ) ) $attr .= " id=\"{$opts['id']}\" ";
 			switch ( $options['type'] ) {
@@ -1283,7 +1331,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 				else
 					$count_desc = __( ' characters. Most search engines use a maximum of %s chars for the %s.', 'all_in_one_seo_pack' );
 				$buf .= "<br /><input readonly type='text' name='{$prefix}length$n' size='3' maxlength='3' style='width:53px;height:23px;margin:0px;padding:0px 0px 0px 10px;' value='" . $this->strlen($value) . "' />"
-					 . sprintf( $count_desc, $size, $this->strtolower( $options['name'] ) );
+					 . sprintf( $count_desc, $size, trim( $this->strtolower( $options['name'] ), ':' ) );
 				if ( !empty( $onload ) ) $buf .= "<script>jQuery( document ).ready(function() { {$onload} });</script>";
 			}
 			return $buf;
@@ -1364,11 +1412,11 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 						if ( !empty( $arg_keys[$s] ) ) $args[$s] = $settings[$s];
 				} else $args = $settings;
 				foreach ( $args as $name => $opts ) {
-					$attr_list = Array( 'class', 'style', 'readonly', 'disabled', 'size' );
+					$attr_list = Array( 'class', 'style', 'readonly', 'disabled', 'size', 'placeholder' );
 					if ( $opts['type'] == 'textarea' ) $attr_list = array_merge( $attr_list, Array('rows', 'cols') );
 					$attr = '';
 					foreach ( $attr_list as $a )
-						if ( isset( $opts[$a] ) ) $attr .= " $a=\"{$opts[$a]}\" ";
+						if ( isset( $opts[$a] ) ) $attr .= ' ' . $a . '="' . esc_attr( $opts[$a] ) . '" ';
 					$opt = '';
 					if ( isset( $current_options[$name] ) ) $opt = $current_options[$name];
  					if ( $opts['label'] == 'none' && $opts['type'] == 'submit' && $opts['save'] == false ) $opt = $opts['name'];
@@ -1386,6 +1434,15 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					}
 				}
 			if ( !$container ) echo "</div>";
+		}
+		
+		function sanitize_domain( $domain ) {
+			$domain = trim( $domain );
+			$domain = $this->strtolower( $domain );
+			if ( $this->strpos( $domain, "http://" ) === 0 ) $domain = $this->substr( $domain, 7 );
+			elseif ( $this->strpos( $domain, "https://" ) === 0 ) $domain = $this->substr( $domain, 8 );
+			$domain = untrailingslashit( $domain );
+			return $domain;
 		}
 
 		/** Sanitize options */

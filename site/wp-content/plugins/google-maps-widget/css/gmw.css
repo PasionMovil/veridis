@@ -1,6 +1,6 @@
 /*
  * Google Maps Widget
- * (c) Web factory Ltd, 2012 - 2014
+ * (c) Web factory Ltd, 2012 - 2015
  */
 
 .gmw-header, .gmw-footer {
@@ -11,6 +11,15 @@
   border: none;
   margin: 0;
   padding: 0;
+}
+
+.gmw-error {
+  color: red;
+}
+
+.gmw-powered-by {
+  color: #666;
+  font-size: x-small;
 }
 
 /* Colorbox Core Style */
@@ -48,7 +57,7 @@
         .gmw-dark #cboxLoadingGraphic{background:url(../images/loading.gif) no-repeat center center;}
 
         .gmw-dark #cboxPrevious, .gmw-dark #cboxNext, .gmw-dark #cboxSlideshow, .gmw-dark #cboxClose {border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; }
-        
+
         .gmw-dark #cboxPrevious:active, .gmw-dark #cboxNext:active, .gmw-dark #cboxSlideshow:active, .gmw-dark #cboxClose:active {outline:0;}
 
         .gmw-dark #cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
@@ -58,8 +67,8 @@
         .gmw-dark #cboxNext:hover{background-position:-50px -25px;}
         .gmw-dark #cboxClose{position:absolute; bottom:0; right:0; background:url(../images/controls.png) no-repeat -25px 0; width:25px; height:25px; text-indent:-9999px;}
         .gmw-dark #cboxClose:hover{background-position:-25px -25px;}
-        
-        
+
+
 /* light */
 #cboxOverlay.gmw-light {background:#fff;}
 #colorbox.gmw-light {outline:0;}
@@ -87,3 +96,155 @@
         .gmw-light .cboxSlideshow_on #cboxSlideshow:hover{background-position:-100px -25px;}
         .gmw-light .cboxSlideshow_off #cboxSlideshow{background-position:-100px 0px; right:44px;}
         .gmw-light .cboxSlideshow_off #cboxSlideshow:hover{background-position:-75px -25px;}
+
+
+/* blue */
+#cboxOverlay.gmw-noimage-blue { background:#80a2ba; }
+.gmw-noimage-blue #cboxTopLeft, .gmw-noimage-blue #cboxTopCenter, .gmw-noimage-blue #cboxTopRight, .gmw-noimage-blue #cboxBottomLeft, .gmw-noimage-blue #cboxBottomCenter, .gmw-noimage-blue #cboxBottomRight, .gmw-noimage-blue #cboxMiddleLeft, .gmw-noimage-blue #cboxMiddleRight {
+	background:#0d4270;
+}
+#colorbox.gmw-noimage-blue  {
+	outline: 1px solid #3175a5;
+	-webkit-box-shadow: 0px 0px 25px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow:    0px 0px 25px rgba(50, 50, 50, 0.5);
+	box-shadow:         0px 0px 25px rgba(50, 50, 50, 0.5);
+}
+    .gmw-noimage-blue #cboxTopLeft{width:15px; height:15px;  }
+    .gmw-noimage-blue #cboxTopCenter{height:15px; }
+    .gmw-noimage-blue #cboxTopRight{width:15px; height:15px; }
+    .gmw-noimage-blue #cboxBottomLeft{width:15px; height:15px; }
+    .gmw-noimage-blue #cboxBottomCenter{height:15px; }
+    .gmw-noimage-blue #cboxBottomRight{width:15px; height:15px; }
+    .gmw-noimage-blue #cboxMiddleLeft{width:15px; }
+    .gmw-noimage-blue #cboxMiddleRight{width:15px; }
+
+    .gmw-noimage-blue #cboxContent{background:#0d4270; overflow:visible;}
+        .gmw-noimage-blue .cboxIframe {background:#fff;}
+		.gmw-noimage-blue .cboxPhoto {margin-bottom:28px; margin-top:0 !important;}
+		.gmw-noimage-blue .cboxPhoto.withLongCaption { margin-bottom:12px; }
+		.gmw-noimage-blue span.better-caption { text-align:center; }
+        .gmw-noimage-blue #cboxError{padding:50px; border:1px solid #ccc;}
+        .gmw-noimage-blue #cboxLoadedContent{margin-bottom:8px; font-style: italic; }
+        .gmw-noimage-blue #cboxTitle{
+			display:none !important;
+			position:absolute; bottom:18px; clear:both; text-align:center; width:100%; color:#999; min-height:16px; overflow:hidden;
+		}
+		.gmw-noimage-blue .better-caption { display:none !important; }
+        .gmw-noimage-blue #cboxCurrent{
+			position:absolute; bottom:0px; left:100px; color:#CCCCCC;  text-transform:capitalize; display:inline-block; padding-left:1.5em;
+			font-size:11px; line-height:20px; left:45%;
+		}
+        .gmw-noimage-blue #cboxLoadingOverlay{background:#fff url(../images/loading.gif) no-repeat 50% 50%;}
+
+        /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
+        .gmw-noimage-blue #cboxPrevious, .gmw-noimage-blue #cboxNext, .gmw-noimage-blue #cboxSlideshow, .gmw-noimage-blue #cboxClose {
+			border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; text-transform:capitalize;
+			-webkit-border-radius:5px; border-radius:5px;
+		}
+
+        /* avoid outlines on :active (mouseclick), but preserve outlines on :focus (tabbed navigating) */
+        .gmw-noimage-blue #cboxPrevious:active, .gmw-noimage-blue #cboxNext:active, .gmw-noimage-blue #cboxSlideshow:active, .gmw-noimage-blue #cboxClose:active {outline:0;}
+		button:focus{ outline:1px dotted #000000; }
+
+        .gmw-noimage-blue #cboxSlideshow{position:absolute; bottom:0px; right:62px; }
+        .gmw-noimage-blue #cboxPrevious{position:absolute; bottom:0px; left:0; }
+        .gmw-noimage-blue #cboxNext{position:absolute; bottom:0px; left:76px; }
+        .gmw-noimage-blue #cboxClose{position:absolute; bottom:0; right:0; display:block; }
+
+		/* Button Styles */
+		.gmw-noimage-blue #cboxPrevious,
+		.gmw-noimage-blue #cboxNext,
+		.gmw-noimage-blue #cboxSlideshow,
+		.gmw-noimage-blue #cboxClose {
+			color:#D2D2D2;
+			font-size:12px; line-height:12px;
+			background-color: #0b2a44;
+			border-right: 1px solid #061c2f;
+			border-bottom: 1px solid #061c2f;
+			padding: 6px 10px;
+			transition: all 0.35s ease;
+		}
+		.gmw-noimage-blue #cboxPrevious:hover,
+		.gmw-noimage-blue #cboxNext:hover,
+		.gmw-noimage-blue #cboxSlideshow:hover,
+		.gmw-noimage-blue #cboxClose:hover {
+			background-color: #cccccc; color:#444444;
+		}
+
+
+/*
+ IE7 and IE8. This style is not applied to IE9.
+*/
+/*.gmw-noimage-blue .cboxIE #colorbox {} */
+
+
+/* rounded */
+#cboxOverlay.gmw-noimage-rounded {
+	background:#fff;
+}
+.gmw-noimage-rounded #cboxTopLeft, .gmw-noimage-rounded #cboxTopCenter, .gmw-noimage-rounded #cboxTopRight, .gmw-noimage-rounded #cboxBottomLeft, .gmw-noimage-rounded #cboxBottomCenter, .gmw-noimage-rounded #cboxBottomRight, .gmw-noimage-rounded #cboxMiddleLeft, .gmw-noimage-rounded #cboxMiddleRight {
+	background:#ffffff;
+}
+#colorbox.gmw-noimage-rounded {
+	outline: 1px solid #D5D5D5;
+	-webkit-box-shadow: 0px 0px 25px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow:    0px 0px 25px rgba(50, 50, 50, 0.5);
+	box-shadow:         0px 0px 25px rgba(50, 50, 50, 0.5);
+-webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+    .gmw-noimage-rounded #cboxTopLeft{width:15px; height:15px; }
+    .gmw-noimage-rounded #cboxTopCenter{height:15px;  }
+    .gmw-noimage-rounded #cboxTopRight{width:15px; height:15px; }
+    .gmw-noimage-rounded #cboxBottomLeft{width:15px; height:15px; }
+    .gmw-noimage-rounded #cboxBottomCenter{height:15px; }
+    .gmw-noimage-rounded #cboxBottomRight{width:15px; height:15px; }
+    .gmw-noimage-rounded #cboxMiddleLeft{width:15px; }
+    .gmw-noimage-rounded #cboxMiddleRight{width:15px; }
+
+    .gmw-noimage-rounded #cboxContent{background:#fff; overflow:visible;}
+        .gmw-noimage-rounded .cboxIframe {background:#fff;}
+		.gmw-noimage-rounded .cboxPhoto {margin-bottom:28px; margin-top:0 !important;}
+		.gmw-noimage-rounded .cboxPhoto.withLongCaption { margin-bottom:12px; }
+		.gmw-noimage-rounded span.better-caption { line-height:16px; text-align:left; margin-bottom:6px; display:block; }
+        .gmw-noimage-rounded #cboxError{padding:50px; border:1px solid #ccc;}
+        .gmw-noimage-rounded #cboxLoadedContent{margin-bottom:24px; font-style: italic; }
+        .gmw-noimage-rounded #cboxTitle{ position:absolute; bottom:0px; clear:both; text-align:left; width:100%; color:#999; min-height:16px; overflow:hidden; }
+        .gmw-noimage-rounded #cboxCurrent{position:absolute; bottom:0px; left:100px; color:#999;  text-transform:capitalize; display:inline-block; padding-left:1.5em; }
+        .gmw-noimage-rounded #cboxLoadingOverlay{background:#fff url(../images/loading.gif) no-repeat 50% 50%;}
+
+        /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
+        .gmw-noimage-rounded #cboxPrevious, .gmw-noimage-rounded #cboxNext, .gmw-noimage-rounded #cboxSlideshow, .gmw-noimage-rounded #cboxClose {border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; text-transform:capitalize; }
+
+        /* avoid outlines on :active (mouseclick), but preserve outlines on :focus (tabbed navigating) */
+        .gmw-noimage-rounded #cboxPrevious:active, .gmw-noimage-rounded #cboxNext:active, .gmw-noimage-rounded #cboxSlideshow:active, .gmw-noimage-rounded #cboxClose:active {outline:0;}
+		button:focus{ outline:1px dotted #ffffff; }
+
+        .gmw-noimage-rounded #cboxSlideshow{position:absolute; bottom:0px; right:52px; color:#444;}
+        .gmw-noimage-rounded #cboxPrevious{position:absolute; bottom:0px; left:0; color:#444;}
+        .gmw-noimage-rounded #cboxNext{position:absolute; bottom:0px; left:63px; color:#444;}
+        .gmw-noimage-rounded #cboxClose{position:absolute; bottom:0; right:0; display:block; color:#444;}
+
+		/* Button Styles */
+		.gmw-noimage-rounded #cboxPrevious,
+		.gmw-noimage-rounded #cboxNext,
+		.gmw-noimage-rounded #cboxSlideshow,
+		.gmw-noimage-rounded #cboxClose {
+			color: #777777;
+			font-size:10px; line-height:12px;
+			background-color: #dddddd;
+			border-right: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+			padding: 4px 8px;
+		}
+		.gmw-noimage-rounded #cboxPrevious:hover,
+		.gmw-noimage-rounded #cboxNext:hover,
+		.gmw-noimage-rounded #cboxSlideshow:hover,
+		.gmw-noimage-rounded #cboxClose:hover {
+			background-color: #cccccc; color:#444444;
+		}
+
+/*
+ IE7 and IE8. This style is not applied to IE9.
+*/
+/*.gmw-noimage-rounded .cboxIE #colorbox {} */

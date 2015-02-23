@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Feedweb
-Plugin URI: http://wordpress.org/extend/plugins/feedweb/
+Plugin URI: http://wordpress.org/plugins/feedweb/
 Description: Expose your blog to the Feedweb reader's community. Promote your views. Get a comprehensive and detailed feedback from your readers.
 Author: Feedweb
-Version: 2.4.12
+Version: 3.0.12
 Author URI: http://www.feedweb.net
 */
 
@@ -12,8 +12,8 @@ require_once('feedweb_util.php');
 require_once('feedweb_options.php');
 require_once(ABSPATH.'wp-admin/includes/plugin.php');
 
+$feedweb_cell_index = 0;
 $feedweb_blog_caps = null;
-$feedweb_rw_swf = "FL/RatingWidget.swf";
 
 function ContentFilter($content)
 {
@@ -23,7 +23,6 @@ function ContentFilter($content)
 	return $content;
 }
 
-
 function GetFeedwebContent()
 {
 	global $post_ID;
@@ -31,7 +30,7 @@ function GetFeedwebContent()
 	
 	$data = GetFeedwebOptions();
 	if ($data["mp_widgets"] == "0")	// Doesn't display on the Home / Front Page
-		if (is_front_page() || is_home() || is_feed() || is_category() || is_tag())
+		if (is_front_page() || is_home() || is_feed() || is_category() || is_tag() || is_page())
 			return null;
 	
 	$pac = GetPac($pid);
@@ -83,16 +82,17 @@ function GetCopyrightNotice()
 	$version = $data['Version'];
 	
 	$text = 
-		"<div style='direction:ltr; font-size:7pt; font-family:Verdana; height:30px; display:block; overflow:hidden;".
-		"width:380px;position:relative;margin:2px 0 0 0;padding:0;'><span style='display:block; positiion: absolute;".
-		"top: 0px; left: 0px; margin: 0; padding-top: 1px;'><a href= 'http://wordpress.org/plugins/feedweb'>Feedweb ".
-		"for WordPress</a>. v$version</span>".
-		"<iframe src = 'http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ffeedwebresearch".
-		"&amp;send=false&amp;layout=button_count&amp;width=25&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;".
-		"action=like&amp;height=21&amp;appId=240492672692711' scrolling='no' frameborder='0' allowTransparency='true' ".
-		"style='border: none; overflow: hidden; width: 88px; height: 21px; margin: 0; padding: 0; position: absolute; ".
-		"left:170px; top:0px;'></iframe>".
-		"<div style='position:absolute;left:259px;top:0; display: block;'><a href='https://twitter.com/Feedwebresearch' ".
+		"<div style='direction:ltr; font-size: 7pt; font-family: Verdana; height:30px;display:block;overflow:hidden;".
+		"width:380px; position:relative; margin:0;padding:0;'><span style='display:block;positiion:absolute;top:0px;".
+		"left:0px; margin:0; padding-top: 3px;'><a href='http://wordpress.org/plugins/feedweb'>Feedweb for WordPress".
+		"</a>. v$version</span>".
+		
+		"<iframe src='http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ffeedwebresearch".
+		"&amp;send=false&amp;layout=button_count&amp;width=25&amp;show_faces=false&amp;font&amp;colorscheme=dark&amp".
+		";action = like&amp;height = 21' scrolling='no' frameborder='0' allowTransparency='true' style='border:none;".
+		"overflow:hidden; width:88px;height:21px;margin:0;padding:0;position:absolute;left:166px;top:0px;'></iframe>".
+		
+		"<div style='position:absolute;left:255px;top:0; display: block;'><a href='https://twitter.com/Feedwebresearch' ".
 		"class='twitter-follow-button' data-show-count='false' data-show-screen-name='false'>Follow @Feedwebresearch</a>".
         "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if".
         "(!d.getElementById ( id ) ) { js = d.createElement(s); js.id=id; js.src=p+'://platform.twitter.com/widgets.js';".
@@ -113,7 +113,7 @@ function AddFeedwebColumn($columns)
 			$feedweb_data = GetFeedwebOptions();
 			if ($feedweb_data["widget_type"] == "F")
 			{
-				$msg = __("Please upgrade your Feedweb widget type to HTML5 (in the Feedweb Plugin settings). The Flash widget support will be discontinued after December 31, 2013", "FWTD");
+				$msg = __("Please upgrade your Feedweb widget type to HTML5 (in the Feedweb Plugin settings). The Flash widget support is discontinued.", "FWTD");
 				ShowFeedwebMessage($msg, false);
 			}
 		}	
@@ -182,6 +182,14 @@ function FillFeedwebCell($id)
 	}
 	else	// Created - display 'Edit' button
 	{
+		global $feedweb_cell_index;
+		$feedweb_cell_index++;
+		
+		$src = GetFeedwebUrl()."FPW/IMG/Loader.gif";
+		echo "<img id='Feedweb_PostDataLoadingImage_$id' alt='' title='Loading...' src='$src' style='width: 30px;'/>";
+		echo "<script>setTimeout(function () { LoadPageInfo('$pac', '$id') }, $feedweb_cell_index * 500);</script>";
+		
+		/*
 		$data = GetPageData($pac, false);
 		if ($data == null)
 			return;
@@ -234,6 +242,7 @@ function FillFeedwebCell($id)
 				echo "<input type='hidden' class='FeedwebPostAnswerData' value='$text'/>";
 			}
 		echo "<input alt='$url' class='thickbox' id='$image_id' title='$title' type='image' src='$src'/></div>";
+	 	*/
 	}
 }
 
@@ -283,14 +292,49 @@ function FeederBarCallback($atts)
 	if ($data == null)
 		return "";
 		
-	$lang = $data["language"];
-	$url = GetFeedwebUrl()."FPW/Feeder.aspx?bac=$bac&lang=$lang&mode=H";
+	$mode = "";
+	if ($data["feeder_show_header"] == "1")
+	{
+		$mode.="H";
+		if ($data["feeder_show_nav"] == "1")
+		{
+			$mode.="N";
+			if ($data["feeder_auto_run"] == "1")
+				$mode.="S";
+		}
+		
+		if ($data["feeder_author_selector"] == "1")
+			$mode.="U";
+		
+		if ($data["feeder_order_selector"] == "1")
+			$mode.="O";
+	}
 	
-	$width = 280;
-	$height = 550;
+	if ($data["feeder_show_footer"] == "1")
+		$mode.="F";
+	
+	if ($data["feeder_author_info"] == "1")
+		$mode.="A";
+	
+	if ($data["feeder_widget_info"] == "1")
+	{
+		$mode.="I";
+		if ($data["feeder_date_format"] == "1")
+			$mode.="R";
+	}
+	
+	if ($data["feeder_links_new_tab"] == "0")
+		$mode.="W";
+		
 	$scrolling = "";
 	$color = "#ffffff";
-	return "<div style='width: 100%; height: 100%; background-color: $color; text-align: center;'>".
+	$width = $data["feeder_width"];
+	$height = $data["feeder_height"];
+	$timeout = $data["feeder_run_timeout"];
+	$img_height = $data["feeder_img_height"];
+	$url = GetFeedwebUrl()."FPW/Feeder.aspx?bac=$bac&mode=$mode&bc=20&mfc=300&mih=$img_height&rt=$timeout";
+	
+	return "<div style='width: 100%; height: 100%; text-align: center;'>".
 		"<iframe id='FeederFrame' src='$url' style='width: ".$width."px; height: ".$height."px; ".
 		"border-style: none;' $scrolling></iframe></div>";
 }
@@ -403,6 +447,33 @@ function EnqueueAdminScript()
 {
 	?>
 	<script type="text/javascript">
+		function OnPageInfoLoaded(id, pac, text)
+		{
+			var id="Feedweb_PostDataLoadingImage_" + id;
+			var img = document.getElementById(id);
+			if (img == null || img == undefined)
+				return;
+				
+			if (text == null || text == "")
+				setTimeout(function () { LoadPageInfo(pac, id) }, 1000);
+			else		
+				img.parentElement.innerHTML = text;	
+		}
+	
+		function LoadPageInfo(pac, id)
+		{
+		    var request = new XMLHttpRequest();
+		    request.onreadystatechange = function ()
+		    {
+		        if (request.readyState == 4 && request.status == 200)
+		            OnPageInfoLoaded(id, pac, request.responseText);
+		    }
+	
+			var url = "<?php echo plugin_dir_url(__FILE__)?>page_data.php?pac=" + pac + "&id=" + id;
+		    request.open("GET", url, true);
+		    request.send();
+		}
+	
 		function GetFeedwebPopupInfoClass()
 		{
 			return "FeedwebPostTablePopupInfoDiv";

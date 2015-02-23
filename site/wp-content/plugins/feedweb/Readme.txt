@@ -1,22 +1,24 @@
 ﻿=== Feedweb ===
 Contributors: Feedweb
-Tags: blog, rate, rating, widget, network, feed, feedback, collector, article, audience, engage, engagement, aggregator, aggregation, content, management, post, public, opinion, research, html5, media, press, news, politics, society, social, question, answer, survey, poll, polling, vote, voting, stats, discussion, controversy, cooperation, view, comments, community, statistics, syndication, marketing, admin, sidebar, plugin, publishing, exchange, networking, sharing
+Tags: blog, rate, rating, widget, network, feed, feeder, feedback, audience, engage, engagement, aggregator, aggregation, content, management, post, public, opinion, research, html5, media, press, news, politics, society, social, question, answer, survey, poll, polling, vote, voting, discussion, cooperation, comments, community, statistics, marketing, admin, sidebar, plugin, shortcode, publishing, exchange, networking, sharing, business, traffic
 Requires at least: 3.0
-Tested up to: 3.9.2
-Stable Tag: 2.4.12
+Tested up to: 4.1
+Stable Tag: 3.0.12
 
-Get precise feedback and expose your blog to a brand new audience at the same time. Join the community of 2500+ websites! 
+Get precise feedback and expose your blog to a brand new audience at the same time. Join the community of 3000+ websites! 
 
 == Description ==
-**Latest update**: More than **352.000** votes collected by **23.400** blog post rating widgets published in **2.800** websites. [**See them on our website!**](http://feedweb.net/)
+**Latest update**: More than **395.000** votes collected by **32.500** blog post rating widgets published in **3.300** websites.
+
+[youtube http://www.youtube.com/watch?v=Sh7UFSTKBAc]
 
 The Feedweb Plugin is a simple and easy way to promote and improve your blog. By activating the plugin you can freely insert customized rating widgets into your selected posts. Choose questions you want to ask your readers and get comprehensive and precise feedback about your blog.
 
 The Blog Rating Widget is an attractive animated visual element that will improve your ratings! It is built using cutting-edge HTML5 technology, meets the highest privacy and security standards and enterprise-level quality.
 
-The plugin is available in Free, **Plus** and **PRO** versions.
+The plugin is available in Free, Plus and PRO versions.
 _____________________________________________________________________________________________________
-* Feedweb being the plugin with the most direct impact as it puts out each Blog post to a readership community, and can generate 20 to 60 visits per post on a good day and with a good post topic/headline.
+* Feedweb being the plugin with the most direct impact as it puts out each Blog post to a readership community, and can generate many visits per post on a good day and with a good post topic/headline.
 * [**Shane Hopkins, MoneyMakerSpy.com**](http://www.moneymakerspy.com/bring-250-daily-visitors-blog)
 _____________________________________________________________________________________________________
 * One of the best things about blogging is that you can get direct feedback from your visitors. If you ask the right questions (in the right way), they will tell you what you need to know in order to create better content for them in the future. And that’s where Feedweb comes in. Check out how it can revolutionize your own content strategy...
@@ -34,12 +36,12 @@ ________________________________________________________________________________
 
 [vimeo http://vimeo.com/67915433][**Please click here to see the video**](http://vimeo.com/67915433)
 
-Requires **WordPress 3.0** and **PHP 5**.
+Requires WordPress 3.0 and PHP 5.
 
 For more information go to [**Feedweb Readers Community**](http://www.feedweb.net) website.
 Welcome blogs, blogs, and more blogs!
 
-**NOTE**: The plugin is compatible with Chrome, Firefox, Safari, Opera and Dolphin browsers. We strongly recommend not using Internet Explorer. 
+NOTE: The plugin is compatible with Chrome, Firefox, Safari and Opera browsers. We strongly recommend not using Internet Explorer. 
 
 Please [**contact us**](mailto://contact@feedweb.net) if you experience any problems with our plugin.
 
@@ -55,29 +57,24 @@ Follow us on [**Facebook**](https://www.facebook.com/feedwebresearch) and [**Twi
 * Italian (it_IT)    - Marco Bonelli, Menashè Eliezer
 * Norwegian (nb_NO)  - Stian Iversen
 * Polish (pl_PL)	 - [Frenchgrey](mailto://frenchgrey@live.co.uk)
-* Portuguese (pt_PT) - Tomé Mendes, Nahuel Wainberg 
+* Portuguese (pt_PT) - Mario Cerqueira Lima, Tomé Mendes
 * Russian (ru_RU)    - Misha
 * Spanish (es_ES)    - Javier Sanz
 * Swedish (sv_SE)	 - Daniel Sunneson
+* Szech (cs_CZ) 	 - Lubomír Matiaško
 * Turkish (tr)		 - Ayşe Nuray Ünyay  
 
 = We recommend =
-* Anti-spam plugin [**CleanTalk**](http://wordpress.org/plugins/cleantalk-spam-protect)
-* The Best Content Editor plugin [**Zedity**](http://wordpress.org/plugins/zedity)
 * [**WPKnights**](http://creativemarket.com/retep007) premium themes
+* Anti-spam plugin [**CleanTalk**](http://wordpress.org/plugins/cleantalk-spam-protect)
 
 == Installation ==
 
 1.	Install the Feedweb plugin on your blog and activate it. 
-2.	Go to the plugin settings page and set the following options:
-	* Widget interface language
-	* Widget size
-	* Widget appearance settings
-3.	Go to your posts' table, choose a post and click on the PLUS icon. 
-4.	Set the new widget's parameters and publish it.
-5.	Now you can browse to your post and see the widget at the bottom.
-6.	For the Front Page Widget: Use short-code **[FeedwebFrontWidget]** to display the list of Most Voted / Best Rated / Latest posts at the front page of your blog.
-
+2.	Go to your posts' table, choose a post and click on the PLUS icon. 
+3.	Set the new widget's parameters and publish it.
+4.	Now you can browse to your post and see the widget at the bottom.
+5.	For the Feeder Sidebar Widget: Use short-code **[FeedwebFeederBar]** to display the Feeder widget in your blog.
 
 == Screenshots ==
 
@@ -89,10 +86,95 @@ Follow us on [**Facebook**](https://www.facebook.com/feedwebresearch) and [**Twi
 6. Insert Widget Wizard: Step 4 (Questions).
 7. The Rating Widget: Voting panels.
 8. The Rating Widget: Results panels.
-9. A blog post in the Feedweb Readers' Community feed.
+9. The Feeder sidebar widget (use shortcode [FeedwebFeederBar]).
+
+
+== Frequently Asked Questions ==
+
+= Q: Can the widget's appearance be changed? =
+A: Yes, the widget's background, border, colors and fonts can be set via CSS.
+
+= Q: Are the questions I ask saved? =
+A: Yes, once you have asked a question, that question is saved for use in future posts.
+
+= Q: Can I just ask a question, without getting a rating? =
+A: No, at this time you may not skip the rating feature.
+
+= Q: Can a widget be added to multiple posts at once? =
+A: No, at this time a widget needs to be added to each post manually.
+
+= Q: Do I have to place the Feeder in the sidebar? =
+A: No, the Feeder can also be placed via the shortcode in other areas of the blog, such as at the end of a post.
+
+= Q: Can I add posts to the Feeder without the rating widgets? =
+A: No, at this time in order to add a post to the Feeder, it must have a rating widget.
+
+= Q: What are the general guidelines regarding languages and channels in the Readers Community? =
+1. The language specified for the post must be the actual language of the post’s content.
+2. For English-language posts, an appropriate channel should be chosen.
+3. A post may be featured in only 1 channel.
+
+= Q: Does every submitted post have to include an image? =
+A: A post submitted to the Readers Community must have an image. Image should follow the censorship guidelines of Feedweb.
+
+= Q: Do I have to use a different image for each post? = 
+A: Images may not be reused within 2 weeks of posting.
+
+= Q: Can I use any name as author? = 
+A: You may use a “normal” name (John Smith, etc.). Names like “admin”, “owner”, “author”, “editor“, "publisher" and similar or their derivatives are not allowed.
+
+= Q:  Can every type of censored post be published in the Readers Community? =
+A: Only posts with “G” or “PG” censorship are allowed. 
+
+= Q: Do I have to ask a yes/no question? =
+A: Asking questions is optional. If you choose to ask a question, it must be binary (yes/no). Common questions that cannot be answered as "Yes", "No", or “Don’t Know/Can't Say” are not allowed.
 
 
 == Changelog ==
+
+= 3.0.12 =
+* CSS improvements.
+
+= 3.0.11 =
+* Security fix.
+
+= 3.0.10 =
+* L10 update (Portuguese).
+
+= 3.0.9 =
+* L10 update (Russian).
+
+= 3.0.8 =
+* Security fix.
+
+= 3.0.7 =
+* New Feeder options: Run timeout and Date format.
+
+= 3.0.6 =
+* Posts screen performance improvement.
+
+= 3.0.5 =
+* Copyright notice fix.
+
+= 3.0.4 =
+* L10n update (Czech).
+* New tutorial videos.
+
+= 3.0.3 =
+* L10n update (Russian).
+
+= 3.0.2 =
+* Bug fix (Widget Wizard).
+
+= 3.0.1 =
+* New Feeder options.
+
+= 3.0 =
+* Official Feeder Release!
+
+= 2.5 =
+* Final Feeder Beta.
+* Page aggregator filter.
 
 = 2.4.12 =
 * Tag / Category aggregator filter.

@@ -68,9 +68,13 @@ function RemovePac($id)
 
 function GetPac($id)
 {
-	global $wpdb;
-	$query = "SELECT meta_value FROM $wpdb->postmeta WHERE post_id=$id AND meta_key='feedweb_pac'";
-	return $wpdb->get_var($query);
+	if (is_int($id))
+	{
+		global $wpdb;
+		$query = "SELECT meta_value FROM $wpdb->postmeta WHERE post_id=$id AND meta_key='feedweb_pac'";
+		return $wpdb->get_var($query);
+	}
+	return null;
 }
 
 function GetBac($must_exist)
@@ -175,7 +179,23 @@ function GetFeedwebOptions()
 		"widget_type" => "H", 
 		"widget_cs" => "modern",
 		"custom_css" => "0",
-		"widget_ext_bg" => "FFFFFF" );
+		"widget_ext_bg" => "FFFFFF",
+		
+		"feeder_width" => "300",
+		"feeder_auto_run" => "0",
+		"feeder_height" => "1000",
+		"feeder_show_header" => "1",
+		"feeder_show_nav" => "1",
+		"feeder_author_info" => "0",
+		"feeder_widget_info" => "0",
+		"feeder_show_footer" => "1",
+		"feeder_links_new_tab" => "1",
+		"feeder_img_height" => "300",
+		"feeder_order_selector" => "1",
+		"feeder_author_selector" => "0",
+		"feeder_run_timeout" => "2000",
+		"feeder_date_format" => "0"		
+		);
 		
 	$values = get_option("_feedweb_plugin_options");
 	if ($values != null && $values != false)
@@ -252,8 +272,6 @@ function GetUserCode($id, $must_exist)
 	return $code;
 }
 
-
-
 function GetPostAge($id)
 {
 	if (phpversion() < "5.3")
@@ -282,7 +300,7 @@ function GetMaxPostAge()
 
 function IsRTL($language)
 {
-	if ($language == 'he' || $language == 'ar')
+	if ($language == 'he' || $language == 'ar' || $language == 'fa')
 		return true;
 	return false;
 }

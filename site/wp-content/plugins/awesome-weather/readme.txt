@@ -3,7 +3,7 @@ Contributors: halgatewood
 Donate link: http://halgatewood.com/donate/
 Tags: widgets, sidebar, shortcode, openweathermap, weather, weather widget, forecast, global, temp
 Requires at least: 3.5
-Tested up to: 3.9
+Tested up to: 4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ Finally beautiful weather widgets for your site.
 
 == Description ==
 
-[Pro Version](http://halgatewood.com/downloads/awesome-weather-widget-pro/) available. Icons, 3 New Layouts, Weather by Yahoo!, User Detection and more!
+[Pro Version](http://halgatewood.com/downloads/awesome-weather-widget-pro/) available. Icons, 3 New Layouts, Weather by Yahoo!, User Detection and more! 
 
 This plugin allows you to easily add super clean (and awesome) weather widgets to your site. The weather data is provided for free by http://openweathermap.org
 
@@ -61,6 +61,9 @@ Use the built in widget with all of its marvelous settings or add it to a page o
 5. Add inline styles to your widget and set custom background colors (1.3.1)
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+Slightly modified the CSS to include box-sizing. This may slightly modify the look of your widget, hopefully in a cleaner way.
 
 = 1.4.1 =
 * New translations added.
@@ -130,6 +133,16 @@ Removed debugging code, sorry!
 Changed API endpoints. Might not find weather without update.
 
 == Changelog ==
+
+= 1.4.3.1 =
+More languages correctly supported from the OpenWeatherMap API
+
+= 1.4.3 =
+* Fixed spanish translations for weather description
+* Transient bug for languages also
+
+= 1.4.2 = 
+Added box-sizing: border-box to hopefully clean up the widget in many themes.
 
 = 1.4.1 =
 * New translations added.
