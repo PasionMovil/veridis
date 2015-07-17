@@ -195,7 +195,7 @@ function wptouch_add_pro_notifications() {
 			'WPtouch 1.x',
 			__( 'WPtouch Pro 3 cannot co-exist with WPtouch 1.x. Disable it first in the WordPress Plugins settings.', 'wptouch-pro' ),
 			'error',
-			'https://wptouch.freshdesk.com/support/solutions/articles/5000525434-known-incompatibilities'
+			'https://support.wptouch.com/support/solutions/articles/5000525434-known-incompatibilities'
 		);
 	}
 
@@ -205,7 +205,7 @@ function wptouch_add_pro_notifications() {
 			'WPtouch 2.x',
 			__( 'WPtouch Pro 3 cannot co-exist with WPtouch Pro 2.x. Disable it first in the WordPress Plugins settings.', 'wptouch-pro' ),
 			'error',
-			'https://wptouch.freshdesk.com/support/solutions/articles/5000525434-known-incompatibilities'
+			'https://support.wptouch.com/support/solutions/articles/5000525434-known-incompatibilities'
 		);
 	}
 }
@@ -473,7 +473,7 @@ function wptouch_pro_handle_admin_command() {
 
 		$used_query_args = array( 'admin_menu_nonce', 'admin_command', 'theme_name', 'theme_location' );
 
-		header( 'Location: ' . remove_query_arg( $used_query_args ) );
+		header( 'Location: ' . esc_url( remove_query_arg( $used_query_args ) ) );
 		die;
 	}
 }
@@ -699,6 +699,7 @@ function md5_dir($dir)
          }
     }
     $d->close();
+    sort( $filemd5s );
     return md5(implode('', $filemd5s));
 }
 
@@ -707,7 +708,6 @@ function wptouch_auto_update_themes_addons() {
 	if ( !isset( $wptouch_pro->post ) ) {
 		require_once( WPTOUCH_DIR . '/core/theme-hashes.php' );
 		$theme_hashes = wptouch_get_hashes();
-
 		if ( current_user_can( 'manage_options' ) ) {
 			$current_theme = $wptouch_pro->get_current_theme_info();
 
@@ -724,20 +724,25 @@ function wptouch_auto_update_themes_addons() {
 				foreach( $available_themes as $name => $theme ) {
 					$hash = false;
 					$safe_to_install_theme = false;
+					$skip_upgrade = false;
 
 					if ( isset( $theme->upgrade_available ) && $theme->upgrade_available ) {
 						if ( !is_object( $current_theme ) || $name != $current_theme->name ) {
 							$safe_to_install_theme = true;
 						} else {
-							$hash = md5_dir( WP_CONTENT_DIR . $current_theme->location );
-							if ( in_array( $theme->version, $theme_hashes[ $theme->base ] ) && $hash == $theme_hashes[ $theme->base ][ $theme->version] ) {
-								// OK to upgrade the active theme (it's the same as when it shipped)
-								$safe_to_install_theme = true;
+							if ( $name == $current_theme->name && $theme->cloud_version < $theme->version ) {
+								$skip_upgrade = true;
+							} else {
+								$hash = md5_dir( WP_CONTENT_DIR . $current_theme->location );
+								if ( in_array( $theme->version, $theme_hashes[ $theme->base ] ) && $hash == $theme_hashes[ $theme->base ][ $theme->version] ) {
+									// OK to upgrade the active theme (it's the same as when it shipped)
+									$safe_to_install_theme = true;
+								}
 							}
 						}
 
 						// Hashes didn't match.
-						if ( $safe_to_install_theme === false ) {
+						if ( $safe_to_install_theme === false && $skip_upgrade === false ) {
 							$copied_theme = wptouch_pro_copy_theme( $theme->name, $theme->location );
 							if ( is_array( $copied_theme ) ) {
 								wptouch_pro_activate_theme( $copied_theme[ 'name' ], $copied_theme[ 'location' ] );
@@ -745,18 +750,20 @@ function wptouch_auto_update_themes_addons() {
 							}
 						}
 
-						$installer = new WPtouchAddonThemeInstaller;
-						$installer->install( $theme->base , $theme->download_url, 'themes' );
-						if ( $installer->had_error() ) {
-							$errors[] = $installer->error_text();
-						} else {
-							$updates++;
+						if ( $skip_upgrade === false ) {
+							$installer = new WPtouchAddonThemeInstaller;
+							$installer->install( $theme->base , $theme->download_url, 'themes' );
+							if ( $installer->had_error() ) {
+								$errors[] = $installer->error_text();
+							} else {
+								$updates++;
+							}
 						}
 					}
 				}
 
 				foreach( $available_addons as $name => $addon ) {
-					if ( isset( $addon->upgrade_available ) && $addon->upgrade_available ) {
+					if ( isset( $addon->upgrade_available ) && $addon->upgrade_available && isset( $addon->download_url ) ) {
 						$installer = new WPtouchAddonThemeInstaller;
 						$installer->install( $addon->base , $addon->download_url, 'extensions' );
 						if ( $installer->had_error() ) {

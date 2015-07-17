@@ -157,6 +157,24 @@ ul.mks_social_widget_ul .fh_px_ico{
 ul.mks_social_widget_ul .xing_ico{
 	background: url('../img/social_icons/xing_ico.png') no-repeat 0 0;
 }
+ul.mks_social_widget_ul .weibo_ico{
+	background: url('../img/social_icons/weibo_ico.png') no-repeat 0 0;
+}
+ul.mks_social_widget_ul .tencent_ico{
+	background: url('../img/social_icons/tencent_ico.png') no-repeat 0 0;
+}
+ul.mks_social_widget_ul .me2day_ico{
+	background: url('../img/social_icons/me2day_ico.png') no-repeat 0 0;
+}
+ul.mks_social_widget_ul .twitch_ico{
+	background: url('../img/social_icons/twitch_ico.png') no-repeat 0 0;
+}
+ul.mks_social_widget_ul .itunes_ico{
+	background: url('../img/social_icons/itunes_ico.png') no-repeat 0 0;
+}
+ul.mks_social_widget_ul .vk_ico{
+	background: url('../img/social_icons/vk_ico.png') no-repeat 0 0;
+}
 ul.mks_social_widget_ul .aim_ico{
 	background-color: #e95a00;
 }
@@ -245,7 +263,7 @@ ul.mks_social_widget_ul .stumbleupon_ico{
 	background-color: #eb4924; 
 }
 ul.mks_social_widget_ul .soundcloud_ico{
-	background-color: #f60000; 
+	background-color: #ff8800; 
 }
 ul.mks_social_widget_ul .tumblr_ico{
 	background-color: #3a5976; 
@@ -282,6 +300,24 @@ ul.mks_social_widget_ul .fh_px_ico{
 }
 ul.mks_social_widget_ul .xing_ico{
 	background-color: #126567; 
+}
+ul.mks_social_widget_ul .weibo_ico{
+	background-color: #E6162C;  
+}
+ul.mks_social_widget_ul .tencent_ico{
+	background-color: #389FDA;
+}
+ul.mks_social_widget_ul .me2day_ico{
+	background-color: #4e28ac;
+}
+ul.mks_social_widget_ul .twitch_ico{
+	background-color: #6441A5;
+}
+ul.mks_social_widget_ul .itunes_ico{
+	background-color: #FA332F;
+}
+ul.mks_social_widget_ul .vk_ico{
+	background-color: #45668e;
 }
 ul.mks_social_widget_ul .soc_square,
 ul.mks_social_widget_ul .soc_rounded,

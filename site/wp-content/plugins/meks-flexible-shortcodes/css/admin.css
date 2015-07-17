@@ -228,6 +228,25 @@
 .mks_ico.xing_ico{
 	background: url('../img/social_icons/xing_ico.png') no-repeat 0 0;
 }
+
+.mks_ico.weibo_ico{
+	background: url('../img/social_icons/weibo_ico.png') no-repeat 0 0;
+}
+.mks_ico.tencent_ico{
+	background: url('../img/social_icons/tencent_ico.png') no-repeat 0 0;
+}
+.mks_ico.me2day_ico{
+	background: url('../img/social_icons/me2day_ico.png') no-repeat 0 0;
+}
+.mks_ico.twitch_ico{
+	background: url('../img/social_icons/twitch_ico.png') no-repeat 0 0;
+}
+.mks_ico.itunes_ico{
+	background: url('../img/social_icons/itunes_ico.png') no-repeat 0 0;
+}
+.mks_ico.vk_ico{
+	background: url('../img/social_icons/vk_ico.png') no-repeat 0 0;
+}
 .mks_ico.aim_ico{
 	background-color: #e95a00;
 }
@@ -353,4 +372,22 @@
 }
 .mks_ico.xing_ico{
 	background-color: #126567; 
+}
+.mks_ico.weibo_ico{
+	background-color: #E6162C;  
+}
+.mks_ico.tencent_ico{
+	background-color: #389FDA;
+}
+.mks_ico.me2day_ico{
+	background-color: #4e28ac;
+}
+.mks_ico.twitch_ico{
+	background-color: #6441A5;
+}
+.mks_ico.itunes_ico{
+	background-color: #FA332F;
+}
+.mks_ico.vk_ico{
+	background-color: #45668e;
 }

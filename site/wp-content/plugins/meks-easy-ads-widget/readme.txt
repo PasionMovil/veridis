@@ -3,8 +3,8 @@ Contributors: mekshq
 Donate link: http://mekshq.com/
 Tags: ad, ads, affiliate, niche, advertising, advertisement, marketing, sidebar, widget
 Requires at least: 3.0
-Tested up to: 4.1.1
-Stable tag: 1.1.5
+Tested up to: 4.2.2
+Stable tag: 1.1.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -26,8 +26,7 @@ Meks Easy Ads Widget plugin is created by <a href="http://mekshq.com" target="_b
 
 ### Live preview?
 
-You can see Meks Easy Ads Widget live example on our <a href="http://mekshq.com/demo/throne" target="_blank">Throne theme demo website</a>
-
+You can see Meks Easy Ads Widget live example on our <a href="http://mekshq.com/demo/sidewalk" target="_blank">Sidewalk theme demo website</a>
 
 
 == Installation ==
@@ -47,6 +46,9 @@ For any questions, error reports and suggestions please email support@mekshq.com
 3. Widget in action example
 
 == Changelog ==
+
+= 1.1.6 =
+* Added an option to use rel="nofollow" for ad links
 
 = 1.1.5 =
 * Full compatibility with new WordPress customizer in WP 3.9+

@@ -1,12 +1,12 @@
 === Google Maps Widget ===
 Contributors: WebFactory
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=gordan%40webfactoryltd%2ecom&lc=US&item_name=Google%20Maps%20Widget&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest
-Tags: google maps, maps, gmaps, widget, lightbox, map, google map, fancybox, fancybox2, multilingual, sidebar, chinese, shortcode, gmw, fast
+Tags: address, best google maps, best maps, chinese, cross-browser, custom google map, custom google maps, custom marker, custom marker icons, directions, easy map, fancybox, fancybox2, fast, fully documented, gecode, geo, gmaps, gmw, google map, google map plugin, google map shortcode, google map widget, google maps, google maps api, google maps builder, google maps directions, google maps plugin, google maps v3, google maps widget, googlemaps, latitude, lightbox, location, location by address, location by latitude/longitude, longitude, map, map directions, map marker, map markers, map plugin, map shortcode, map styles, map widget, maps, marker, marker icons, multilingual, pin, place, placemarker, post map, posts, reverse geocode, shortcode, sidebar, streetview, traffic/bike lanes, widget, widget map, wp google map, wp google maps, wp map, wp maps
+Donate link: https://www.paypal.com/cgi-bin/webscr?business=gordan@webfactoryltd.com&cmd=_xclick&currency_code=USD&amount=&item_name=Google%20Maps%20Widget%20Donation
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.1
-Stable tag: 2.25
+Tested up to: 4.2
+Stable tag: 2.45
 
 Displays a single-image super-fast loading Google map in a widget. A larger map with all the usual features is available on click in a lightbox.
 
@@ -78,6 +78,7 @@ http://www.youtube.com/watch?v=y1siX9ha7Pw&hd=1
 * Dutch - Arno
 * Ukrainian - Victor Shutovskiy
 * Serbian - Ogi Djuraskovic from <a href="http://firstsiteguide.com/">FirstSiteGuide</a>
+* Russian - Ivanka from <a href="http://www.coupofy.com/">Coupofy</a>
 
 == Installation ==
 
@@ -120,6 +121,30 @@ If you can't figure it out open a thread in the support forums.
 6. Widget options - info & support
 
 == Changelog ==
+= 2.45 =
+* 2015/06/15
+* fixed a bug on notice dismiss action
+* added Russian translation - thanks Ivanka!
+
+= 2.40 =
+* 2015/05/25
+* few small bugs fixed
+* admin JS completely rebuilt
+* fixed PO file
+* we broke 90,000 installations ;)
+
+= 2.35 =
+* 2015/04/27
+* few small bugs fixed
+* WP v4.2 compatibility checked
+* remove_query_arg() security issue fixed
+* we broke 500,000 downloads ;)
+
+= 2.30 =
+* 2015/03/02
+* JS rewrites
+* few small bugs fixed
+
 = 2.25 =
 * 2015/02/23
 * a few visual enhancements

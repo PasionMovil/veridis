@@ -129,7 +129,7 @@ option.promo {
 }
 
 
-#gmw-info h3, #gmw-info h4, #gmw-info h5 {
+#gmw-info h4 {
   margin: 25px 0 5px 0;
   text-transform: uppercase;
   font-weight: bold;
@@ -151,7 +151,7 @@ option.promo {
 .ui-tabs { position: relative; padding: 0; zoom: 1;margin-top:25px } /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
 .ui-tabs .ui-tabs-nav { margin: 0; padding: 0 0 0 5px; box-sizing: border-box; }
 .ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap; }
-.ui-tabs .ui-tabs-nav li a { text-decoration: none; }
+.ui-tabs .ui-tabs-nav li a { text-decoration: none; outline: none; box-shadow: none; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; border-bottom: 1px solid white !important; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active { margin-bottom: 0; border-bottom: 1px solid white !important; }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a { outline: none;}

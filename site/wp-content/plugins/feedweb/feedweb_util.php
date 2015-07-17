@@ -18,7 +18,7 @@ function PrepareParam($param)
 
 function ConvertHtml($str)
 {
-	return htmlspecialchars($str, ENT_QUOTES|ENT_HTML5|ENT_IGNORE);
+	return htmlspecialchars($str);
 }
 
 function GetPostId()
@@ -300,7 +300,7 @@ function GetMaxPostAge()
 
 function IsRTL($language)
 {
-	if ($language == 'he' || $language == 'ar' || $language == 'fa')
+	if ($language == 'he' || $language == 'yi' || $language == 'ar' || $language == 'fa' || $language == 'ur')
 		return true;
 	return false;
 }

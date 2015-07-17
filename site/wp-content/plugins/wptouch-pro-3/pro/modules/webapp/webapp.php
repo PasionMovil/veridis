@@ -49,6 +49,28 @@ function foundation_webapp_get_persistence_salt() {
 function foundation_webapp_init() {
 	$settings = foundation_get_settings();
 
+	if ( isset( $_REQUEST[ 'wptouch_app_manifest' ] ) ) {
+		echo json_encode(
+			array(
+				'short_name' => $settings->homescreen_icon_title,
+				'icons' => array(
+					array(
+						'src' => $settings->iphone_icon_retina,
+						'sizes' => '192x192'
+					),
+					array(
+						'src' => $settings->android_others_icon,
+						'sizes' => '57x57'
+					),
+				),
+				'start_url' =>site_url() . '?wptouch_webapp_start=manifest',
+				'display'=> 'standalone',
+				'orientation'=> 'portrait'
+			)
+		);
+		die();
+	}
+
 	// Do redirect in webapp mode
 	if ( $settings->webapp_enable_persistence && wptouch_fdn_is_web_app_mode() ) {
 		if ( isset( $_COOKIE[WPTOUCH_WEBAPP_PERSIST_COOKIE . '-' . foundation_webapp_get_persistence_salt()] ) ) {
@@ -56,7 +78,7 @@ function foundation_webapp_init() {
 			$current_url = rtrim( $_SERVER['HTTP_HOST'] . strtolower( $_SERVER['REQUEST_URI'] ), '/' );
 			$stored_url = str_replace( array( 'https://', 'http://' ), array( '', '' ), rtrim( strtolower( $_COOKIE[WPTOUCH_WEBAPP_PERSIST_COOKIE . '-' . foundation_webapp_get_persistence_salt()] ), '/' ) );
 
-			if ( $current_url != $stored_url && !isset( $_COOKIE[WPTOUCH_WEBAPP_COOKIE . '-' . foundation_webapp_get_persistence_salt()] ) && empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+			if ( !strpos( $stored_url, '/logout/' ) && !strpos( $stored_url, '?action=logout' ) && $current_url != $stored_url && !isset( $_COOKIE[WPTOUCH_WEBAPP_COOKIE . '-' . foundation_webapp_get_persistence_salt()] ) && empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 				$cookie = $_COOKIE[WPTOUCH_WEBAPP_PERSIST_COOKIE . '-' . foundation_webapp_get_persistence_salt()];
 				header( 'Location: ' . $cookie );
 				die;
@@ -117,7 +139,7 @@ function foundation_webapp_init() {
 
 		$admin_settings = wptouch_get_settings();
 
-		if ( $admin_settings->enable_url_filter && $admin_settings->filtered_urls && $admin_settings->url_filter_behaviour == 'exclude_urls' ) {
+		if ( $admin_settings->filtered_urls && $admin_settings->url_filter_behaviour == 'exclude_urls' ) {
 
 			$ignored_urls = explode( "\n", $admin_settings->filtered_urls );
 
@@ -142,12 +164,18 @@ function foundation_webapp_init() {
 function foundation_setup_meta_area() {
 	$settings = foundation_get_settings();
 
+	echo '<link rel="manifest" href="' . site_url() . '?wptouch_app_manifest">';
+
 	echo '<meta name="apple-mobile-web-app-title" content="' . $settings->homescreen_icon_title . '">' . "\n";
 
 	if ( foundation_webapp_mode_enabled() ) {
 
 		// We're web-app capable
 		echo '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
+		echo '<meta name="mobile-web-app-capable" content="yes">' . "\n";
+		if ( wptouch_fdn_is_web_app_mode() ) {
+			echo '<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" media="(device-height: 568px)" />';
+		}
 
 		// iOS7
 		if ( wptouch_fdn_iOS_7() || wptouch_fdn_iOS_8() ) {
@@ -198,6 +226,7 @@ function foundation_setup_meta_area() {
 			// iPhone 6
 			if ( $settings->startup_screen_iphone_6 ) {
 				echo '<link href="' . WPTOUCH_BASE_CONTENT_URL . $settings->startup_screen_iphone_6 . '"  media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">' . "\n";
+				echo '<style>html{background-image:url("' . WPTOUCH_BASE_CONTENT_URL . $settings->startup_screen_iphone_6 . '") no-repeat top left;}</style>';
 			}
 
 			// iPhone 6+

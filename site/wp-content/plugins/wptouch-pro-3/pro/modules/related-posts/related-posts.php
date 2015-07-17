@@ -3,8 +3,10 @@
 add_filter( 'wptouch_setting_defaults_foundation', 'wptouch_related_posts_default_settings' );
 
 function wptouch_related_posts_default_settings( $defaults ) {
-	$defaults->enable_related_posts = false;
+	$defaults->related_posts_enabled = false;
 	$defaults->related_posts_skip_tags = false;
+	$defaults->related_posts_max = 3;
+	$defaults->related_posts_show_excerpts = true;
 
 	return $defaults;
 }
@@ -133,10 +135,15 @@ function wptouch_related_posts() {
 				$this_post->id = $post_id;
 				$this_post->link = get_permalink( $post_id );
 				$this_post->title = get_the_title();
+				$this_post->month = get_the_time( 'M' );
+				$this_post->day = get_the_time( 'j' );
+
 
 				if ( function_exists( 'foundation_disable_sharing_links' ) ) { foundation_disable_sharing_links(); }
 
-				if( !empty( $post->post_excerpt ) ) {
+				if ( $settings->related_posts_show_excerpts == false ) {
+					$this_post->excerpt = '';
+				} elseif ( !empty( $post->post_excerpt ) ) {
 					$this_post->excerpt = wp_trim_words( $post->post_excerpt, 20 );
 				} else {
 					$this_post->excerpt = wp_trim_words( apply_filters( 'the_content', $post->post_content ), 20 );
@@ -144,11 +151,7 @@ function wptouch_related_posts() {
 
 				if ( function_exists( 'foundation_enable_sharing_links' ) ) { foundation_enable_sharing_links(); }
 
-				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
-					$this_post->thumbnail = get_the_post_thumbnail( $post_id, 'wptouch-new-thumbnail' );
-				} else {
-					$this_post->thumbnail = '';
-				}
+				$this_post->thumbnail = get_the_post_thumbnail( $post_id, 'wptouch-new-thumbnail' );
 
 				$related_posts[] = $this_post;
 			}

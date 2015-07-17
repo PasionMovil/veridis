@@ -175,7 +175,7 @@ class GoogleMapsWidget extends WP_Widget {
     echo '<select class="gmw_thumb_color_scheme" id="' . $this->get_field_id('thumb_color_scheme') . '" name="' . $this->get_field_name('thumb_color_scheme') . '">';
     GMW::create_select_options($thumb_color_schemes, $thumb_color_scheme);
     if (!GMW::is_activated()) {
-      echo '<option class="promo" value="-1">' . __('Add more schemes for free', 'google-maps-widget') . '</option>';
+      echo '<option class="promo" value="-1">' . __('Add more schemes for FREE', 'google-maps-widget') . '</option>';
     }
     echo '</select></p>';
 
@@ -207,7 +207,7 @@ class GoogleMapsWidget extends WP_Widget {
     echo '<select class="gmw_lightbox_skin" id="' . $this->get_field_id('lightbox_skin') . '" name="' . $this->get_field_name('lightbox_skin') . '">';
     GMW::create_select_options($lightbox_skins, $lightbox_skin);
     if (!GMW::is_activated()) {
-      echo '<option class="promo" value="-1">' . __('Add more skins for free', 'google-maps-widget') . '</option>';
+      echo '<option class="promo" value="-1">' . __('Add more skins for FREE', 'google-maps-widget') . '</option>';
     }
     echo '</select></p>';
 
@@ -263,7 +263,7 @@ class GoogleMapsWidget extends WP_Widget {
     echo '</div><p></p>'; // tabs
 
     if (!GMW::is_activated()) {
-      echo '<p><i>' . __('Subscribe to our newsletter and <a href="#" class="open_promo_dialog">get extra features</a> <b>for free</b>.', 'google-maps-widget') . '</i></p>';
+      echo '<p>' . __('Click to <a href="#" class="open_promo_dialog">get extra premium features</a> for Google Maps Widget! For <b><span style="color: #d54e21;">FREE</span></b>.', 'google-maps-widget') . '</p>';
     }
   } // form
 
@@ -296,7 +296,7 @@ class GoogleMapsWidget extends WP_Widget {
     $instance['lightbox_header'] = trim($new_instance['lightbox_header']);
     $instance['lightbox_footer'] = trim($new_instance['lightbox_footer']);
     $instance['lightbox_skin'] = $new_instance['lightbox_skin'];
-    $instance['core_ver'] = GMW_VER;
+    $instance['core_ver'] = GMW::$version;
 
     return $instance;
   } // update
@@ -399,7 +399,7 @@ class GoogleMapsWidget extends WP_Widget {
     $tmp .= '</p>';
     if (isset($instance['thumb_footer']) && $instance['thumb_footer']) {
       if ($instance['thumb_footer'] == 'Powered by Google Maps Widget') {
-        $tmp .= '<span class="gmw-powered-by">Powered by <a href="http://www.googlemapswidget.com" target="_blank">Google Maps Widget</a></span>';
+        $tmp .= '<span class="gmw-powered-by">Powered by <a title="Powered by free Google Maps Widget plugin for WordPress" href="http://www.googlemapswidget.com" target="_blank">Google Maps Widget</a></span>';
       } else {
         $tmp .= wpautop(do_shortcode($instance['thumb_footer']));
       }

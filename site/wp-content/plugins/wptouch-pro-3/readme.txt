@@ -1,8 +1,147 @@
 === Plugin Name ===
-Requires at least: 3.6
-Stable tag: 3.6.6
+Requires at least: 3.9
+Stable tag: 3.8.2
 
 == Changelog ==
+
+= Version 3.8.2 (July 9, 2015) =
+
+* Fixed: Desktop theme shortcode handling
+* Fixed: Some buttons in MobileStore rendered as transparent in late models of WooCommerce
+* Removed: Requirement to set WordFence cache method to PHP. Further testing suggests Falcon Engine is compatible.
+
+= Version 3.8.1 (June 25, 2015) =
+
+* Added: Now suspend WPtouch functionality when WP Super Cache, W3 Total Cache and Wordfence are detected and throw messages about fixing them
+* Added: Unique ID for comments allowing direct linking
+* Added: Concatenated JavaScript files are automatically purged on plugin update
+* Added: MobileStore - Setting to choose between grid and list views for products
+* Added: MobileStore - better compatibility with 3rd party payment gateways
+* Added: MobileStore - Setting to enable/disable product image zooming on single product page image galleries
+* Added: Now output JSON app manifest for improved web app experience in modern browsers
+* Added: 5,8,10 post options for Related Posts
+* Added: Setting to enable/disable post excerpts in Related Posts
+* Fixed: An issue with Related posts and show post dates
+* Fixed: An issue with Related posts and showing thumbnails
+* Fixed: Custom Landing page redirect when WPtouch is not active on the site root due to URL filtering (/ has been excluded or not expressly included)
+* Fixed: MobileStore - restored WooCommerce 2.1 compatibility
+* Fixed: Bauhaus - An issue where Related Posts form different dates could all show the same date
+* Fixed: Minor display issues with RTL display in the admin
+* Fixed: URL filtering for Multi-Ads on sites using non-ASCII slugs
+* Changed: Improved shortcode handling
+* Changed: Updated translations
+* Changed: MobileStore - display, rendering & styling improvements and fixes
+* Changed: Made switch link code more robust
+* Changed: URL fragment list no longer shown when URL filtering is disabled
+* Changed: When running WPML with a custom landing page, homepage link is to the page in current language
+* Changed: Moved share link markup to template, which can now be overridden by themes
+* Changed: Moved featured slider markup to template, which can now be overridden by themes
+* Changed: Front Page Content field in Simple can now include shortcodes provided by plugins. Desktop shortcodes are not supported
+* Changed: Increased the size of preview windows in the admin to 380x667 (closer to iPhone 6)
+
+= Version 3.7.9 (May 28, 2015) =
+
+* Added: New setting for themes to enable/disable page zooming
+* Added: jQuery Enhanced - allows replacement of jQuery version and relocation to footer
+* Added: Open - Setting to disable white background behind logo
+* Added: Open - Now uses concatenation for scripts, loading faster
+* Fixed: Settings structured as arrays were not being correctly saved when PHP's 'magic_quotes_gpc' was enabled
+* Fixed: Advanced Type - Font selection saving with magic_quotes_gpc enabled
+* Fixed: MobileStore - An issue with checkout button with some permalink settings
+* Changed: Improved German translations, comment form labels, and other style tweaks (our thanks to Boris Raczynski)
+* Changed: More language translations
+* Changed: Infinity Cache - Fixed issue where CSS files weren’t switched to CDNs
+* Changed: Infinity Cache - Replaced CDN regex code for improved performance
+* Changed: MobileStore - Improved support for WooCommerce 2.3 and higher
+* Changed: Open - More robust translation of week days (no longer using WordPress's i18n date function)
+* Changed: Bauhaus, Simple - Eliminated references to deprecated modules
+
+= Version 3.7.7 (April 23, 2015) =
+
+* Added: New hook to perform actions when admin settings are saved
+* Added: MobileStore - Improved compatibility with WooCommerce Checkout Manager fields
+* Fixed: In rare cases themes and extensions attempted to auto-update without a valid source URL
+* Fixed: An issue with Web App Mode persistence that stopped links from being clickable
+* Fixed: Minor JavaScript issue in Advanced Type which could prevent saving settings in some scenarios
+* Changed: Removed jQuery 2.x setting — caused too many issues with compatibility and older plugins and themes
+* Changed: URL filter allows filtering of homepage using the value '/'
+* Changed: Advanced Type Admin js for better compatibility
+* Changed: Infinity Cache: automatically flush cache when WPtouch Pro settings are updated
+* Changed: Extension settings layout (Infinity Cache, Mobile Content, Responsive Images)
+* Changed: Open - Adjusted menu filter to be more flexible.
+
+= Version 3.7.6.3 (April 21, 2015) =
+
+* Fixed: Menu issue with Bauhaus where items wouldn't show when menus were open
+
+= Version 3.7.6.2 (April 21, 2015) =
+
+* Fixed: An issue which couple cause JavaScript conflicts with some plugins and desktop themes
+
+= Version 3.7.6.1 (April 20, 2015) =
+
+* Added: Improved SEO compatibility
+* Added: Web-App Mode support for Chrome on Android
+* Added: Support for overriding admin translation when localization is selected (add define( 'WPTOUCH_ADMIN_IGNORE_LOCALIZATION', true );  to wp-config.php)
+* Changed: Colour picker is now more resilient
+* Changed: Home-screen icon now recommends 192x192 (best size for high-DPI devices, backwards compatible)
+* Changed: Web App Mode's persistence feature now filters out more logout URLs
+* Fixed: Bootstrap instance no longer attempts to load glyphicon image
+* Fixed: Occasional Infinity Cache/theme switch conflict
+* Fixed: Rare issue with MobileStore/Web App Mode
+* Fixed: add_query_arg/remove_query_arg vulnerability
+
+= Version 3.7.5.3 (March 31, 2015) =
+
+* Fixed: Saving filtered URL fragments
+* Fixed: Mobile content shortcode bug fixes
+
+= Version 3.7.5.2 (March 27, 2015) =
+
+* Changed: Compatibility improvements
+
+= Version 3.7.5.1 (March 25, 2015) =
+
+* Changed: Refined desktop shortcode handling to address issues with passed parameters.
+* Added: canonical version link is now output when in preview mode (precautionary)
+
+= Version 3.7.5 (March 23, 2015) =
+
+* Added: Improved compatibility with page builder plugin (process posts and pages for alternate mobile content when the_content is filtered).
+* Added: Improved compatibility with custom add to cart links in MobileStore.
+* Changed: Simplified admin (eliminated basic/advanced admin mode switching) and streamlined settings.
+* Changed: Labels no longer translated to placeholders for select controls in MobileStore.
+* Changed: Removed 'upgrade available' and 'notifications' buttons from admin.
+* Fixed: Applying 'wptouch_settings_override_defaults' filter to default settings.
+* Fixed: Notice in MobileStore when WooCommerce is not active.
+
+= Version 3.7.4.1 (March 6, 2015) =
+
+* Added: Backwards compatibility for icons.
+
+= Version 3.7.4 (March 5, 2015) =
+
+* Added: wptouch-icons-old module for compatibility with custom themes that haven't migrated their icon classnames.
+
+= Version 3.7.3 (March 5, 2015) =
+
+* Changed: Further refinement of icon sets, ensuring compatibility with Simple Social Icons plugin and other sources of icon fonts.
+* Fixed: Reply link was being displayed beside comments with nested comments enabled, even when comments were closed.
+
+= Version 3.7.2 (February 25, 2015) =
+
+* Added: Desktop shortcode support now applies to content after WPtouch Pro's shortcodes have been processed and now also supports desktop theme shortcodes used inside alternate content added via the Mobile Content Extension.
+* Added: Where categories are listed using the wptouch_fdn_ordered_cat_list() function, they can now be sorted prior to display using the 'wptouch_ordered_cat_list_categories' filter.
+
+= Version 3.7.1 (February 24, 2015) =
+
+* Added: Content processed for desktop shortcodes no longer cached on cart, checkout, and account pages.
+
+= Version 3.7 (February 12, 2015) =
+
+* Added: Overhauled support for shortcodes provided by desktop themes. WPtouch Pro can now optionally load content from WordPress with shortcodes processed.
+* Fixed: Bug in URL-based filtering
+* Fixed: Possible hidden redirect exploit on mobile/desktop switcher
 
 = Version 3.6.6 (January 29, 2015) =
 
@@ -38,7 +177,7 @@ Stable tag: 3.6.6
 * Added: You can now upgrade your WPtouch Pro license from inside the plugin (if you allow 3rd-party cookies/have visited wptouch.com recently) with instant upgrade activation if your site is web-accessible.
 * Added: A little festive spirit!
 * Changed: Slimmed down plugin by moving screenshots out of the package.
-* Changed: MobileStore - geolocating customers (to prefill location) relies on url_fopen being enabled - if it is disabled, no longer try to process the location.
+* Changed: MobileStore - geolocating customers (to pre-fill location) relies on url_fopen being enabled - if it is disabled, no longer try to process the location.
 * Fixed: Typo in our URL - oops!
 * Fixed: Updated icon font with new icon & a new name to avoid conflicts with another plugin
 * Fixed: Pagination glitch in MobileStore search
@@ -70,7 +209,7 @@ Stable tag: 3.6.6
 * Changed: Improved appearance of Web App Notice Message on the WordPress login page
 * Changed: When viewing a WordPress media gallery item, the item's post parent is linked
 * Changed: Share links adjust order and icon placement when the site is in an RTL language
-* Changed: Homescreen icon now recommends 180x180 (best size for iPhone 6, 6+, backwards compatible)
+* Changed: Home-screen icon now recommends 180x180 (best size for iPhone 6, 6+, backwards compatible)
 * Changed: Updated add to home scripts to latest version (3.0.8)
 * Fixed: WPtouch Pro can now disable certain Jetpack components that duplicate WPtouch functionality (Related Posts, Sharing Buttons, Like Box)
 

@@ -3,18 +3,18 @@ Contributors: mekshq
 Donate link: http://mekshq.com/
 Tags: social, icons, widget, linkedin, reddit, vimeo, dribble, instagram, pinterest
 Requires at least: 3.0
-Tested up to: 4.1.1
-Stable tag: 1.2.2
+Tested up to: 4.2.2
+Stable tag: 1.2.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-Easily display social icons inside your WordPress widget.
+Easily display more than 40 social icons inside your WordPress widget.
 
 == Description ==
 
 Choose from different icon shapes and sizes and quickly connect your website with your social profiles. There are 40 social icons provided: Aim, Apple, Behance, Blogger, Cargo, 
-Delicious, DeviantArt, Digg, Dribbble, Envato, Evernote, Facebook, Flickr, Forrst, Github, Google, GooglePlus, GrooveShark, Icloud, Instagram, LastFM, LinkedIN, MySpace, Picasa, 
-Pinterest, ReddIt, Rss, Skype, Spotify, StumbleUpon, Tumblr, Twitter, Vimeo, Vine, WordPress, Xing, Youtube, Zerply, 500px...
+Delicious, DeviantArt, Digg, Dribbble, Envato, Evernote, Facebook, Flickr, Forrst, Github, Google, GooglePlus, GrooveShark, iCloud, Instagram, LastFM, LinkedIN, MySpace, Picasa, 
+Pinterest, ReddIt, Rss, Skype, Soundcloud, Spotify, StumbleUpon, Tumblr, Twitter, Vimeo, Vine, WordPress, Xing, Youtube, Zerply, 500px, vKontakte,  Sina Weibo, Tencent Weibo, Me2Day, Twitch...
 
 ### Features
 
@@ -46,6 +46,8 @@ For any questions, error reports and suggestions please email support@mekshq.com
 4. Widget in action - example 3
 
 == Changelog ==
+= 1.2.3 =
+* Added new icons : Sina Weibo, Tencent Weibo, Me2Day, Twitch, Soundcloud, iTunes and vKontakte
 
 = 1.2.2 =
 * Full compatibility with new WordPress customizer in WP 3.9+

@@ -3,35 +3,75 @@
  * (c) Web factory Ltd, 2012 - 2015
  */
 
-jQuery(function($) {
-  $('.gmw-tabs').each(function(i, el) {
-    change_pin_type(el);
-    change_link_type(el);
-    $('.gmw_thumb_pin_type', el).on('change', function() { change_pin_type(el) });
-    $('.gmw_thumb_link_type', el).on('change', function() { change_link_type(el) });
-    $('.gmw_thumb_color_scheme', el).on('change', function() { gmw_promo_option_change(el, '.gmw_thumb_color_scheme') });
-    $('.gmw_lightbox_skin', el).on('change', function() { gmw_promo_option_change(el, '.gmw_lightbox_skin') });
 
-    el_id = $(el).attr('id');
-    $(el).tabs({ active: get_active_tab(el_id),
-                 activate: function(event, ui) { save_active_tab(this); }
-    });
+jQuery(function($) {
+  // init JS for each active widget
+  $(".widget-liquid-right [id*='" + gmw.id_base + "'].widget, .inactive-sidebar [id*='" + gmw.id_base + "'].widget").each(function (i, widget) {
+    gmw_init_widget_ui(widget);
+  }); // foreach GMW active widget
+
+  // re-init JS on widget update and add
+  $(document).on('widget-updated', function(event, widget) {
+    gmw_init_widget_ui(widget);
+  });
+  $(document).on('widget-added', function(event, widget) {
+    gmw_init_widget_ui(widget);
   });
 
+
+  // init JS UI for an individual GMW
+  function gmw_init_widget_ui(widget) {
+    gmw_change_pin_type(widget);
+    gmw_change_link_type(widget);
+
+    // handle dropdown fields that have dependant fields
+    $('.gmw_thumb_pin_type', widget).on('change', function(e) {
+      gmw_change_pin_type(widget);
+    });
+    $('.gmw_thumb_link_type', widget).on('change', function(e) {
+      gmw_change_link_type(widget);
+    });
+    $('.gmw_thumb_color_scheme', widget).on('change', function(e) {
+      gmw_promo_option_change(widget, '.gmw_thumb_color_scheme');
+    });
+    $('.gmw_lightbox_skin', widget).on('change', function(e) {
+      gmw_promo_option_change(widget, '.gmw_lightbox_skin');
+    });
+
+    // open promo/activation dialog
+    $('.open_promo_dialog', widget).on('click', function(e) {
+      e.preventDefault();
+      gmw_open_promo_dialog(this);
+
+      return false;
+    });
+
+    // init tabs
+    $('.gmw-tabs', widget).tabs({ active: gmw_get_active_tab($('.gmw-tabs', widget).attr('id')),
+                 activate: function(event, ui) { gmw_save_active_tab(this); }
+    });
+  } // gmw_init_widget_ui
+
+
   // get active tab index from cookie
-  function get_active_tab(el_id) {
+  function gmw_get_active_tab(el_id) {
     id = parseInt(0 + $.cookie(el_id), 10);
+    if (isNaN(id) === true) {
+      id = 0;
+    }
 
     return id;
   } // get_active_tab
 
+
   // save active tab index to cookie
-  function save_active_tab(elem) {
+  function gmw_save_active_tab(elem) {
     $.cookie($(elem).attr('id'), $(elem).tabs('option', 'active'), { expires: 30 });
   } // save_active_tab
 
+
   // show/hide custom link field based on user's link type choice
-  function change_link_type(widget) {
+  function gmw_change_link_type(widget) {
     if ($('.gmw_thumb_link_type', widget).val() == 'custom') {
       $('.gmw_thumb_link_section', widget).show();
     } else {
@@ -39,8 +79,9 @@ jQuery(function($) {
     }
   } // link_type
 
+
   // show/hide custom pin URL field based on user's pin type choice
-  function change_pin_type(widget) {
+  function gmw_change_pin_type(widget) {
     if ($('.gmw_thumb_pin_type', widget).val() == 'custom') {
       $('.gmw_thumb_pin_type_custom_section', widget).show();
       $('.gmw_thumb_pin_type_predefined_section', widget).hide();
@@ -49,6 +90,14 @@ jQuery(function($) {
       $('.gmw_thumb_pin_type_predefined_section', widget).show();
     }
   } // pin_type
+
+
+  // extra features related functions
+  // open promo dialog on load
+  if (window.location.search.search('gmw_open_promo_dialog') != -1) {
+    gmw_open_promo_dialog();
+  }
+
 
   // opens promo dialog when special value is selected in widget's options
   function gmw_promo_option_change(widget, el) {
@@ -59,28 +108,22 @@ jQuery(function($) {
     }
   } // promo_option_change
 
-  // open promo/activation dialog
-  $('.open_promo_dialog').on('click', function(e) {
-    gmw_open_promo_dialog(this);
 
-    e.preventDefault();
-    return false;
-  });
-
-  // button in dialog
+  // already subscribed button in dialog
   $('#gmw_already_subscribed').on('click', function(e) {
+    e.preventDefault();
     $('#gmw_dialog_subscribe').hide();
     $('#gmw_dialog_activate').show();
 
-    e.preventDefault();
     return false;
-  });
+  }); // already subscribed click
 
-  // button in dialog
+
+  // subscribe button in dialog
   $('#gmw_subscribe').on('click', function(e) {
     e.preventDefault();
 
-    $err = 0;
+    err = false;
     $('#gmw_promo_dialog input.error').removeClass('error');
     $('#gmw_promo_dialog span.error').hide();
 
@@ -89,8 +132,8 @@ jQuery(function($) {
       $('#gmw_promo_dialog span.error.name').show();
       $('#gmw_name').focus().select();
 
-      $err = 1;
-    }
+      err = true;
+    } // check name
 
     re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test($('#gmw_email').val())) {
@@ -100,50 +143,58 @@ jQuery(function($) {
       return false;
     }
 
-    if ($err) {
+    if (err) {
       return false;
     }
 
     $.post(ajaxurl, { action: 'gmw_subscribe', 'name': $('#gmw_name').val(), 'email': $('#gmw_email').val()}, function(data) {
-      if (data == 'ok') {
+      if (data && data.success == true) {
         $('#gmw_dialog_subscribe').hide();
         $('#gmw_dialog_activate').show();
         alert(gmw.subscribe_ok);
-      } else if (data == 'duplicate') {
+      } else if (data && data.success == false && data.data == 'duplicate') {
         $('#gmw_dialog_subscribe').hide();
         $('#gmw_dialog_activate').show();
         alert(gmw.subscribe_duplicate);
       } else {
         alert(gmw.subscribe_error);
       }
+    }, 'json').fail(function() {
+      alert(gmw.undocumented_error);
     });
 
     return false;
-  });
+  }); // subscribe click
 
-  // button in dialog
-  // check code and activate
+
+  // check code and activate button in dialog
   $('#gmw_activate').on('click', function(e) {
     e.preventDefault();
 
     $('#gmw_promo_dialog input.error').removeClass('error');
     $('#gmw_promo_dialog span.error').hide();
 
-    $.get(ajaxurl, { action: 'gmw_activate', 'code': $('#gmw_code').val()}, function(data) {
-      if (data == '1') {
+    $.post(ajaxurl, { action: 'gmw_activate', 'code': $('#gmw_code').val()}, function(data) {
+      if (data && data.success == true) {
         alert(gmw.activate_ok);
         if ($('#gmw_promo_dialog').data('widget-id')) {
           $('#' + $('#gmw_promo_dialog').data('widget-id') + ' .widget-control-save').trigger('click');
+          $('#gmw_activate_notice').hide();
+          $('#gmw_promo_dialog').dialog('close');
+        } else {
+          window.location = 'widgets.php';
         }
-        $('#gmw_promo_dialog').dialog('close');
       } else {
         $('#gmw_promo_dialog span.error.gmw_code').show();
         $('#gmw_code').focus().select();
       }
+    }, 'json').fail(function() {
+      alert(gmw.undocumented_error);
     });
 
     return false;
-  });
+  }); // activate button click
+
 
   // open promo/activation dialog
   function gmw_open_promo_dialog(widget) {
@@ -157,36 +208,11 @@ jQuery(function($) {
         'title': gmw.dialog_title,
         'autoOpen': false,
         'closeOnEscape': true,
-        close: function(event, ui) { $('#gmw_promo_dialog').data('widget-id', '') }
+        close: function(event, ui) { $('#gmw_promo_dialog').data('widget-id', ''); }
     }).dialog('open');
 
     if (widget) {
       $('#gmw_promo_dialog').data('widget-id', $(widget).parents('div.widget').attr('id'));
     }
   } // open_promo_dialog
-
-  // re-tab on GUI rebuild
-  $('div[id*="googlemapswidget"]').ajaxSuccess(function(event, request, option) {
-    $('.gmw-tabs').each(function(i, el) {
-      change_pin_type(el);
-      change_link_type(el);
-      $('.gmw_thumb_pin_type', el).on('change', function() { change_pin_type(el) });
-      $('.gmw_thumb_link_type', el).on('change', function() { change_link_type(el) });
-      $('.gmw_thumb_color_scheme', el).on('change', function() { gmw_promo_option_change(el, '.gmw_thumb_color_scheme'); });
-      $('.gmw_lightbox_skin', el).on('change', function() { gmw_promo_option_change(el, '.gmw_lightbox_skin') });
-
-      el_id = $(el).attr('id');
-      $(el).tabs({ active: get_active_tab(el_id),
-                   activate: function(event, ui) { save_active_tab(this); }
-      });
-    });
-
-    // todo fix multiple actions on single selector
-    $('.open_promo_dialog').on('click', function(e) {
-      gmw_open_promo_dialog(this);
-
-      e.preventDefault();
-      return false;
-    });
-  });
 }); // onload

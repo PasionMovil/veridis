@@ -13,9 +13,9 @@ Plugin Settings
 	font-weight: bold;
     margin: 0 10px 0 0;
     text-decoration: none;	
-    border: 1px solid #C0C0C0;
-	border-bottom-style: none;
 	background-color: #ffffff;
+    border: 1px solid #c0c0c0;
+	border-bottom-style: none;
 }
 
 .FeedwebSettingsContent select

@@ -2,7 +2,7 @@
 /*
 	Plugin Name: WPtouch Pro
 	Plugin URI: http://www.wptouch.com/
-	Version: 3.6.6
+	Version: 3.8.2
 	Description: The easy way to create great mobile experiences with your WordPress website.
 	Author: BraveNewCode Inc.
 	Author URI: http://www.wptouch.com/
@@ -15,7 +15,7 @@
 define( 'WPTOUCH_IS_PRO', true );
 
 function wptouch_pro_create_three_object() {
-	define( 'WPTOUCH_VERSION', '3.6.6' );
+	define( 'WPTOUCH_VERSION', '3.8.2' );
 
 	define( 'WPTOUCH_BASE_NAME', basename( __FILE__, '.php' ) . '.php' );
 	define( 'WPTOUCH_DIR', WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . basename( __FILE__, '.php' ) );
@@ -79,4 +79,3 @@ register_deactivation_hook( __FILE__, 'wptouch_pro_handle_deactivation' );
 
 // Main WPtouch Pro activation hook
 add_action( 'plugins_loaded', 'wptouch_pro_create_three_object' );
-

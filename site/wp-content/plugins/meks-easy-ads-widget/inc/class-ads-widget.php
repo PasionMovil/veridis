@@ -24,7 +24,8 @@ class MKS_Ads_Widget extends WP_Widget {
 				'randomize' => 0,
 				'ad_width' => '',
 				'ad_height' => '',
-				'ads' => array()
+				'ads' => array(),
+				'nofollow' => 0
 		);
 
 		//Allow themes or plugins to modify default parameters
@@ -64,6 +65,7 @@ class MKS_Ads_Widget extends WP_Widget {
 				if(!$instance['rotate']){
 					$instance['ads'] = array_slice($instance['ads'],0,$instance['num_per_view']);
 				}
+
 				$show_ind = 0;
 				
 				if($instance['size'] == 'custom'){
@@ -72,12 +74,14 @@ class MKS_Ads_Widget extends WP_Widget {
 					$ad_size = '';
 				}
 
+				$nofollow = $instance['nofollow'] ? 'rel="nofollow"' : '';
+
 			?>
 			
 			
 			<ul class="mks_adswidget_ul <?php echo $instance['size'];?>">
 	     		<?php foreach($instance['ads'] as $ind => $ad) : ?>
-	     		<li data-showind="<?php echo $show_ind; ?>"><a href="<?php echo $ad['link'];?>" target="_blank"><img src="<?php echo $ad['img'];?>" alt="<?php echo esc_attr(basename($ad['img'])); ?>" <?php echo $ad_size; ?>/></a></li>
+	     		<li data-showind="<?php echo $show_ind; ?>"><a href="<?php echo $ad['link'];?>" target="_blank" <?php echo $nofollow; ?>><img src="<?php echo $ad['img'];?>" alt="<?php echo esc_attr(basename($ad['img'])); ?>" <?php echo $ad_size; ?>/></a></li>
 	     		<?php 
 	     			if( !(($ind+1) % $instance['num_per_view'])){
 	     				$show_ind++;
@@ -149,6 +153,7 @@ class MKS_Ads_Widget extends WP_Widget {
 		$instance['num_per_view'] = absint($new_instance['num_per_view']);
 		$instance['rotate'] = isset($new_instance['rotate']) ? 1 : 0;
 		$instance['randomize'] = isset($new_instance['randomize']) ? 1 : 0;
+		$instance['nofollow'] = isset($new_instance['nofollow']) ? 1 : 0;
 		$instance['ad_width'] = absint($new_instance['ad_width']);
 		$instance['ad_height'] = absint($new_instance['ad_height']);
 		$instance['ads'] = array();
@@ -199,12 +204,17 @@ class MKS_Ads_Widget extends WP_Widget {
 		<p>
 			<input id="<?php echo $this->get_field_id( 'rotate' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'rotate' ); ?>" value="1" <?php checked(1,$instance['rotate']);?> />
 			<label for="<?php echo $this->get_field_id( 'rotate' ); ?>"><?php _e('Rotate (slide) Ads', 'meks'); ?>? </label>
-	  </p>
+	  	</p>
 		
 		<p>
 			<input id="<?php echo $this->get_field_id( 'randomize' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'randomize' ); ?>" value="1" <?php checked(1,$instance['randomize']);?> />
 			<label for="<?php echo $this->get_field_id( 'randomize' ); ?>"><?php _e('Randomize Ads', 'meks'); ?>? </label>
-	  </p>
+	  	</p>
+
+	  	<p>
+			<input id="<?php echo $this->get_field_id( 'nofollow' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'nofollow' ); ?>" value="1" <?php checked(1,$instance['nofollow']);?> />
+			<label for="<?php echo $this->get_field_id( 'nofollow' ); ?>"><?php _e('Add "nofollow" to ad links', 'meks'); ?>? </label>
+	  	</p>
 		  
 		<p>
 			<label for="<?php echo $this->get_field_id( 'num_per_view' ); ?>"><?php _e('Number of Ads per view', 'meks'); ?>: </label>

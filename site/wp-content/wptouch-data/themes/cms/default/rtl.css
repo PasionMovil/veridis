@@ -1,0 +1,88 @@
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+#slider {
+	direction: ltr;
+}
+
+#header-buttons i.wptouch-icon-play {
+	margin-left: 0px;
+	margin-right: 3px; /* RTL */
+}
+
+.wptouch-menu {
+	text-align: right; /* RTL */
+}
+.entry-inner {
+	margin-left: 0px;
+	padding-left: 0px;
+	margin-right: 78px; /* RTL */
+	padding-right: 10px; /* RTL */
+}
+#content .entry-inner h2.post-title {
+	padding-right: 0px;
+	padding-left: 15%; /* RTL */
+}
+img.wp-post-image {
+	float: right; /* RTL */
+}
+.placeholder {
+	float: right; /* RTL */
+}
+.post-link-button {
+	right: auto;
+	left: 2%; /* RTL */
+}
+#nav-controls a.older {
+	padding-left: 0px;
+	padding-right: 4px; /* RTL */
+}
+#nav-controls a.newer {
+	padding-right: 0px;
+	padding-left: 4px; /* RTL */
+}
+#nav-controls i {
+	padding-right: 4px; /* RTL */
+	padding-left: 4px; /* RTL */
+}
+#comments {
+	margin-right: 10px; /* RTL */
+	margin-left: 10px; /* RTL */
+}
+.avatar {
+	margin-right: 0px;
+	float: right; /* RTL */
+	margin-left: 8px; /* RTL */
+}
+h3#responses {
+	padding-left: 0px;
+	padding-right: 10px; /* RTL */
+}
+#content.search li a:after {
+	margin-left: 0px;
+	margin-right: 5px; /* RTL */
+}
+.dark-body .entry-inner {
+	border-left: 0px;
+	border-right: 1px solid rgba(0,0,0,.2); /* RTL */
+}
+.sharing-options {
+	margin-right: -15px; /* RTL */
+	margin-left: -15px; /* RTL */
+}
+
+
+.related-posts li.has-thumb a, .related-posts .has-thumb p {
+	padding-right: 65px;
+	padding-left: 0;
+}
+
+.related-posts img {
+	right: 0;
+}
+
+.loop-link .date-circle {
+	float: right;
+}

@@ -102,7 +102,7 @@ function wptouch_geolocation_set_coords() {
 	if ( wptouch_has_geolocation() && $settings->geolocation_html ) {
 		echo '<input type="hidden" id="wptouch_geolocation_coords" value="' . $settings->geolocation_geocoded . '">';
 		echo '<input type="hidden" id="wptouch_geolocation_radius" value="' . $settings->geolocation_radius . '">';
-		echo '<div id="wptouch_geolocation_text" style="background: rgba( 0, 0, 0, 0.5 ); display: none; padding: 30px; text-align: center; font-size: 1.3em; line-height: 1.4; color: #fff"><i class="icon-compass"></i> ' . $settings->geolocation_html . '</div>';
+		echo '<div id="wptouch_geolocation_text" style="background: rgba( 0, 0, 0, 0.5 ); display: none; padding: 30px; text-align: center; font-size: 1.3em; line-height: 1.4; color: #fff"><i class="wptouch-icon-compass"></i> ' . $settings->geolocation_html . '</div>';
 	}
 }
 

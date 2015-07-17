@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 
 class GMW_tracking {
   // set things up
-  public static function init() {
+  static function init() {
     $options = get_option(GMW_OPTIONS);
 
     self::check_opt_in_out();
@@ -31,7 +31,7 @@ class GMW_tracking {
 
 
   // register additional cron interval
-  public static function register_cron_intervals($schedules) {
+  static function register_cron_intervals($schedules) {
     $schedules['gmw_weekly'] = array(
       'interval' => DAY_IN_SECONDS * 7,
       'display' => 'Once a Week');
@@ -41,13 +41,13 @@ class GMW_tracking {
 
 
   // clear cron scheadule
-  public static function clear_cron() {
+  static function clear_cron() {
     wp_clear_scheduled_hook(GMW_CRON);
   } // clear_cron
 
 
   // setup cron job when user allows tracking
-  public static function setup_cron() {
+  static function setup_cron() {
     $options = get_option(GMW_OPTIONS);
 
     if (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
@@ -61,39 +61,39 @@ class GMW_tracking {
 
 
   // save user's choice for (not) allowing tracking
-  public static function check_opt_in_out() {
+  static function check_opt_in_out() {
     $options = get_option(GMW_OPTIONS);
 
     if (isset($_GET['gmw_tracking']) && $_GET['gmw_tracking'] == 'opt_in') {
       $options['allow_tracking'] = true;
       update_option(GMW_OPTIONS, $options);
       self::send_data(true);
-      wp_redirect(remove_query_arg('gmw_tracking'));
+      wp_redirect(esc_url_raw(remove_query_arg('gmw_tracking')));
       die();
     } else if (isset($_GET['gmw_tracking']) && $_GET['gmw_tracking'] == 'opt_out') {
       $options['allow_tracking'] = false;
       update_option(GMW_OPTIONS, $options);
-      wp_redirect(remove_query_arg('gmw_tracking'));
+      wp_redirect(esc_url_raw(remove_query_arg('gmw_tracking')));
       die();
     }
   } // check_opt_in_out
 
 
   // display tracking notice
-  public static function tracking_notice() {
+  static function tracking_notice() {
     $optin_url = add_query_arg('gmw_tracking', 'opt_in');
     $optout_url = add_query_arg('gmw_tracking', 'opt_out');
 
     echo '<div class="updated"><p>';
-    echo __( 'Please help us improve <strong>Google Maps Widget</strong> by allowing us to track anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.googlemapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>).', 'google-maps-widget');
-    echo '<br /><a href="' . esc_url($optin_url) . '" style="vertical-align: baseline;" class="button-primary">' . __('Allow', 'google-maps-widget') . '</a>';
+    echo __('Please help us improve <strong>Google Maps Widget</strong> by allowing us to track anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.googlemapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>).', 'google-maps-widget');
+    echo '<br /><a href="' . esc_url($optin_url) . '" style="vertical-align: baseline; margin-top: 15px;" class="button-primary">' . __('Allow', 'google-maps-widget') . '</a>';
     echo '&nbsp;&nbsp;<a href="' . esc_url($optout_url) . '" class="">' . __('Do not allow tracking', 'google-maps-widget') . '</a>';
     echo '</p></div>';
   } // tracking_notice
 
 
   // send usage data once a week to our server
-  public static function send_data($force = false) {
+  static function send_data($force = false) {
     $options = get_option(GMW_OPTIONS);
 
     if ($force == false && (!isset($options['allow_tracking']) || $options['allow_tracking'] !== true)) {
@@ -110,7 +110,7 @@ class GMW_tracking {
                               'redirection' => 3,
                               'httpversion' => '1.0',
                               'body' => $data,
-                              'user-agent' => 'GMW/' . GMW_VER));
+                              'user-agent' => 'GMW/' . GMW::$version));
 
     $options['last_tracking'] = current_time('timestamp');
     update_option(GMW_OPTIONS, $options);
@@ -118,7 +118,7 @@ class GMW_tracking {
 
 
   // get and prepare data that will be sent out
-  public static function prepare_data() {
+  static function prepare_data() {
     $options = get_option(GMW_OPTIONS);
     $data = array();
     $current_user = wp_get_current_user();
@@ -130,26 +130,12 @@ class GMW_tracking {
       $data['admin_email'] = get_bloginfo('admin_email');
     }
     $data['wp_version'] = get_bloginfo('version');
-    $data['gmw_version'] = GMW_VER;
+    $data['gmw_version'] = GMW::$version;
     $data['gmw_first_version'] = $options['first_version'];
     $data['gmw_first_install'] = $options['first_install'];
     $data['gmw_activated'] = GMW::is_activated();
     $data['ioncube'] = extension_loaded('IonCube Loader');
-
-    $data['gmw_count'] = 0;
-    $sidebars = get_option('sidebars_widgets', array());
-    foreach ($sidebars as $sidebar_name => $widgets) {
-      if (strpos($sidebar_name, 'inactive') !== false || strpos($sidebar_name, 'orphaned') !== false) {
-        continue;
-      }
-      if (is_array($widgets)) {
-        foreach ($widgets as $widget_name) {
-          if (strpos($widget_name, 'googlemapswidget') !== false) {
-            $data['gmw_count']++;
-          }
-        }
-      }
-    } // foreach sidebar
+    $data['gmw_count'] = self::count_active_widgets();
 
     if (get_bloginfo('version') < '3.4') {
       $theme = get_theme_data(get_stylesheet_directory() . '/style.css');
@@ -175,4 +161,26 @@ class GMW_tracking {
 
     return $data;
   } // prepare_data
+
+
+  // counts the number of active GMW widgets in sidebars
+  static function count_active_widgets() {
+    $count = 0;
+
+    $sidebars = get_option('sidebars_widgets', array());
+    foreach ($sidebars as $sidebar_name => $widgets) {
+      if (strpos($sidebar_name, 'inactive') !== false || strpos($sidebar_name, 'orphaned') !== false) {
+        continue;
+      }
+      if (is_array($widgets)) {
+        foreach ($widgets as $widget_name) {
+          if (strpos($widget_name, 'googlemapswidget') !== false) {
+            $count++;
+          }
+        }
+      }
+    } // foreach sidebar
+
+    return $count;
+  } // count_active_widgets
 } // class GMW_tracking

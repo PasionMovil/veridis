@@ -1,9 +1,9 @@
 === Varnish HTTP Purge ===
 Contributors: techpriester, Ipstenu, DH-Shredder
 Tags: varnish, purge, cache
-Requires at least: 3.4
-Tested up to: 4.1
-Stable tag: 3.6
+Requires at least: 4.0
+Tested up to: 4.2
+Stable tag: 3.7.3
 
 Purge Varnish Cache when post content on your site is modified.
 
@@ -56,11 +56,11 @@ Until the WordPress Language Pack system is deployable, I'm storing them <a href
 
 = What version of Varnish is supported? =
 
-This was built and tested on Varnish 3.x, however it is reported to work on 2.x. It is only supported on v3 at this time.
+This was built and tested on Varnish 3.x, however it is reported to work on 2.x and 4.x. It is only supported on v3 at this time.
 
 = Why doesn't every page flush when I make a new post? =
 
-The only pages that should purge are the post's page, the front page, categories, and tags. The reason why is a little philosophical. 
+The only pages that should purge are the post's page, the front page, categories, and tags. The reason why is a little philosophical.
 
 When building out this plugin, there were a couple pathways on how best to handle purging caches and they boiled down to two: Decisions (the plugin purges what it purges when it purges) and Options (you decide what to purge, when and why). It's entirely possible to make this plugin purge everything, every time a 'trigger' happens, have it purge some things, or have it be so you can pick that purges.
 
@@ -68,7 +68,7 @@ In the interests of design, we decided that the KISS principle was key. Since yo
 
 = Why doesn't my cache purge when I edit my theme? =
 
-Because the plugin only purges your <em>content</em> when you edit it. That means if you edit a page/post, or someone leaves a comment, it'll change. Otherwise, you have to purge the whole cache. The plugin will do this for you if you ''change'' your theme, but not when you edit your theme. 
+Because the plugin only purges your <em>content</em> when you edit it. That means if you edit a page/post, or someone leaves a comment, it'll change. Otherwise, you have to purge the whole cache. The plugin will do this for you if you ''change'' your theme, but not when you edit your theme.
 
 That said, if you use Jetpack's CSS editor, it will purge the whole cache for your site on save.
 
@@ -146,6 +146,19 @@ All of these VCLs work with this plugin.
 
 == Changelog ==
 
+= 3.7.3 = 
+* Add varnish_http_purge_schema filter for changing the default schema. The default remains http (even if you set your home and/or site URL to https) because of sanity, but in order to support some edge cases, they can filter if they want. (props Drumba)
+
+= 3.7.2 = 
+* Revisions were being mishandled and purging all inappropriately. (props Cha0sgr)
+
+= 3.7.1 =
+* Archives weren't purging. (props Ingraye)
+
+= 3.7 =
+* Optimizing flushes.
+* Add filter to allow other people to hook in when 3rd party plugins are abjectly weird (props jnachtigall)
+
 = 3.6 =
 * Making purge be http only, since Varnish doesn't support https. This will prevent other issues for people using SSL with Varnish (though goodness knows why...)
 * Forcing backslash on home_url. Why WP doesn't, I have no idea, but this will help sites not running regex.
@@ -197,7 +210,7 @@ All of these VCLs work with this plugin.
 * Purge images on deletion
 * Fix for a VarnishIP when behind proxy servers not working on all hosts (props Berler)
 
-= 2.2.1 = 
+= 2.2.1 =
 * typo (hit . instead of / - Props John B. Manos)
 
 = 2.2 =
@@ -218,7 +231,3 @@ All of these VCLs work with this plugin.
 == Screenshots ==
 
 1. What the button looks like
-
-== Upgrade Notice ==
-
-3.3.1 is just a language pack fix. Enjoy!

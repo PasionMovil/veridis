@@ -11,7 +11,7 @@ function _wptouchWebAppSetupEachLink( oneLink ) {
 	// Check for URLs that should break out of Web-App mode
 	if ( typeof wptouchWebApp.ignoredWebAppURLs != 'undefined' ) {
 		jQuery.each( wptouchWebApp.ignoredWebAppURLs, function( i, val ) {
-			if ( targetURL.match( val ) ) {
+			if ( targetURL.indexOf( val ) >= 0 ) {
 				targetLink.addClass( 'ignored' );
 			}
 		});
@@ -20,7 +20,7 @@ function _wptouchWebAppSetupEachLink( oneLink ) {
 	// Check for URLs that should break out of Web-App mode
 	if ( typeof wptouchWebApp.ignoredURLs != 'undefined' ) {
 		jQuery.each( wptouchWebApp.ignoredURLs, function( i, val ) {
-			if ( targetURL.match( val ) ) {
+			if ( targetURL.indexOf( val ) >= 0 ) {
 				targetLink.addClass( 'ignored' );
 			}
 		});
@@ -48,19 +48,19 @@ function _wptouchWebAppSetupEachLink( oneLink ) {
 		return false;
 	} else if ( oneLink.hasClass( 'img-link' ) ) {
 		return false;
-	} else if ( thisTargetUrl.match( localDomain ) || ( !thisTargetUrl.match( 'http://' )  && !thisTargetUrl.match( 'https://' ) ) ) {
+	} else if ( thisTargetUrl.indexOf( localDomain )  >= 0 || ( thisTargetUrl.indexOf( 'http://' ) === -1  && thisTargetUrl.indexOf( 'https://' ) === -1 ) ) {
 		// This is a local HTTP address, or HTTP is missing from the URL
 		// First, let's make sure it's not in the ignored list first
 		if ( oneLink.hasClass( 'ignored' ) || oneLink.parent( 'li' ).hasClass( 'ignored' ) ) {
 			// This is *not* a local link or one that has been ignored, so let's ask what to do
 	       	return confirm( wptouchWebApp.externalLinkText );
-		} else if ( thisTargetAnchor && thisTargetUrl.match( '//' ) ) {
+		} else if ( thisTargetAnchor && thisTargetUrl.indexOf( '//' ) >= 0 ) {
 			wptouchWebAppLoadPage( thisTargetUrl );
 			return false;
-		} else if ( thisTargetAnchor && thisTargetAnchor == 'respond' && !thisTargetUrl.match( '//' ) ) {
+		} else if ( thisTargetAnchor && thisTargetAnchor == 'respond' && !thisTargetUrl.indexOf( '//' ) >= 0 ) {
 			wptouchWebAppLoadPage( targetLink.attr( 'href' ) );
 			return false;
-		} else if ( thisTargetAnchor && !thisTargetUrl.match( '//' ) ) {
+		} else if ( thisTargetAnchor && !thisTargetUrl.indexOf( '//' ) >= 0 ) {
 			return true;
 		} else if ( oneLink.attr( 'href' ) == '#' ) {
 			// Allow local JS to execute
@@ -160,7 +160,7 @@ function wptouchWebAppBackButton(){
 }
 
 function wptouchWebAppSaveState( url ) {
-	if ( wptouchWebApp.persistence == 1 && !url.match( 'action=logout' ) ) {
+	if ( wptouchWebApp.persistence == 1 && ( url.indexOf( '/logout/' ) == -1 ) && ( url.indexOf( '?action=logout' ) == -1 ) ) {
 		wptouchCreateCookie( 'wptouch-webapp-persist-' + wptouchWebApp.persistenceSalt, url, 365 );
 	}
 }
