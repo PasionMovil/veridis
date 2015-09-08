@@ -7,10 +7,10 @@ class MKS_Flickr_Widget extends WP_Widget {
 
 	var $defaults;
 
-	function MKS_Flickr_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'mks_flickr_widget', 'description' => __( 'Display your Flickr photostream', 'meks' ) );
 		$control_ops = array( 'id_base' => 'mks_flickr_widget' );
-		$this->WP_Widget( 'mks_flickr_widget', __( 'Meks Flickr Widget', 'meks' ), $widget_ops, $control_ops );
+		parent::__construct( 'mks_flickr_widget', __( 'Meks Flickr Widget', 'meks' ), $widget_ops, $control_ops );
 
 		if ( !is_admin() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );

@@ -4,7 +4,7 @@ Plugin Name: Google Maps Widget
 Plugin URI: http://www.googlemapswidget.com/
 Description: Display a single-image super-fast loading Google map in a widget. A larger, full featured map is available on click in a lightbox. Includes shortcode support and numerous options.
 Author: Web factory Ltd
-Version: 2.45
+Version: 2.60
 Author URI: http://www.webfactoryltd.com/
 Text Domain: google-maps-widget
 Domain Path: lang
@@ -40,7 +40,7 @@ require_once 'gmw-tracking.php';
 
 
 class GMW {
-  static $version = 2.45;
+  static $version = 2.60;
 
   // hook everything up
   static function init() {
@@ -365,7 +365,7 @@ class GMW {
     $out .= '</div>'; // dialog subscribe
     $out .= '<div id="gmw_dialog_activate"><div class="content"><h3 class="center">' . __('Enter your code and activate extra features', 'google-maps-widget') . '</h3>';
     $out .= '<p class="input_row"><input type="text" id="gmw_code" name="gmw_code" placeholder="Your activation code"><span style="display: none;" class="error gmw_code">Please double check the activation code.</span></p><p class="center"><a href="#" class="button button-primary big-button" id="gmw_activate">Activate extra features</a></p></div>';
-    $out .= '<div class="footer"><p><b>FAQ</b></p><ul><li>Already subscribed? Enter your activation code above.</li><li>Didn\'t receive the email? Check your SPAM folder.</li><li>Lost your code or having other problems? <a href="mailto:gmw@webfactoryltd.com?subject=Lost%20activation%20code">Email us</a>.</li><li>Code is valid for an unlimited number of plugin installations.</li></ul></div>';
+    $out .= '<div class="footer"><p><b>FAQ</b></p><ul><li>Already subscribed? Enter your activation code above.</li><li>Didn\'t receive the email? Check your SPAM folder.</li><li>Still not getting the email? Try a different email address.</li><li>Code is valid for an unlimited number of plugin installations.</li></ul></div>';
     $out .= '</div>'; // activate screen
     $out .= '</div>'; // dialog
 

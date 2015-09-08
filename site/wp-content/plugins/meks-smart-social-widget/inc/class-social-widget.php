@@ -7,10 +7,10 @@ class MKS_Social_Widget extends WP_Widget {
 
 	var $defaults;
 
-	function MKS_Social_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'mks_social_widget', 'description' => __('Display your social icons with this widget', 'meks') );
 		$control_ops = array( 'id_base' => 'mks_social_widget' );
-		$this->WP_Widget('mks_social_widget', __('Meks Social Widget', 'meks'), $widget_ops, $control_ops );
+		parent::__construct('mks_social_widget', __('Meks Social Widget', 'meks'), $widget_ops, $control_ops );
 		
 		add_action( 'wp_enqueue_scripts', array($this,'enqueue_scripts'));
 		add_action( 'admin_enqueue_scripts', array($this,'enqueue_admin_scripts'));

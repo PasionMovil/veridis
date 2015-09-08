@@ -1,34 +1,38 @@
 === WP Offload S3 ===
-Contributors: bradt
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5VPMGLLK94XJC
+Contributors: bradt, deliciousbrains
 Tags: uploads, amazon, s3, mirror, admin, media, cdn, cloudfront
-Requires at least: 3.5
-Tested up to: 4.2.2
-Stable tag: 0.9
+Requires at least: 3.7
+Tested up to: 4.3
+Stable tag: 0.9.5
 License: GPLv3
 
 Copies files to Amazon S3 as they are uploaded to the Media Library. Optionally configure Amazon CloudFront for faster delivery.
 
 == Description ==
 
+https://www.youtube.com/watch?v=_PVybEGaRXc
+
 This plugin automatically copies images, videos, documents, and any other media added through WordPress' media uploader to [Amazon Simple Storage Service](http://aws.amazon.com/s3/) (S3). It then automatically replaces the URL to each media file with their respective S3 URL or, if you have configured [Amazon CloudFront](http://aws.amazon.com/cloudfront/), the respective CloudFront URL. Image thumbnails are also copied to S3 and delivered through S3/CloudFront.
 
 Uploading files *directly* to your S3 account is not currently supported by this plugin. They are uploaded to your server first, then copied to S3. There is an option to automatically remove the files from your server once they are copied to S3 however.
 
-If you're adding this plugin to a site that's been around for a while, your existing media files will not be copied or served from S3. Only newly uploaded files will be copied and served from S3.
+If you're adding this plugin to a site that's been around for a while, your existing media files will not be copied or served from S3. Only newly uploaded files will be copied and served from S3. The pro upgrade has an upload tool to handle existing media files.
 
-**Pro Version**
+**PRO Upgrade with Email Support and More Features**
 
-We’re working on a pro version that will include the following features:
+* Upload existing Media Library to S3
+* Find & replace file URLs in content
+* Control S3 files from the Media Library
+* [Assets addon](https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&utm_medium=web&utm_content=desc&utm_campaign=os3-free-plugin#assets-addon) - Serve your CSS & JS from S3/CloudFront
+* [WooCommerce addon](https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&utm_medium=web&utm_content=desc&utm_campaign=os3-free-plugin#woocommerce-addon)
+* [Easy Digital Downloads addon](https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&utm_medium=web&utm_content=desc&utm_campaign=os3-free-plugin#edd-addon)
+* PriorityExpert&trade; email support
 
-* Copy existing Media Library to S3
-* Serve theme JS & CSS from S3/CloudFront
-* WooCommerce & EDD integration
-* Awesome email support
+[Compare pro vs free &rarr;](http://deliciousbrains.com/wp-offload-s3/upgrade/?utm_source=wordpress.org&utm_medium=web&utm_content=desc&utm_campaign=os3-free-plugin)
 
-[Sign up for news about the pro version](https://confirmsubscription.com/h/t/295CA85AEB94E879)
+The video below runs through the pro upgrade features...
 
-[Request features, report bugs, and submit pull requests on Github](https://github.com/deliciousbrains/wp-amazon-s3-and-cloudfront/issues)
+https://www.youtube.com/watch?v=55xNGnbJ_CY
 
 *This plugin has been completely rewritten, but was originally a fork of
 [Amazon S3 for WordPress with CloudFront](http://wordpress.org/extend/plugins/tantan-s3-cloudfront/)
@@ -58,6 +62,41 @@ This version requires PHP 5.3.3+ and the Amazon Web Services plugin
 This version requires PHP 5.3.3+ and the Amazon Web Services plugin
 
 == Changelog ==
+
+= 0.9.5 - 2015-09-01 =
+* Bug fix: Fatal error: Cannot use object of type WP_Error as array
+
+= 0.9.4 - 2015-08-27 =
+* New: Update all existing attachments with missing file sizes when the 'Remove Files From Server' option is enabled (automatically runs in the background)
+* Improvement: Show when constants are used to set bucket and region options
+* Improvement: Don't show compatibility notices on plugin update screen
+* Improvement: On Multisite installs don't call `restore_current_blog()` on successive loop iterations
+* Bug fix: 'Error getting URL preview' alert shown when enter key pressed on settings screen
+* Bug fix: Unable to crop header images when the 'Remove Files From Server' option is enabled
+* Bug fix: Incorrect storage space shown on Multisite installs when the 'Remove Files From Server' option is enabled
+* Bug fix: Upload attempted to non existent bucket when defined by constant
+* Bug fix: 'SignatureDoesNotMatch' error shown when using signed URLs with bucket names containing '.' characters
+
+= 0.9.3 - 2015-08-17 =
+* New: Pro upgrade sidebar
+* Bug fix: Create buckets in US standard region causing S3 URLs to 404 errors
+
+= 0.9.2 - 2015-07-29 =
+* Bug fix: Accidentally released the sidebar for after we launch the pro version
+
+= 0.9.1 - 2015-07-29 =
+* Improvement: Access denied sample IAM policy replaced with link to [Quick Start Guide](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/)
+* Improvement: Access denied messages on bucket selection or bucket creation now link to [Quick Start Guide](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/)
+* Improvement: Object expires time can now be filtered using the `as3cf_object_meta` filter
+* Bug fix: Error not always shown when S3 bucket inaccessible due to incorrect permissions
+* Bug fix: Permission checks fail when S3 bucket is in a non-default region and defined by `AS3CF_BUCKET` constant
+* Bug fix: Restore `as3cf_get_attached_file_copy_back_to_local` filter
+* Bug fix: Image versions not uploaded to S3 when an edited image is restored
+* Bug fix: Original image version not deleted from server when _Remove Files From Server_ option enabled
+* Bug fix: Media library items with non-ascii characters in the file name are not removed from S3
+* Bug fix: Compatibility notices shown on plugin install pages
+* Bug fix: WordPress footer overlaps WP Offload S3 sidebar
+* Bug fix: Upon initial setup the settings changed alert shows when no settings have changed
 
 = 0.9 - 2015-07-08 =
 * New: Plugin rebranded to WP Offload S3

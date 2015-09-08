@@ -6,7 +6,7 @@ Description: Easily display up to 40 social icons inside WordPress widget. Choos
 Delicious, DeviantArt, Digg, Dribbble, Envato, Evernote, Facebook, Flickr, Forrst, Github, Google, GooglePlus, GrooveShark, Icloud, Instagram, LastFM, LinkedIN, MySpace, Picasa, 
 Pinterest, ReddIt, Rss, Skype, Spotify, StumbleUpon, Tumblr, Twitter, Vimeo, Vine, WordPress, Xing, Youtube, Zerply, 500px...
 Author: MeksHQ
-Version: 1.2.3
+Version: 1.2.5
 Author URI: http://mekshq.com
 */
 
@@ -30,7 +30,7 @@ Author URI: http://mekshq.com
 
 define ('MKS_SOCIAL_WIDGET_URL', trailingslashit(plugin_dir_url(__FILE__)));
 define ('MKS_SOCIAL_WIDGET_DIR', trailingslashit(plugin_dir_path(__FILE__)));
-define ('MKS_SOCIAL_WIDGET_VER', '1.2.3');
+define ('MKS_SOCIAL_WIDGET_VER', '1.2.5');
 
 /* Initialize Widget */
 if(!function_exists('mks_social_widget_init')):

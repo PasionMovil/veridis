@@ -19,7 +19,7 @@
 }
 
 .gmw-tabs input.small-text {
-  width: 50px;
+  width: 65px;
   padding: 1px 6px;
 }
 
@@ -139,6 +139,12 @@ option.promo {
   margin-top: 5px;
 }
 
+input:required:invalid {
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: #D54E21;
+}
+
 /*
  * jQuery UI Tabs 1.8.14
  *
@@ -194,5 +200,5 @@ ul.ui-tabs-nav{
 }
 
 .ui-state-hover a {
-  color: #D54E21 !important;
+  color: #0073aa !important;
 }

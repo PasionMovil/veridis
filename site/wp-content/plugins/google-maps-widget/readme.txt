@@ -5,8 +5,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?business=gordan@webfactoryltd
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.2
-Stable tag: 2.45
+Tested up to: 4.3
+Stable tag: 2.60
 
 Displays a single-image super-fast loading Google map in a widget. A larger map with all the usual features is available on click in a lightbox.
 
@@ -121,6 +121,17 @@ If you can't figure it out open a thread in the support forums.
 6. Widget options - info & support
 
 == Changelog ==
+= 2.60 =
+* 2015/08/31
+* added data validation on input fields
+* minor CSS tweaks
+
+= 2.51 =
+* 2015/07/27
+* updated PHP4 style class constructor to PHP5 one
+* lowered cron for tracking to once every 14 days
+* did some prep work for the upcoming 4.3 version of WP
+
 = 2.45 =
 * 2015/06/15
 * fixed a bug on notice dismiss action

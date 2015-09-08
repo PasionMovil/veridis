@@ -3,8 +3,8 @@ Contributors: mekshq
 Donate link: http://mekshq.com/
 Tags: social, icons, widget, linkedin, reddit, vimeo, dribble, instagram, pinterest
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.2.3
+Tested up to: 4.3
+Stable tag: 1.2.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -46,6 +46,10 @@ For any questions, error reports and suggestions please email support@mekshq.com
 4. Widget in action - example 3
 
 == Changelog ==
+
+= 1.2.5 =
+* Full compatibility with WordPress 4.3
+
 = 1.2.3 =
 * Added new icons : Sina Weibo, Tencent Weibo, Me2Day, Twitch, Soundcloud, iTunes and vKontakte
 

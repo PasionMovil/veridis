@@ -9,10 +9,10 @@ class MKS_ThemeForest_Widget extends WP_Widget {
   var $exclude; //Wheter to exclude items or not
   var $defaults;
   
-	function MKS_ThemeForest_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'mks_themeforest_widget', 'description' => __('Display ThemeForest items with this widget', 'meks') );
 		$control_ops = array( 'id_base' => 'mks_themeforest_widget' );
-		$this->WP_Widget( 'mks_themeforest_widget', __('Meks ThemeForest Smart Widget', 'meks'), $widget_ops, $control_ops );
+		parent::__construct( 'mks_themeforest_widget', __('Meks ThemeForest Smart Widget', 'meks'), $widget_ops, $control_ops );
 		
 		$this->tf_cats = array(
 			array('name' => 'wordpress', 'title' => 'WordPress'),

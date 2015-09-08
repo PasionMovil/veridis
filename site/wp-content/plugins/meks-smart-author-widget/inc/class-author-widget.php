@@ -8,10 +8,10 @@ class MKS_Author_Widget extends WP_Widget {
   private $users_split_at = 200; //Do not run get_users() if there are more than 200 users on the website
   var $defaults;
 	
-	function MKS_Author_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'mks_author_widget', 'description' => __('Use this widget to display author/user profile info', 'meks') );
 		$control_ops = array( 'id_base' => 'mks_author_widget' );
-		$this->WP_Widget( 'mks_author_widget', __('Meks Smart Author', 'meks'), $widget_ops, $control_ops );
+		parent::__construct( 'mks_author_widget', __('Meks Smart Author', 'meks'), $widget_ops, $control_ops );
 		
 		if(!is_admin()){
 		  add_action( 'wp_enqueue_scripts', array($this,'enqueue_styles'));

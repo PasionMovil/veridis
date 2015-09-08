@@ -7,10 +7,10 @@ class MKS_Ads_Widget extends WP_Widget {
 
 	var $defaults;
 
-	function MKS_Ads_Widget() {
+	function __construct() {
 		$widget_ops = array( 'classname' => 'mks_ads_widget', 'description' => __('You can place advertisement links with images here', 'meks') );
 		$control_ops = array( 'id_base' => 'mks_ads_widget' );
-		$this->WP_Widget( 'mks_ads_widget', __('Meks Ads Widget', 'meks'), $widget_ops, $control_ops );
+		parent::__construct( 'mks_ads_widget', __('Meks Ads Widget', 'meks'), $widget_ops, $control_ops );
 
 		add_action( 'wp_enqueue_scripts', array($this,'enqueue_scripts'));
 		add_action( 'admin_enqueue_scripts', array($this,'enqueue_admin_scripts'));

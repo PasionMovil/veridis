@@ -35,6 +35,9 @@ class GMW_tracking {
     $schedules['gmw_weekly'] = array(
       'interval' => DAY_IN_SECONDS * 7,
       'display' => 'Once a Week');
+    $schedules['gmw_biweekly'] = array(
+      'interval' => DAY_IN_SECONDS * 14,
+      'display' => 'Once every two Weeks');
 
     return $schedules;
   } // cron_intervals
@@ -52,7 +55,7 @@ class GMW_tracking {
 
     if (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
       if (!wp_next_scheduled(GMW_CRON)) {
-        wp_schedule_event(time() + 300, 'gmw_weekly', GMW_CRON);
+        wp_schedule_event(time() + 300, 'gmw_biweekly', GMW_CRON);
       }
     } else {
       self::clear_cron();

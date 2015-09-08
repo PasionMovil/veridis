@@ -3,8 +3,8 @@ Contributors: mekshq
 Donate link: http://mekshq.com/
 Tags: flickr, widget, sidebar, photos, photostream
 Requires at least: 3.0
-Tested up to: 4.1.1
-Stable tag: 1.1
+Tested up to: 4.3
+Stable tag: 1.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -43,6 +43,9 @@ For any questions, error reports and suggestions please email support@mekshq.com
 2. Widget in action
 
 == Changelog ==
+
+=1.1.2=
+* Full compatibility with WordPress 4.3
 
 = 1.1 =
 * Added support for Flickr group feeds

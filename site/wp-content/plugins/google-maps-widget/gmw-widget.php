@@ -21,7 +21,7 @@ class GoogleMapsWidget extends WP_Widget {
   function GoogleMapsWidget() {
     $widget_ops = array('classname' => 'google-maps-widget', 'description' => __('Displays a map image thumbnail with a larger map available in a lightbox.', 'google-maps-widget'));
     $control_ops = array('width' => 450, 'height' => 350);
-    $this->WP_Widget('GoogleMapsWidget', __('Google Maps Widget', 'google-maps-widget'), $widget_ops, $control_ops);
+    parent::__construct('GoogleMapsWidget', __('Google Maps Widget', 'google-maps-widget'), $widget_ops, $control_ops);
   } // GoogleMapsWidget
 
 
@@ -125,14 +125,14 @@ class GoogleMapsWidget extends WP_Widget {
     }
 
     echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'google-maps-widget') . ':</label><input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr($title) . '" /></p>';
-    echo '<p><label for="' . $this->get_field_id('address') . '">' . __('Address', 'google-maps-widget') . ':</label><input class="widefat" id="' . $this->get_field_id('address') . '" name="' . $this->get_field_name('address') . '" type="text" value="' . esc_attr($address) . '" /></p>';
+    echo '<p><label for="' . $this->get_field_id('address') . '">' . __('Address', 'google-maps-widget') . ':</label><input class="widefat" id="' . $this->get_field_id('address') . '" name="' . $this->get_field_name('address') . '" type="text" value="' . esc_attr($address) . '" required /></p>';
 
     echo '<div class="gmw-tabs" id="tab-' . $this->id . '"><ul><li><a href="#gmw-thumb">' . __('Thumbnail map', 'google-maps-widget') . '</a></li><li><a href="#gmw-lightbox">' . __('Lightbox map', 'google-maps-widget') . '</a></li><li><a href="#gmw-shortcode">' . __('Shortcode', 'google-maps-widget') . '</a></li><li><a href="#gmw-info">' . __('Info &amp; Support', 'google-maps-widget') . '</a></li></ul>';
     echo '<div id="gmw-thumb">';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('thumb_width') . '">' . __('Map Size', 'google-maps-widget') . ':</label>';
-    echo '<input class="small-text" id="' . $this->get_field_id('thumb_width') . '" name="' . $this->get_field_name('thumb_width') . '" type="text" value="' . esc_attr($thumb_width) . '" /> x ';
-    echo '<input class="small-text" id="' . $this->get_field_id('thumb_height') . '" name="' . $this->get_field_name('thumb_height') . '" type="text" value="' . esc_attr($thumb_height) . '" />';
+    echo '<input min="50" max="640" step="1" class="small-text" id="' . $this->get_field_id('thumb_width') . '" name="' . $this->get_field_name('thumb_width') . '" type="number" value="' . esc_attr($thumb_width) . '" required /> x ';
+    echo '<input min="50" max="640" step="1" class="small-text" id="' . $this->get_field_id('thumb_height') . '" name="' . $this->get_field_name('thumb_height') . '" type="number" value="' . esc_attr($thumb_height) . '" required />';
     echo ' px</p>';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('thumb_type') . '">' . __('Map Type', 'google-maps-widget') . ':</label>';
@@ -169,7 +169,7 @@ class GoogleMapsWidget extends WP_Widget {
     echo '</select></p>';
 
     echo '<p class="gmw_thumb_link_section"><label class="gmw-label" for="' . $this->get_field_id('thumb_link') . '">' . __('Custom URL', 'google-maps-widget') . ':</label>';
-    echo '<input class="regular-text" id="' . $this->get_field_id('thumb_link') . '" name="' . $this->get_field_name('thumb_link') . '" type="text" value="' . esc_attr($thumb_link) . '" /></p>';
+    echo '<input class="regular-text" id="' . $this->get_field_id('thumb_link') . '" name="' . $this->get_field_name('thumb_link') . '" type="url" value="' . esc_attr($thumb_link) . '" /></p>';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('thumb_color_scheme') . '">' . __('Color Scheme', 'google-maps-widget') . ':</label>';
     echo '<select class="gmw_thumb_color_scheme" id="' . $this->get_field_id('thumb_color_scheme') . '" name="' . $this->get_field_name('thumb_color_scheme') . '">';
@@ -189,8 +189,8 @@ class GoogleMapsWidget extends WP_Widget {
     echo '<div id="gmw-lightbox">';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('lightbox_width') . '">' . __('Map Size', 'google-maps-widget') . ':</label>';
-    echo '<input class="small-text" id="' . $this->get_field_id('lightbox_width') . '" name="' . $this->get_field_name('lightbox_width') . '" type="text" value="' . esc_attr($lightbox_width) . '" /> x ';
-    echo '<input class="small-text" id="' . $this->get_field_id('lightbox_height') . '" name="' . $this->get_field_name('lightbox_height') . '" type="text" value="' . esc_attr($lightbox_height) . '" />';
+    echo '<input min="50" max="2000" step="1" class="small-text" id="' . $this->get_field_id('lightbox_width') . '" name="' . $this->get_field_name('lightbox_width') . '" type="number" value="' . esc_attr($lightbox_width) . '" required /> x ';
+    echo '<input min="50" max="2000" step="1" class="small-text" id="' . $this->get_field_id('lightbox_height') . '" name="' . $this->get_field_name('lightbox_height') . '" type="number" value="' . esc_attr($lightbox_height) . '" required />';
     echo ' px</p>';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('lightbox_type') . '">' . __('Map Type', 'google-maps-widget') . ':</label>';
@@ -235,7 +235,7 @@ class GoogleMapsWidget extends WP_Widget {
       $id = str_replace('googlemapswidget-', '', $this->id);
 
       if (!$id || !is_numeric($id)) {
-        echo __('Please save the widget so that the shortcode can be generated.', 'google-maps-widget');
+        echo '<p>' . __('Please save the widget so that the shortcode can be generated.', 'google-maps-widget') . '</p>';
       } else {
         echo '<p><code>[gmw id="' . $id . '"]</code><br></p>';
         echo '<p>' . __('Use the above shortcode to display this Google Maps Widget instance in any page or post. <br>Please note that your theme might style the widget in the post as if it is placed in a sidebar. In that case use the <code>span.gmw-shortcode-widget</code> class to target the shortcode and make  necessary changes via CSS.', 'google-maps-widget') . '</p>';
@@ -278,8 +278,8 @@ class GoogleMapsWidget extends WP_Widget {
     $instance['thumb_pin_color'] = $new_instance['thumb_pin_color'];
     $instance['thumb_pin_size'] = $new_instance['thumb_pin_size'];
     $instance['thumb_pin_img'] = trim($new_instance['thumb_pin_img']);
-    $instance['thumb_width'] = (int) $new_instance['thumb_width'];
-    $instance['thumb_height'] = (int) $new_instance['thumb_height'];
+    $instance['thumb_width'] = min(640, max(50, (int) $new_instance['thumb_width']));
+    $instance['thumb_height'] = min(640, max(50, (int) $new_instance['thumb_height']));
     $instance['thumb_zoom'] = $new_instance['thumb_zoom'];
     $instance['thumb_type'] = $new_instance['thumb_type'];
     $instance['thumb_link_type'] = $new_instance['thumb_link_type'];
@@ -287,8 +287,8 @@ class GoogleMapsWidget extends WP_Widget {
     $instance['thumb_header'] = trim($new_instance['thumb_header']);
     $instance['thumb_footer'] = trim($new_instance['thumb_footer']);
     $instance['thumb_color_scheme'] = $new_instance['thumb_color_scheme'];
-    $instance['lightbox_width'] = (int) $new_instance['lightbox_width'];
-    $instance['lightbox_height'] = (int) $new_instance['lightbox_height'];
+    $instance['lightbox_width'] = min(2000, max(50, (int) $new_instance['lightbox_width']));
+    $instance['lightbox_height'] = min(2000, max(50, (int) $new_instance['lightbox_height']));
     $instance['lightbox_type'] = $new_instance['lightbox_type'];
     $instance['lightbox_zoom'] = $new_instance['lightbox_zoom'];
     $instance['lightbox_bubble'] = $new_instance['lightbox_bubble'];
