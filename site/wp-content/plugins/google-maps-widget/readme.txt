@@ -5,8 +5,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?business=gordan@webfactoryltd
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.3
-Stable tag: 2.60
+Tested up to: 4.4
+Stable tag: 2.90
 
 Displays a single-image super-fast loading Google map in a widget. A larger map with all the usual features is available on click in a lightbox.
 
@@ -121,6 +121,33 @@ If you can't figure it out open a thread in the support forums.
 6. Widget options - info & support
 
 == Changelog ==
+= 2.90 =
+* 2015/12/14
+* added option for donating
+* checked WP v4.4 compatibility
+
+= 2.85 =
+* 2015/12/02
+* enhancements in PHP
+
+= 2.80 =
+* 2015/11/18
+* fixed a big bug in JS (widget admin UI init)
+
+= 2.75 =
+* 2015/10/26
+* minor JS tweaks and bug fixes
+
+= 2.70 =
+* 2015/10/12
+* fixed a nasty bug with shortcode rendering (thanks Hey You!)
+* JS and CSS fixes for widget UI in the theme customizer
+
+= 2.66 =
+* 2015/10/05
+* minor bug fixes
+* we'll be soon removing all PO files from the plugin since the strings were merged into the official WP translate project
+
 = 2.60 =
 * 2015/08/31
 * added data validation on input fields

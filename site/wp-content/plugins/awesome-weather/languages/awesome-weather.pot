@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Awesome Weather Widget package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Awesome Weather Widget 1.5\n"
+"Project-Id-Version: Awesome Weather Widget 1.5.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/awesome-weather\n"
-"POT-Creation-Date: 2015-05-21 19:42:51+00:00\n"
+"POT-Creation-Date: 2015-12-09 23:00:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,207 +12,283 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: awesome-weather.php:79
+#: awesome-weather-settings.php:13
+msgid "Awesome Weather Widget"
+msgstr ""
+
+#: awesome-weather-settings.php:17
+msgid "Weather Widget Cache Cleared"
+msgstr ""
+
+#: awesome-weather-settings.php:28
+msgid "Clear all Awesome Weather Widget Cache"
+msgstr ""
+
+#: awesome-weather-settings.php:42
+msgid "Settings"
+msgstr ""
+
+#: awesome-weather-settings.php:46
+msgid "API Key Required"
+msgstr ""
+
+#: awesome-weather-settings.php:50
+msgid "Donate"
+msgstr ""
+
+#: awesome-weather-settings.php:53
+msgid "Upgrade"
+msgstr ""
+
+#: awesome-weather-settings.php:68
+msgid "OpenWeatherMaps APPID"
+msgstr ""
+
+#: awesome-weather-settings.php:69
+msgid "Error Handling"
+msgstr ""
+
+#: awesome-weather-settings.php:105
+msgid "Defined in wp-config"
+msgstr ""
+
+#: awesome-weather-settings.php:112
+msgid "As of October 2015, OpenWeatherMaps requires this key to access their weather data."
+msgstr ""
+
+#: awesome-weather-settings.php:114 awesome-weather.php:564
+msgid "Get your APPID"
+msgstr ""
+
+#: awesome-weather-settings.php:125
+msgid "Hidden in Source"
+msgstr ""
+
+#: awesome-weather-settings.php:126
+msgid "Display if Admin"
+msgstr ""
+
+#: awesome-weather-settings.php:127
+msgid "Display for Anyone"
+msgstr ""
+
+#: awesome-weather-settings.php:130
+msgid "What should the plugin do when there is an error?"
+msgstr ""
+
+#: awesome-weather.php:74
 msgid "C"
 msgstr ""
 
-#: awesome-weather.php:79
+#: awesome-weather.php:74
 msgid "F"
 msgstr ""
 
-#: awesome-weather.php:273
+#: awesome-weather.php:270
 msgid "N"
 msgstr ""
 
-#: awesome-weather.php:274
+#: awesome-weather.php:270
 msgid "NNE"
 msgstr ""
 
-#: awesome-weather.php:275
+#: awesome-weather.php:270
 msgid "NE"
 msgstr ""
 
-#: awesome-weather.php:276
+#: awesome-weather.php:270
 msgid "ENE"
 msgstr ""
 
-#: awesome-weather.php:277
+#: awesome-weather.php:270
 msgid "E"
 msgstr ""
 
-#: awesome-weather.php:278
+#: awesome-weather.php:270
 msgid "ESE"
 msgstr ""
 
-#: awesome-weather.php:279
+#: awesome-weather.php:270
 msgid "SE"
 msgstr ""
 
-#: awesome-weather.php:280
+#: awesome-weather.php:270
 msgid "SSE"
 msgstr ""
 
-#: awesome-weather.php:281
+#: awesome-weather.php:270
 msgid "S"
 msgstr ""
 
-#: awesome-weather.php:282
+#: awesome-weather.php:270
 msgid "SSW"
 msgstr ""
 
-#: awesome-weather.php:283
+#: awesome-weather.php:270
 msgid "SW"
 msgstr ""
 
-#: awesome-weather.php:284
+#: awesome-weather.php:270
 msgid "WSW"
 msgstr ""
 
-#: awesome-weather.php:285
+#: awesome-weather.php:270
 msgid "W"
 msgstr ""
 
-#: awesome-weather.php:286
+#: awesome-weather.php:270
 msgid "WNW"
 msgstr ""
 
-#: awesome-weather.php:287
+#: awesome-weather.php:270
 msgid "NW"
 msgstr ""
 
-#: awesome-weather.php:288
+#: awesome-weather.php:270
 msgid "NNW"
 msgstr ""
 
-#: awesome-weather.php:385
-msgid "km/h"
-msgstr ""
-
-#: awesome-weather.php:385
+#: awesome-weather.php:354
 msgid "mph"
 msgstr ""
 
-#: awesome-weather.php:391
+#: awesome-weather.php:354
+msgid "m/s"
+msgstr ""
+
+#: awesome-weather.php:360
 msgid "humidity:"
 msgstr ""
 
-#: awesome-weather.php:392
+#: awesome-weather.php:361
 msgid "wind:"
 msgstr ""
 
-#: awesome-weather.php:393
+#: awesome-weather.php:362
 msgid "H"
 msgstr ""
 
-#: awesome-weather.php:393
+#: awesome-weather.php:362
 msgid "L"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Sun"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Mon"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Tue"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Wed"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Thu"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Fri"
 msgstr ""
 
-#: awesome-weather.php:409
+#: awesome-weather.php:377
 msgid "Sat"
 msgstr ""
 
-#: awesome-weather.php:427
+#: awesome-weather.php:395
 msgid "extended forecast"
 msgstr ""
 
-#: awesome-weather.php:448
+#: awesome-weather.php:418
 msgid "No weather information available"
 msgstr ""
 
-#: awesome-weather.php:469
+#: awesome-weather.php:454
 msgid "No city found in OpenWeatherMap."
 msgstr ""
 
-#: awesome-weather.php:470
+#: awesome-weather.php:455
 msgid "Only one location found. The ID has been set automatically above."
 msgstr ""
 
-#: awesome-weather.php:471
+#: awesome-weather.php:456
 msgid "Please confirm your city: &nbsp;"
 msgstr ""
 
-#: awesome-weather.php:555
+#: awesome-weather.php:562
+msgid "As of October 2015, OpenWeatherMap requires an APP ID key to access their weather data."
+msgstr ""
+
+#: awesome-weather.php:566
+msgid "and add it to the new settings page."
+msgstr ""
+
+#: awesome-weather.php:573
 msgid "Search for Your Location:"
 msgstr ""
 
-#: awesome-weather.php:556
+#: awesome-weather.php:574
 msgid "(i.e: London,UK or New York City,NY)"
 msgstr ""
 
-#: awesome-weather.php:563
+#: awesome-weather.php:581
 msgid "OpenWeatherMap City ID:"
 msgstr ""
 
-#: awesome-weather.php:564
+#: awesome-weather.php:582
 msgid "(use the field above to find the ID for your city)"
 msgstr ""
 
-#: awesome-weather.php:577
+#: awesome-weather.php:595
 msgid "Override Title:"
 msgstr ""
 
-#: awesome-weather.php:582
+#: awesome-weather.php:600
 msgid "Units:"
 msgstr ""
 
-#: awesome-weather.php:588
+#: awesome-weather.php:614
 msgid "Size:"
 msgstr ""
 
-#: awesome-weather.php:597
+#: awesome-weather.php:623
 msgid "Forecast:"
 msgstr ""
 
-#: awesome-weather.php:609
+#: awesome-weather.php:637
 msgid "Background Image:"
 msgstr ""
 
-#: awesome-weather.php:615
+#: awesome-weather.php:643
 msgid "Use Different Background Images Based on Weather"
 msgstr ""
 
-#: awesome-weather.php:619
+#: awesome-weather.php:647
 msgid "Custom Background Color:"
 msgstr ""
 
-#: awesome-weather.php:620
+#: awesome-weather.php:648
 msgid "overrides color changing"
 msgstr ""
 
-#: awesome-weather.php:626
+#: awesome-weather.php:653
+msgid "Text Color"
+msgstr ""
+
+#: awesome-weather.php:672
 msgid "Hide Stats"
 msgstr ""
 
-#: awesome-weather.php:632
+#: awesome-weather.php:678
 msgid "Link to OpenWeatherMap"
 msgstr ""
 
-#: awesome-weather.php:636
+#: awesome-weather.php:682
 msgid "Widget Title: (optional)"
 msgstr ""
 #. Plugin Name of the plugin/theme

@@ -6,31 +6,34 @@
 
 jQuery(function($) {
   // init JS for each active widget
-  $(".widget-liquid-right [id*='" + gmw.id_base + "'].widget, .inactive-sidebar [id*='" + gmw.id_base + "'].widget").each(function (i, widget) {
+  $(".widget-liquid-right [id*='" + gmw.id_base + "'].widget, .inactive-sidebar [id*='" + gmw.id_base + "'].widget, #accordion-panel-widgets [id*='" + gmw.id_base + "'].customize-control-widget_form").each(function (i, widget) {
     gmw_init_widget_ui(widget);
   }); // foreach GMW active widget
 
   // re-init JS on widget update and add
   $(document).on('widget-updated', function(event, widget) {
-    gmw_init_widget_ui(widget);
+    id = $(widget).attr('id');
+    if (id.indexOf(gmw.id_base) != -1) {
+      gmw_init_widget_ui(widget);
+    }
   });
   $(document).on('widget-added', function(event, widget) {
-    gmw_init_widget_ui(widget);
+    id = $(widget).attr('id');
+    if (id.indexOf(gmw.id_base) != -1) {
+      gmw_init_widget_ui(widget);
+    }
   });
 
 
   // init JS UI for an individual GMW
   function gmw_init_widget_ui(widget) {
-    gmw_change_pin_type(widget);
-    gmw_change_link_type(widget);
-
     // handle dropdown fields that have dependant fields
     $('.gmw_thumb_pin_type', widget).on('change', function(e) {
       gmw_change_pin_type(widget);
-    });
+    }).trigger('change');
     $('.gmw_thumb_link_type', widget).on('change', function(e) {
       gmw_change_link_type(widget);
-    });
+    }).trigger('change');
     $('.gmw_thumb_color_scheme', widget).on('change', function(e) {
       gmw_promo_option_change(widget, '.gmw_thumb_color_scheme');
     });
@@ -110,15 +113,42 @@ jQuery(function($) {
 
 
   // already subscribed button in dialog
-  $('#gmw_already_subscribed').on('click', function(e) {
-    e.preventDefault();
+  $('.gmw_goto_activation').on('click', function(e) {
+    $('#gmw_dialog_intro').hide();
     $('#gmw_dialog_subscribe').hide();
     $('#gmw_dialog_activate').show();
+
+    if ($(this).data('noprevent')) {
+      return true;
+    } else {
+      e.preventDefault();
+      return false;  
+    }
+  }); // already subscribed click
+  
+  
+  // go to intro button in dialog
+  $('.gmw_goto_intro').on('click', function(e) {
+    e.preventDefault();
+    $('#gmw_dialog_intro').show();
+    $('#gmw_dialog_subscribe').hide();
+    $('#gmw_dialog_activate').hide();
+
+    return false;
+  }); // go to intro click
+
+  
+  // go to subscribe in dialog
+  $('.gmw_goto_subscribe').on('click', function(e) {
+    e.preventDefault();
+    $('#gmw_dialog_intro').hide();
+    $('#gmw_dialog_subscribe').show();
+    $('#gmw_dialog_activate').hide();
 
     return false;
   }); // already subscribed click
 
-
+  
   // subscribe button in dialog
   $('#gmw_subscribe').on('click', function(e) {
     e.preventDefault();
@@ -147,7 +177,12 @@ jQuery(function($) {
       return false;
     }
 
-    $.post(ajaxurl, { action: 'gmw_subscribe', 'name': $('#gmw_name').val(), 'email': $('#gmw_email').val()}, function(data) {
+    $.post(ajaxurl, 
+           { 'action': 'gmw_subscribe',
+             'name': $('#gmw_name').val(),
+             'email': $('#gmw_email').val()
+           },
+    function(data) {
       if (data && data.success == true) {
         $('#gmw_dialog_subscribe').hide();
         $('#gmw_dialog_activate').show();
@@ -198,7 +233,8 @@ jQuery(function($) {
 
   // open promo/activation dialog
   function gmw_open_promo_dialog(widget) {
-    $('#gmw_dialog_subscribe').show();
+    $('#gmw_dialog_intro').show();
+    $('#gmw_dialog_subscribe').hide();
     $('#gmw_dialog_activate').hide();
 
     $('#gmw_promo_dialog').dialog({
@@ -208,6 +244,7 @@ jQuery(function($) {
         'title': gmw.dialog_title,
         'autoOpen': false,
         'closeOnEscape': true,
+        create: function(event, ui) { $(this).siblings().find('span.ui-dialog-title').html(gmw.dialog_title); },
         close: function(event, ui) { $('#gmw_promo_dialog').data('widget-id', ''); }
     }).dialog('open');
 

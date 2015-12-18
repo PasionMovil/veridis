@@ -4,7 +4,6 @@
 
 .awesome-weather-wrap {
 	background: #333; transition: background 0.5s ease-in; 
-    font-family: 'Open Sans', sans-serif; font-weight: 400; font-size: 14px; line-height: 14px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5); color: #fff;
     clear: both;
 }
@@ -43,9 +42,10 @@
 	font-size: 66px;
 	line-height: 1em;
 	font-weight: 300;
+	white-space: nowrap;
 }
 
-.awesome-weather-current-temp sup { font-size: 24px; top: -1.3em; padding-left: 3px; }
+.awesome-weather-current-temp sup { font-size: 24px; padding-left: 3px; }
 
 .awesome-weather-todays-stats {
 	float: right;
@@ -76,7 +76,7 @@
 .awe_days_3 .awesome-weather-forecast-day { width: 31%; }
 .awe_days_4 .awesome-weather-forecast-day { width: 23%; }
 
-.awesome-weather-forecast-day-temp { font-size: 1.3em; font-weight: 300; }
+.awesome-weather-forecast-day-temp { font-size: 1.3em; font-weight: 300; white-space: nowrap; }
 .awesome-weather-forecast-day-temp sup { font-size: 0.6em; padding-left: 2px; }
 .awesome-weather-forecast-day-abbr { text-transform: uppercase; font-size: 0.7em; font-weight: 300; margin-top: 5px; padding-right: 4px;  }
 
@@ -86,9 +86,6 @@
 
 #sidebar .awe_wide .awesome-weather-current-temp,
 #secondary .awe_wide .awesome-weather-current-temp { font-size: 40px; }
-
-#sidebar .awe_wide .awesome-weather-current-temp sup,
-#secondary .awe_wide .awesome-weather-current-temp sup { font-size: 18px; }
 
 #sidebar .awe_wide .awesome-weather-todays-stats,
 #secondary .awe_wide .awesome-weather-todays-stats { font-size: 12px; }

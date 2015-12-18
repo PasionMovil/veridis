@@ -3,7 +3,7 @@
 Plugin Name: CloudFlare
 Plugin URI: http://www.cloudflare.com/wiki/CloudFlareWordPressPlugin
 Description: CloudFlare integrates your blog with the CloudFlare platform.
-Version: 1.3.18
+Version: 1.3.19
 Author: Ian Pye, Jerome Chen, James Greene, Simon Moore, David Fritsch (CloudFlare Team)
 License: GPLv2
 */
@@ -26,7 +26,7 @@ Plugin adapted from the Akismet WP plugin.
 
 */	
 
-define('CLOUDFLARE_VERSION', '1.3.18');
+define('CLOUDFLARE_VERSION', '1.3.19');
 define('CLOUDFLARE_API_URL', 'https://www.cloudflare.com/api_json.html'); 
 define('CLOUDFLARE_SPAM_URL', 'https://www.cloudflare.com/ajax/external-event.html');
 
@@ -71,11 +71,7 @@ function cloudflare_init() {
 			}
 		}
 	}
-        
-    // Let people know that the CF WP plugin is turned on.
-    if (!headers_sent()) {
-        header("X-CF-Powered-By: WP " . CLOUDFLARE_VERSION);
-    }
+
     add_action('admin_menu', 'cloudflare_config_page');
 }
 add_action('init', 'cloudflare_init',1);
@@ -307,23 +303,23 @@ CloudFlare is a service that makes websites load faster and protects sites from 
     <?php wp_nonce_field('cloudflare-db-api','cloudflare-db-api-nonce'); ?>
     <?php if (get_option('cloudflare_api_key') && get_option('cloudflare_api_email')) { ?>
     <?php } else { ?> 
-        <p><?php printf(__('Input your API key from your CloudFlare Accounts Settings page here. To find your API key, log in to <a href="%1$s">CloudFlare</a> and go to \'Account\'.'), 'https://www.cloudflare.com/my-account.html'); ?></p>
+        <p><?php printf(__('Input your API key from your CloudFlare Accounts Settings page here. To find your API key, log in to <a href="%1$s">CloudFlare</a> and go to \'Account\'.'), 'https://www.cloudflare.com/a/account/my-account'); ?></p>
     <?php } ?>
     <h3><label for="cloudflare_zone_name"><?php _e('CloudFlare Domain Name'); ?></label></h3>
     <p>
-    	<input id="cloudflare_zone_name" name="cloudflare_zone_name" type="text" size="50" maxlength="255" value="<?php echo $cloudflare_zone_name; ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/my-websites" target="_blank">Get this?</a>'); ?>)
+    	<input id="cloudflare_zone_name" name="cloudflare_zone_name" type="text" size="50" maxlength="255" value="<?php echo $cloudflare_zone_name; ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/overview" target="_blank">Get this?</a>'); ?>)
     </p>
     <p>E.g. Enter domain.com not www.domain.com / blog.domain.com</p>
     <?php if (isset($zone_message)) echo sprintf('<p>%s</p>', $zone_message); ?>
     <h3><label for="key"><?php _e('CloudFlare API Key'); ?></label></h3>
     <p>
-    	<input id="key" name="key" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_key'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/my-account.html" target="_blank">Get this?</a>'); ?>)
+    	<input id="key" name="key" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_key'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
     </p>
     <?php if (isset($key_message)) echo sprintf('<p>%s</p>', $key_message); ?>
     
     <h3><label for="email"><?php _e('CloudFlare API Email'); ?></label></h3>
     <p>
-    	<input id="email" name="email" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_email'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/my-account.html" target="_blank">Get this?</a>'); ?>)
+    	<input id="email" name="email" type="text" size="50" maxlength="48" value="<?php echo get_option('cloudflare_api_email'); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /> (<?php _e('<a href="https://www.cloudflare.com/a/account/my-account" target="_blank">Get this?</a>'); ?>)
     </p>
     <?php if (isset($key_message)) echo sprintf('<p>%s</p>', $key_message); ?>
     

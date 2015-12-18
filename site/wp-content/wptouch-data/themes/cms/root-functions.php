@@ -1,7 +1,7 @@
 <?php
 
 // CMS Defines
-define( 'CMS_THEME_VERSION', '1.3.5' );
+define( 'CMS_THEME_VERSION', '1.3.7' );
 define( 'CMS_SETTING_DOMAIN', 'cms' );
 define( 'CMS_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'CMS_URL', wptouch_get_bloginfo( 'theme_root_url' ) );

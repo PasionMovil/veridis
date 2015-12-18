@@ -4,7 +4,7 @@ Plugin Name: Google Maps Widget
 Plugin URI: http://www.googlemapswidget.com/
 Description: Display a single-image super-fast loading Google map in a widget. A larger, full featured map is available on click in a lightbox. Includes shortcode support and numerous options.
 Author: Web factory Ltd
-Version: 2.60
+Version: 2.90
 Author URI: http://www.webfactoryltd.com/
 Text Domain: google-maps-widget
 Domain Path: lang
@@ -33,14 +33,15 @@ if (!defined('ABSPATH')) {
 
 define('GMW_OPTIONS', 'gmw_options');
 define('GMW_CRON', 'gmw_cron');
+define('GMW_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 
-require_once 'gmw-widget.php';
-require_once 'gmw-tracking.php';
+require_once GMW_PLUGIN_DIR . 'gmw-widget.php';
+require_once GMW_PLUGIN_DIR . 'gmw-tracking.php';
 
 
 class GMW {
-  static $version = 2.60;
+  static $version = '2.90';
 
   // hook everything up
   static function init() {
@@ -112,7 +113,7 @@ class GMW {
     $documentation_link = '<a target="_blank" href="http://www.googlemapswidget.com/documentation/" title="' . __('View Google Maps Widget documentation', 'google-maps-widget') . '">'. __('Documentation', 'google-maps-widget') . '</a>';
     $support_link = '<a target="_blank" href="http://wordpress.org/support/plugin/google-maps-widget" title="' . __('Problems? We are here to help!', 'google-maps-widget') . '">' . __('Support', 'google-maps-widget') . '</a>';
     $review_link = '<a target="_blank" href="http://wordpress.org/support/view/plugin-reviews/google-maps-widget" title="' . __('If you like it, please review the plugin', 'google-maps-widget') . '">' . __('Review the plugin', 'google-maps-widget') . '</a>';
-    $donate_link = '<a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?business=gordan@webfactoryltd.com&cmd=_xclick&currency_code=USD&amount=&item_name=Google%20Maps%20Widget%20Donation" title="' . __('If you feel we deserve it, buy us coffee', 'google-maps-widget') . '">' . __('Donate', 'google-maps-widget') . '</a>';
+    $donate_link = '<a target="_blank" href="https://gum.co/gmw-wp" title="' . __('If you feel we deserve it, buy us coffee', 'google-maps-widget') . '">' . __('Donate', 'google-maps-widget') . '</a>';
     $activate_link = '<a href="' . esc_url(admin_url('widgets.php?gmw_open_promo_dialog')) . '">' . __('Activate premium features for <b>FREE</b>', 'google-maps-widget') . '</a>';
 
     if ($file == plugin_basename(__FILE__)) {
@@ -223,7 +224,7 @@ class GMW {
       $options['dismiss_notice_rate'] = true;
       update_option(GMW_OPTIONS, $options);
     }
-
+    
     if ($_GET['redirect']) {
       wp_redirect($_GET['redirect']);
     } else {
@@ -237,20 +238,23 @@ class GMW {
   static function add_notices() {
     $options = get_option(GMW_OPTIONS, array());
     $notice = false;
-
-    if ((!isset($options['dismiss_notice_upgrade']) || $options['dismiss_notice_upgrade'] == false) &&
-        !self::is_activated() &&
-        (GMW_tracking::count_active_widgets() > 0 || (current_time('timestamp') - $options['first_install']) > (DAY_IN_SECONDS * 3))) {
+    
+    if (empty($options['dismiss_notice_upgrade']) && !self::is_activated()) {
       add_action('admin_notices', array(__CLASS__, 'notice_activate_extra_features'));
       $notice = true;
     } // show upgrade notice
 
-    if (!$notice &&
-        (!isset($options['dismiss_notice_rate']) || $options['dismiss_notice_rate'] == false) &&
+    if (!$notice && empty($options['dismiss_notice_rate']) &&
         GMW_tracking::count_active_widgets() > 0 &&
-        (current_time('timestamp') - $options['first_install']) > (DAY_IN_SECONDS * 20)) {
+        (current_time('timestamp') - $options['first_install']) > (DAY_IN_SECONDS * 3)) {
       add_action('admin_notices', array(__CLASS__, 'notice_rate_plugin'));
+      $notice = true;
     } // show rate notice
+    
+    if (!$notice && !isset($options['allow_tracking']) && ((current_time('timestamp') - $options['first_install']) > (DAY_IN_SECONDS * 5))) {
+      add_action('admin_notices', array('GMW_tracking', 'tracking_notice'));
+      $notice = true;
+    } // show tracking notice
   } // add_notices
 
 
@@ -264,11 +268,11 @@ class GMW {
     echo '<div id="gmw_activate_notice" class="updated notice"><p>' . __('<b>Google Maps Widget</b> has extra premium features you can get for <b style="color: #d54e21;">FREE</b>. This is a limited time offer so act now!', 'google-maps-widget');
 
     echo '<br /><a href="' . esc_url($activate_url) . '" style="vertical-align: baseline; margin-top: 15px;" class="button-primary">' . __('Activate premium features for <b>FREE</b>', 'google-maps-widget') . '</a>';
-    echo '&nbsp;&nbsp;<a href="' . esc_url($dismiss_url) . '" class="">' . __('Dismiss notice', 'google-maps-widget') . '</a>';
+    echo '&nbsp;&nbsp;<a href="' . esc_url($dismiss_url) . '">' . __('Dismiss notice', 'google-maps-widget') . '</a>';
     echo '</p></div>';
   } // notice_activate_extra_features
-
-
+ 
+  
   // display message to get extra features for GMW
   static function notice_rate_plugin() {
     $rate_url = 'https://wordpress.org/support/view/plugin-reviews/google-maps-widget?rate=5#postform';
@@ -311,7 +315,7 @@ class GMW {
                            'subscribe_duplicate' => __('You are already subscribed to our list. One activation code is valid for all sites so just use the code you already have.', 'google-maps-widget'),
                            'subscribe_error' => __('Something is not right on our end. Sorry :( Try again later.', 'google-maps-widget'),
                            'activate_ok' => __('Superb! Extra features are active ;)', 'google-maps-widget'),
-                           'dialog_title' => __('GOOGLE MAPS WIDGET - Activate Extra Features', 'google-maps-widget'),
+                           'dialog_title' => __('Google Maps Widget <b>Extra Features</b>', 'google-maps-widget'),
                            'undocumented_error' => __('An undocumented error has occured. Please refresh the page and try again.', 'google-maps-widget'),
                            'id_base' => 'googlemapswidget');
       wp_localize_script('gmw-admin', 'gmw', $js_localize);
@@ -357,16 +361,83 @@ class GMW {
     }
 
     $out = '<div id="gmw_promo_dialog">';
-    $out .= '<div id="gmw_dialog_subscribe"><div class="content"><h3 class="center">' . __('Fill out the form and<br>get extra features &amp; options <b>for FREE</b> instantly!', 'google-maps-widget') . '</h3>';
-    $out .= '<p class="input_row"><input value="' . $name . '" type="text" id="gmw_name" name="gmw_name" placeholder="Your name"><span class="error name" style="display: none;">Please enter your name.</span></p>';
-    $out .= '<p class="input_row"><input value="' . $current_user->user_email . '" type="text" name="gmw_email" id="gmw_email" placeholder="Your email address"><span style="display: none;" class="error email">Please double check your email address.</span></p>';
-    $out .= '<p class="center"><a id="gmw_subscribe" href="#" class="button button-primary big-button">Activate extra features</a><br><a href="#" class="" id="gmw_already_subscribed">I already have an activation code</a></p></div>';
-    $out .= '<div class="footer"><p><b>Why subscribe?</b></p><ul><li>We\'ll never share your email address</li><li>We won\'t spam you or overwhelm with emails</li><li>Be the first to get notified about new features</li><li>You\'ll get all future upgrades for free as well</li><li>You\'ll get discounts for our premium WP plugins</li></ul></div>';
+    
+    $out .= '<div id="gmw_dialog_intro">
+             <div class="content">
+                <h3 class="center boxed-h">' . __('Choose your prefered way of activating extra features:', 'google-maps-widget') . '</h3>';
+    $out .= '<div class="gmw-left-box gmw-content-box">
+             <h3>Donate</h3>
+             <p>what you think is fair</p>
+             <i class="dashicons dashicons-heart"></i>
+             <ul>
+               <li>Premium email support for 1 year</li>
+               <li>Access to all new extra features</li>
+               <li>No annoying emails</li>
+               <li>Instant activation</li>
+             </ul>
+             <a href="https://gum.co/gmw-wp" data-noprevent="1" class="gmw_goto_activation button-primary" target="_blank">Donate</a>
+             </div>';
+    $out .= '<div class="gmw-right-box gmw-content-box gmw-content-box-alternate">
+             <h3>Subscribe</h3>
+             <p>and receive promotional e-mails</p>
+             <i class="dashicons dashicons-email-alt"></i>
+             <ul>
+               <li>Community based support</li>
+               <li>Access to new extra features</li>
+               <li>Receive promotional emails</li>
+               <li>Instant activation</li>
+             </ul>
+             <br>
+             <a href="#" class="gmw_goto_subscribe button-secondary">Subscribe</a>
+             </div>';
+    $out .= '<p class="clear center gmw-footer-intro">Already have an activation code? <a href="#" class="gmw_goto_activation">Enter it here</a></p>';
+    $out .= '</div></div>'; // dialog intro
+    
+    $out .= '<div id="gmw_dialog_subscribe">
+             <div class="content">
+             <h3>' . __('Fill out the form and get extra features for <b>FREE</b> instantly!', 'google-maps-widget') . '</h3>';
+    $out .= '<p class="input_row">
+               <input value="' . $name . '" type="text" id="gmw_name" name="gmw_name" placeholder="Your name">
+               <span class="error name" style="display: none;">Please enter your name.</span>
+             </p>';
+    $out .= '<p class="input_row">
+               <input value="' . $current_user->user_email . '" type="text" name="gmw_email" id="gmw_email" placeholder="Your email address">
+               <span style="display: none;" class="error email">Please double check your email address.</span>
+             </p>';
+    $out .= '<p class="center">
+               <a id="gmw_subscribe" href="#" class="button button-primary">Activate extra features</a></p>
+               <p class="center"><a href="#" class="gmw_goto_activation">I already have an activation code</a></p>
+             </div>';
+    $out .= '<div class="footer">
+                <p><b>Still not sure?</b></p>
+                  <ul>
+                    <li>We\'ll never share your email address</li>
+                    <li>We won\'t spam you or overwhelm with emails</li>
+                    <li>You\'ll get discounts for our premium WP plugins</li>
+                  </ul>
+                </div>';
     $out .= '</div>'; // dialog subscribe
-    $out .= '<div id="gmw_dialog_activate"><div class="content"><h3 class="center">' . __('Enter your code and activate extra features', 'google-maps-widget') . '</h3>';
-    $out .= '<p class="input_row"><input type="text" id="gmw_code" name="gmw_code" placeholder="Your activation code"><span style="display: none;" class="error gmw_code">Please double check the activation code.</span></p><p class="center"><a href="#" class="button button-primary big-button" id="gmw_activate">Activate extra features</a></p></div>';
-    $out .= '<div class="footer"><p><b>FAQ</b></p><ul><li>Already subscribed? Enter your activation code above.</li><li>Didn\'t receive the email? Check your SPAM folder.</li><li>Still not getting the email? Try a different email address.</li><li>Code is valid for an unlimited number of plugin installations.</li></ul></div>';
+    
+    $out .= '<div id="gmw_dialog_activate">
+               <div class="content">';
+    $out .= '<p class="input_row">
+               <input type="text" id="gmw_code" name="gmw_code" placeholder="Please enter the activation code">
+               <span style="display: none;" class="error gmw_code">Please double check the activation code.</span></p>
+               <p class="center">
+                 <a href="#" class="button button-primary" id="gmw_activate">Activate extra features</a>
+               </p>
+               <p class="center">If you don\'t have an activation code - <a href="#" class="gmw_goto_intro">Get it now</a></p>
+             </div>';
+    $out .= '<div class="footer">
+               <p><b>FAQ</b></p>
+               <ul class="gmw-faq-ul">
+                 <li>Donated and haven\'t received the code? <a href="mailto:gmw@webfactoryltd.com?subject=Lost%20activation%20code">Email us</a></li>
+                 <li>Didn\'t receive the email? Check your SPAM folder.</li>
+                 <li>Code is valid for an unlimited number of plugin installations.</li>
+               </ul>
+             </div>';
     $out .= '</div>'; // activate screen
+    
     $out .= '</div>'; // dialog
 
     echo $out;
@@ -418,8 +489,33 @@ class GMW {
 
 
   // check if activation code for additional features is valid
+  static function validate_activation_code_format($code) {
+    // old key format
+    if (strlen($code) == 6) {
+      if (($code[0] + $code[5]) != 9 || !ctype_xdigit($code)) {
+        return false;
+      }
+      return true;
+    } // old key format
+    
+    // new key format
+    if (strlen($code) == 35) {
+      if (preg_match('/^[a-z0-9]{8}-[a-z0-9]{8}-[a-z0-9]{8}-[a-z0-9]{8}$/i', $code, $matches) != 1) {
+        return false;
+      }  
+      
+      return true;
+    } // new key format
+    
+    return false;
+  } // validate_activation_code_format
+  
+  
+  // check if activation code for additional features is valid
   static function validate_activation_code($code) {
-    if (strlen($code) == 6 && ($code[0] + $code[5]) == 9) {
+    $code = trim($code);
+    
+    if (self::validate_activation_code_format($code)) {
       return true;
     } else {
       return false;
@@ -486,25 +582,31 @@ class GMW {
   // shortcode support for any GMW instance
   static function do_shortcode($atts, $content = null) {
     if (!self::is_activated()) {
-      return;
+      return '';
     }
 
     global $wp_widget_factory;
+    $out = '';
     $atts = shortcode_atts(array('id' => 0), $atts);
     $id = (int) $atts['id'];
     $widgets = get_option('widget_googlemapswidget');
 
-    if (!$id || !isset($widgets[$id]) || empty($widgets[$id])) {
-      echo '<span class="gmw-error">Google Maps Widget shortcode error - please double-check the widget ID.</span>';
+    if (!$id || empty($widgets[$id])) {
+      $out .= '<span class="gmw-error">' . __('Google Maps Widget shortcode error - please double-check the widget ID.', 'google-maps-widget') . '</span>';
     } else {
       $widget_args = $widgets[$id];
       $widget_instance['widget_id'] = 'googlemapswidget-' . $id;
       $widget_instance['widget_name'] = 'Google Maps Widget';
 
-      echo '<span class="gmw-shortcode-widget">';
+      $out .= '<span class="gmw-shortcode-widget">';
+      ob_start();
       the_widget('GoogleMapsWidget', $widget_args, $widget_instance);
-      echo '</span>';
+      $out .= ob_get_contents();
+      ob_end_clean();
+      $out .= '</span>';
     }
+    
+    return $out;
   } // do_shortcode
 
 

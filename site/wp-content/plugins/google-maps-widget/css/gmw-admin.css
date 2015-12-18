@@ -2,6 +2,7 @@
  * Google Maps Widget
  * (c) Web factory Ltd, 2012 - 2015
  */
+@import url(http://fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light&amp;lang=en);
 
 .gmw-label {
   width: 115px;
@@ -42,45 +43,103 @@ option.promo {
   display: none;
 }
 
+.gmw-dialog {
+  font-family: 'Roboto', sans-serif !important;
+}
+
 .gmw-dialog .ui-dialog-titlebar {
-  height: 60px;
-  background-color: rgb(48, 48, 48);
+  line-height: 90px;
+  height: 90px;
+  background-color: #303030;
   text-align: center;
 }
 
+.gmw-dialog .ui-dialog-titlebar span {
+  color: #fff;
+}
+
+.gmw-dialog .ui-dialog-titlebar span b {
+  color: #0085ba;
+  font-weight: normal;
+}
+
 .gmw-dialog .footer {
-  padding: 30px 135px;
-  background-color: rgb(48, 48, 48);
+  padding: 20px 135px;
+  background-color: #303030;
   color: rgb(137, 137, 137);
 }
 
 .gmw-dialog .content {
-  padding: 30px 135px;
   background-color: #FFF;
 }
 
+.gmw-dialog .dashicons {
+  display: block !important;
+  width: 100%;
+}
+
+.gmw-left-box,
+.gmw-right-box {
+  position: relative;
+  min-height: 335px;
+  padding: 42px 50px 63px 50px !important;
+  width: 34.6%;
+  float: left;
+  text-align: center;
+}
+
+.gmw-left-box .gmw_goto_activation.button-primary,
+.gmw-right-box .gmw_goto_subscribe.button-secondary {
+  position: absolute;
+  bottom: 63px;
+  left: 77px;
+  letter-spacing: 1px;
+  width: 170px;
+}
+
+.gmw-left-box {
+  background: #0085ba;
+}
+
+.gmw-right-box {
+  background: #e5f3f8;
+}
+
+
+.gmw-dialog .boxed-h {
+  padding: 30px 0px;
+  margin: 0;
+  display: block;
+}
+
 .gmw-dialog h3 b {
-  color: rgb(225, 77, 67);
+  color: #fe4765;
 }
 
 .gmw-dialog h3 {
   line-height: 150%;
   font-weight: normal;
   margin: 0 0 30px 0;
+  font-size: 1.1em;
+  color: #666666;
 }
 
 .gmw-dialog .ui-dialog-title {
   line-height: 60px;
   color: rgb(137, 137, 137);
+  letter-spacing: 1px;
+  font-size: 20px;
 }
 
 .gmw-dialog .ui-dialog-titlebar-close {
-  top: 12px;
+  top: 27px;
+  right: 25px;
 }
 
 #gmw_promo_dialog ul {
   list-style-position: inside;
   list-style-type: disc;
+  padding-bottom: 15px;
 }
 
 .gmw-dialog input {
@@ -105,11 +164,10 @@ option.promo {
   font-weight: bold;
   text-transform: uppercase;
   margin-top: 5px;
+  text-shadow: none;
 }
 
-.gmw-dialog #gmw_already_subscribed {
-  margin-top: 18px;
-  display: inline-block;
+.gmw-dialog a {
   color: #999;
 }
 
@@ -187,6 +245,23 @@ input:required:invalid {
   text-shadow: 0 1px 0 #FFFFFF;
 }
 
+/* fixes for customizer */
+#customize-theme-controls .ui-tabs ul.ui-tabs-nav li {
+  margin: 0 0 -1px 2px;
+}
+#customize-theme-controls .ui-tabs .ui-tabs-nav li a {
+  padding: 0 4px;
+}
+#customize-theme-controls .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+  border-bottom: 3px solid white !important;
+}
+#customize-theme-controls .ui-tabs .ui-tabs-panel { 
+  min-width: 440px;
+}
+#available-widgets-list [class*=googlemapswidget] .widget-title:before{
+  content: "\f230";
+}
+
 ul.ui-tabs-nav{
   float: left;
   border-bottom: 1px solid #e5e5e5;
@@ -201,4 +276,213 @@ ul.ui-tabs-nav{
 
 .ui-state-hover a {
   color: #0073aa !important;
+}
+
+
+.gmw-content-box-alternate h3,
+.gmw-content-box h3 {
+  font-size: 26px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.gmw-content-box h3,
+.gmw-content-box p {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.gmw-content-box-alternate i,
+.gmw-content-box i {
+  font-size: 32px;
+  padding: 15px 0px;
+}
+
+.gmw-content-box-alternate i {
+  color: #666 !important;
+}
+
+.gmw-content-box i {
+  color: #fff;  
+}
+
+.gmw-content-box-alternate h3,
+.gmw-content-box-alternate p {
+  color: #666666;
+  margin: 0;
+  padding: 0;
+}
+
+.gmw-content-box ul li:before {
+  content:'\f147';
+  font-family: 'Dashicons';
+  display: inline-block;
+  font-size: 24px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.gmw-content-box ul li {
+  position: relative;
+  padding-left: 25px;
+  text-align: left;
+  padding-bottom: 10px;
+  color: #fff;
+}
+
+.gmw-content-box ul {
+  list-style: none !important;
+}
+
+.gmw-content-box-alternate ul li {
+  color: #666;
+}
+
+.gmw_goto_activation.button-primary {
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: #0085ba;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 15px 40px;
+  text-shadow:none !important;
+  height: auto !important;
+  box-shadow:none !important;
+}
+
+.gmw_goto_activation.button-primary:hover {
+  background: rgba(0,0,0,0.15) !important;
+}
+
+.gmw_goto_activation.button-primary:visited {
+  background: #0085ba;
+  border: 2px solid #fff;
+}
+
+.gmw_goto_subscribe.button-secondary {
+  border: 2px solid #666;
+  box-shadow: none !important;
+  border-radius: 4px;
+  background: #e5f3f8;
+  color: #666;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 15px 40px;
+  text-shadow:none !important;
+  height: auto !important;
+}
+
+.gmw_goto_subscribe.button-secondary:hover {
+  background: rgba(0,0,0,0.15);
+}
+
+.gmw-footer-intro {
+  display: block;
+  padding: 45px 40px;
+  text-align: center;
+  margin: 0px !important;
+  font-size: 14px;
+}
+
+.gmw-footer-intro a {
+  color: #0085ba;
+}
+
+
+/* Donate */
+#gmw_dialog_activate .content {
+  padding: 60px 130px;
+}
+
+#gmw_dialog_activate .content a {
+  color: #0085ba;
+}
+
+#gmw_code {
+  border: 1px solid #dcdcdc;
+  box-shadow:none;
+  padding: 25px !important;
+  height: 60px !important;
+  display: block;
+  border-radius:3px;
+}
+
+#gmw_activate {
+  display: block;
+  border: 1px solid #fff;
+  border-radius:4px;
+  background: #0085ba;
+  color: #fff !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 15px 40px;
+  text-shadow:none !important;
+  height: auto !important;
+  box-shadow:none !important;
+}
+
+
+#gmw_activate:hover {
+  background: #00719e !important;
+}
+
+.gmw-faq-ul li {
+  color: #888888 !important;
+}
+
+/* Subscribe */
+#gmw_dialog_subscribe .content {
+  padding: 40px 130px;
+}
+
+#gmw_dialog_subscribe .content a {
+  color: #0085ba;
+}
+
+#gmw_dialog_subscribe h3 {
+  text-align: center;
+}
+
+#gmw_dialog_subscribe input[type="text"] {
+  border: 1px solid #dcdcdc;
+  box-shadow:none;
+  padding: 25px !important;
+  height: 60px !important;
+  display: block;
+  border-radius:3px;
+}
+
+#gmw_dialog_subscribe .button.button-primary {
+    display: block;
+  border: 1px solid #fff;
+  border-radius:4px;
+  background: #0085ba;
+  color: #fff !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 15px 40px;
+  text-shadow: none !important;
+  height: auto !important;
+  box-shadow: none !important;
+}
+
+#gmw_dialog_subscribe .button.button-primary:hover {
+  background: #00719e !important;
+}
+
+#gmw_dialog_subscribe .footer {
+  background:#0085ba;
+}
+
+
+#gmw_dialog_subscribe .footer p,
+#gmw_dialog_subscribe .footer ul li {
+  color: #fff;
 }

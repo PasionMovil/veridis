@@ -3,26 +3,32 @@ Contributors: halgatewood
 Donate link: http://halgatewood.com/donate/
 Tags: widgets, sidebar, shortcode, openweathermap, weather, weather widget, forecast, global, temp, local weather,local forecast
 Requires at least: 3.5
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Finally beautiful weather widgets for your site.
+Finally beautiful weather widgets for your beautiful site.
 
 == Description ==
 
-[Pro Version](https://halgatewood.com/downloads/awesome-weather-widget-pro/) available. Icons, 3 New Layouts, Weather by Yahoo!, User Detection and more!
+>[Pro Version](https://halgatewood.com/downloads/awesome-weather-widget-pro/) available. Weather icons, New Layouts and Custom Templates, Weather by Yahoo! (no API key required), User Location Detection and more!
 
-This plugin allows you to easily add super clean (and awesome) weather widgets to your site. The weather data is provided for free by http://openweathermap.org
+This plugin allows you to easily add super clean (and awesome) weather widgets to your site. 
+
+The weather data is provided for free by http://openweathermap.org and as of October 2015, they require an [API Key](http://openweathermap.org/appid#get) to access their weather. 
+Once you have the API Key you can simply add it in 'Settings' -> 'Awesome Weather' and you're ready to go. 
+
+[View the API Key Help Document](https://halgatewood.com/docs/plugins/awesome-weather-widget/register-for-an-openweathermap-api-key-appid)
+
 
 Use the built in widget with all of its marvelous settings or add it to a page or theme with the shortcode: (all settings shown)
 
-`[awesome-weather location="Montreal" units="F" size="tall" override_title="MTL" forecast_days="2" hide_stats="1" background="http://urltoanimage.jpg" custom_bg_color="#cccccc" inline_style="width: 200px; margin: 20px; float: left;" background_by_weather="1"]`
+`[awesome-weather location="Montreal" units="F" owm_city_id="6077243" size="tall" override_title="MTL" forecast_days="3" hide_stats="1" background="http://urltoanimage.jpg" custom_bg_color="#cccccc" inline_style="width: 200px; margin: 20px; float: left;" background_by_weather="1" text_color="#000" locale="fr"]`
 
 = Settings =
 
-*   Location: Enter a string like ‘Montreal, CA’ or just ‘Montreal’. You can even get the City ID from OpenWeatherMap and use that.
+*   Location: Enter a string like "Montreal, CA" or just "Montreal". You can even get the City ID from OpenWeatherMap and use that.
 *   Units: F (default) or C
 *   Size: wide (default) or tall
 *   Override Title: Change the title in the header bar to whatever, sometimes it pulls weather from a close city
@@ -32,6 +38,8 @@ Use the built in widget with all of its marvelous settings or add it to a page o
 *   Custom Background Color: Add a hex color to override the default colors
 *   Inline Styles: Add inline CSS styles to your widget to float around text and whatever else
 *   Background Image Based on Weather (v1.5+): Set this to 1 if you want to use different images for different weather types, How to: https://halgatewood.com/awesome-weather-bgs
+*	Text Color: Easily change the text color of the widget without CSS
+*	Locale: New locale attribute for shortcodes allows you to change the weather description text without having to change your whole WordPress installation.
 
 = Translations =
 * Portuguese - alvarogois
@@ -42,7 +50,7 @@ Use the built in widget with all of its marvelous settings or add it to a page o
 * French - Gilles D.
 * Italian - Cesare C.
 * Russian - Alex
-* Spanish - Joaquín B.
+* Spanish - JoaquÃ­n B.
 * Greek - John T.
 * Finnish - Mikko A.
 * Hungarian - Istvan H.
@@ -55,6 +63,8 @@ Use the built in widget with all of its marvelous settings or add it to a page o
 
 1. Add plugin to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Register for an OpenWeatherMap [API Key](http://openweathermap.org/appid#get)
+1. Add your API Key to the settings field in 'Settings' -> 'Awesome Weather' (added in version 1.5.3)
 1. Use shortcode or widget to display awesome weather on your awesome site
 
 
@@ -70,6 +80,26 @@ Use the built in widget with all of its marvelous settings or add it to a page o
 8. Search for the City ID directly in the widget settings (1.5)
 
 == Upgrade Notice ==
+
+= 1.5.6 = 
+Two new filters available to remove to the Google font Open Sans. Added new missing background preset 'atmosphere'
+
+= 1.5.5 = 
+Some new shortcode attributes, and a constant can be set for the OpenWeatherMap AppID. This helps multisite installations. 
+
+= 1.5.4 =
+* Preset background images added for the 'Use Different Background Images Based on Weather' option
+* Color picker to choose a font color for the whole widget
+* CSS whitespace: no-wrap on the little degree symbols
+* Fixed wind speed to mph for 'Imperial' and m/s for Celsius as per the OpenWeatherMap weather data section
+* Updated .pot file
+
+= 1.5.3.1 =
+* Added an error message in the admin widget page to let users know they need an APPID
+
+= 1.5.3 =
+* Added spot for API key in 'Settings' -> 'Awesome Weather'
+* Added new setting to decide how to show error messages.
 
 = 1.5.1 =
 * Changed .custom class to .awe_custom
@@ -151,7 +181,36 @@ Removed debugging code, sorry!
 = 1.0.1 =
 Changed API endpoints. Might not find weather without update.
 
+
+
+
 == Changelog ==
+
+= 1.5.6.1 =
+* Fix trailing slash issue with one of the preset background image checks
+
+= 1.5.6 =
+* Two new filters available to remove to the Google font Open Sans. (`awesome_weather_use_google_font` AND `awesome_weather_google_font_queue_name`)
+* Added new missing background preset `atmosphere.jpg`
+
+= 1.5.5 =
+* New constant for the AppID: AWESOME_WEATHER_APPID. Set in `wp-config.php` for multisite installations
+* Shortcode attribute for locale: `locale="fr"`
+* Shortcode attribute for the units display symbol: `units_display_symbol="&deg;F"`
+
+= 1.5.4 =
+* Preset background images added for the 'Use Different Background Images Based on Weather' option
+* Color picker to choose a font color for the whole widget
+* CSS whitespace: no-wrap on the little degree symbols
+* Fixed wind speed to mph for 'Imperial' and m/s for Celsius as per the OpenWeatherMap weather data section
+* Updated .pot file
+
+= 1.5.3.1 =
+* Added an error message in the admin widget page to let users know they need an APPID
+
+= 1.5.3 =
+* Added spot for API key in 'Settings' -> 'Awesome Weather'
+* Added new setting to decide how to show error messages.
 
 = 1.5.2 =
 * Updated WP_Widget construct to prevent future breaking.

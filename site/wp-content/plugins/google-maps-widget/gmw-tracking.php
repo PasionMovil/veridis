@@ -15,17 +15,9 @@ if (!defined('ABSPATH')) {
 class GMW_tracking {
   // set things up
   static function init() {
-    $options = get_option(GMW_OPTIONS);
-
     self::check_opt_in_out();
 
-    // ask user if he wants to allow tracking
-    if (is_admin() && !isset($options['allow_tracking'])) {
-      add_action('admin_notices', array(__CLASS__, 'tracking_notice'));
-    }
-
     add_action(GMW_CRON, array(__CLASS__, 'send_data'));
-    // todo - write this properly, so it doesn't run each time, $force ...
     GMW_tracking::setup_cron();
   } // init
 
@@ -55,7 +47,7 @@ class GMW_tracking {
 
     if (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
       if (!wp_next_scheduled(GMW_CRON)) {
-        wp_schedule_event(time() + 300, 'gmw_biweekly', GMW_CRON);
+        wp_schedule_event(time() + 30, 'gmw_biweekly', GMW_CRON);
       }
     } else {
       self::clear_cron();

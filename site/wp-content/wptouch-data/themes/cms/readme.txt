@@ -1,12 +1,20 @@
 Theme Name: CMS
 Theme URI: http://www.bravenewcode.com/wptouch-pro/
 Description: A new WPtouch Pro theme made for content-heavy sites. Includes support for a featured slider, custom post types, multiple menus, and more.
-Version: 1.3.5
-Stable tag: 1.3.5
+Version: 1.3.7
+Stable tag: 1.3.7
 Depends on: 3.7.7
 Parent: Foundation
 Author: BraveNewCode Inc.
 Tags: smartphone
+
+= Version 1.3.7 (September 2015) =
+
+* Changed: Updates for advertising support, iOS9
+
+= Version 1.3.6 (September 14th, 2015) =
+
+* Fix for the way CMS triggers links in blog listings
 
 = Version 1.3.5 (May 28th, 2015) =
 

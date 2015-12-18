@@ -13,9 +13,10 @@ function doCmsReady() {
 		jQuery( this ).addClass( 'needsclick' );
 	});
 
-	jQuery( '#content' ).on( 'click', '.entry', function(){
-		var postLink = jQuery( this ).find( 'a:first').attr( 'href' );
-		window.location = postLink;
+	jQuery.each( '.entry', '#content' ).on( 'click', function( e ){
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		jQuery( this ).find( 'a:first' ).click();
 	});
 
 	cmsWebApp();

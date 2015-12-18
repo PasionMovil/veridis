@@ -19,12 +19,12 @@ body {
 	position: relative;
 }
 
-.top-content-ad .wptouch-ad, .bottom-content-ad .wptouch-ad, #content .wptouch-ad {
+.top-content-showcase .wptouch-showcase, .bottom-content-showcase .wptouch-showcase, #content .wptouch-showcase {
 	margin-left: -15px;
 	margin-right: -15px;
 }
 
-.single #content .wptouch-ad img {
+.single #content .wptouch-showcase img {
 	border: none;
 	max-width: none !important;
 	height: auto;
@@ -33,7 +33,7 @@ body {
 	background-color: transparent;
 }
 
-.header-ad .wptouch-custom-ad {
+.header-showcase .wptouch-custom-showcase {
 	margin: 0;
 }
 
