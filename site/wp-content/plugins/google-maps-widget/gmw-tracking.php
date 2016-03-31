@@ -2,22 +2,24 @@
 /*
  * Google Maps Widget
  * Plugin usage tracking
- * (c) Web factory Ltd, 2012 - 2015
+ * (c) Web factory Ltd, 2012 - 2016
  */
 
 
-// include only file
+// this is an include only WP file
 if (!defined('ABSPATH')) {
-  die();
+  die;
 }
 
 
 class GMW_tracking {
+  static $cron_biweekly = 'gmw_biweekly_cron';
+
   // set things up
   static function init() {
     self::check_opt_in_out();
 
-    add_action(GMW_CRON, array(__CLASS__, 'send_data'));
+    add_action(self::$cron_biweekly, array(__CLASS__, 'send_data'));
     GMW_tracking::setup_cron();
   } // init
 
@@ -37,17 +39,17 @@ class GMW_tracking {
 
   // clear cron scheadule
   static function clear_cron() {
-    wp_clear_scheduled_hook(GMW_CRON);
+    wp_clear_scheduled_hook(self::$cron_biweekly);
   } // clear_cron
 
 
   // setup cron job when user allows tracking
   static function setup_cron() {
-    $options = get_option(GMW_OPTIONS);
+    $options = GMW::get_options();
 
     if (isset($options['allow_tracking']) && $options['allow_tracking'] === true) {
-      if (!wp_next_scheduled(GMW_CRON)) {
-        wp_schedule_event(time() + 30, 'gmw_biweekly', GMW_CRON);
+      if (!wp_next_scheduled(self::$cron_biweekly)) {
+        wp_schedule_event(current_time('timestamp') + 60, 'gmw_biweekly', self::$cron_biweekly);
       }
     } else {
       self::clear_cron();
@@ -57,17 +59,13 @@ class GMW_tracking {
 
   // save user's choice for (not) allowing tracking
   static function check_opt_in_out() {
-    $options = get_option(GMW_OPTIONS);
-
     if (isset($_GET['gmw_tracking']) && $_GET['gmw_tracking'] == 'opt_in') {
-      $options['allow_tracking'] = true;
-      update_option(GMW_OPTIONS, $options);
+      GMW::set_options(array('allow_tracking' => true));
       self::send_data(true);
       wp_redirect(esc_url_raw(remove_query_arg('gmw_tracking')));
       die();
-    } else if (isset($_GET['gmw_tracking']) && $_GET['gmw_tracking'] == 'opt_out') {
-      $options['allow_tracking'] = false;
-      update_option(GMW_OPTIONS, $options);
+    } elseif (isset($_GET['gmw_tracking']) && $_GET['gmw_tracking'] == 'opt_out') {
+      GMW::set_options(array('allow_tracking' => false));
       wp_redirect(esc_url_raw(remove_query_arg('gmw_tracking')));
       die();
     }
@@ -80,7 +78,7 @@ class GMW_tracking {
     $optout_url = add_query_arg('gmw_tracking', 'opt_out');
 
     echo '<div class="updated"><p>';
-    echo __('Please help us improve <strong>Google Maps Widget</strong> by allowing us to track anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.googlemapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>).', 'google-maps-widget');
+    echo __('Please help us improve <strong>Google Maps Widget</strong> by allowing tracking of anonymous usage data. Absolutely <strong>no sensitive data is tracked</strong> (<a href="http://www.gmapswidget.com/plugin-tracking-info/" target="_blank">complete disclosure &amp; details of our tracking policy</a>).', 'google-maps-widget');
     echo '<br /><a href="' . esc_url($optin_url) . '" style="vertical-align: baseline; margin-top: 15px;" class="button-primary">' . __('Allow', 'google-maps-widget') . '</a>';
     echo '&nbsp;&nbsp;<a href="' . esc_url($optout_url) . '" class="">' . __('Do not allow tracking', 'google-maps-widget') . '</a>';
     echo '</p></div>';
@@ -89,7 +87,7 @@ class GMW_tracking {
 
   // send usage data once a week to our server
   static function send_data($force = false) {
-    $options = get_option(GMW_OPTIONS);
+    $options = GMW::get_options();
 
     if ($force == false && (!isset($options['allow_tracking']) || $options['allow_tracking'] !== true)) {
       return;
@@ -99,7 +97,7 @@ class GMW_tracking {
     }
 
     $data = self::prepare_data();
-    $request = wp_remote_post('http://www.googlemapswidget.com/tracking.php', array(
+    $request = wp_remote_post('http://www.gmapswidget.com/tracking.php', array(
                               'method' => 'POST',
                               'timeout' => 10,
                               'redirection' => 3,
@@ -108,13 +106,13 @@ class GMW_tracking {
                               'user-agent' => 'GMW/' . GMW::$version));
 
     $options['last_tracking'] = current_time('timestamp');
-    update_option(GMW_OPTIONS, $options);
+    update_option(GMW::$options, $options);
   } // send_data
 
 
   // get and prepare data that will be sent out
   static function prepare_data() {
-    $options = get_option(GMW_OPTIONS);
+    $options = GMW::get_options();
     $data = array();
     $current_user = wp_get_current_user();
 
@@ -132,15 +130,9 @@ class GMW_tracking {
     $data['ioncube'] = extension_loaded('IonCube Loader');
     $data['gmw_count'] = self::count_active_widgets();
 
-    if (get_bloginfo('version') < '3.4') {
-      $theme = get_theme_data(get_stylesheet_directory() . '/style.css');
-      $data['theme_name'] = $theme['Name'];
-      $data['theme_version'] = $theme['Version'];
-    } else {
-      $theme = wp_get_theme();
-      $data['theme_name'] = $theme->Name;
-      $data['theme_version'] = $theme->Version;
-    }
+    $theme = wp_get_theme();
+    $data['theme_name'] = $theme->Name;
+    $data['theme_version'] = $theme->Version;
 
     // get current plugin information
     if (!function_exists('get_plugins')) {

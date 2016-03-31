@@ -3,8 +3,8 @@ Contributors: mekshq
 Donate link: http://mekshq.com/
 Tags: themeforest, envato, marketplace, widget, affiliate, advertising, ad, ads, sidebar
 Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: 1.1.7
+Tested up to: 4.4
+Stable tag: 1.1.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -29,9 +29,8 @@ If you are a ThemeForest author this widget is perfect for you.
 
 ThemeForest Smart Widget plugin is created by <a href="http://mekshq.com" target="_blank">MeksHQ</a>
 
-### Live preview?
-
-You can see Meks ThemeForest Smart Widget live example on our <a href="http://mekshq.com/demo/throne" target="_blank">Throne theme demo website</a>
+><strong>Live preview?</strong><br>
+>You can see Meks ThemeForest Smart Widget live example on our <a href="http://mekshq.com/demo/throne" target="_blank">Throne theme demo website</a>
 
 ### Available languages
 
@@ -55,6 +54,12 @@ For any questions, issues and suggestions please visit http://mekshq.com/contact
 2. Widget in action
 
 == Changelog ==
+
+= 1.1.9 =
+* Fixed an incompatibility issue with PHP 7
+
+= 1.1.8 =
+* Linted CSS file (it caused minification conflict problems with some plugins)
 
 = 1.1.7 =
 * Full compatibility with WordPress 4.3

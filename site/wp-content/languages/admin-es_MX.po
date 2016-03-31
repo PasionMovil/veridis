@@ -16,79 +16,79 @@ msgstr "¡Gracias por actualizar! WordPress %s hace que tus sitio esté más con
 
 #. translators: 1: WP_Term class name, WP_Comment class name, WP_Network class
 #. name
-#: wp-admin/about.php:177
+#: wp-admin/about.php:189
 msgid "New %1$s, %2$s, and %3$s objects make interacting with terms, comments, and networks more predictable and intuitive in code."
 msgstr "Ahora los objetos %1$s, %2$s y %3$s hacen que interactuar con términos, comentarios y redes sea más predecible y que el código sea más intuitivo."
 
-#: wp-admin/about.php:174
+#: wp-admin/about.php:186
 msgid "Term, comment, and network objects"
 msgstr "Objetos de término, comentario y red"
 
 #. translators: WP_Comment_Query class name
-#: wp-admin/about.php:170
+#: wp-admin/about.php:182
 msgid "Comment queries now have cache handling to improve performance. New arguments in %s make crafting robust comment queries simpler."
 msgstr "Las consultas de comentarios ahora tiene una caché que mejora el rendimiento. Nuevos argumentos en %s hacen que sea más fácil crear consultas robustas."
 
-#: wp-admin/about.php:167
+#: wp-admin/about.php:179
 msgid "Comment query improvements"
 msgstr "Mejoras en las consultas de comentarios"
 
 #. translators: 1: add_term_meta() docs link, 2: get_term_meta() docs link, 3:
 #. update_term_meta() docs link
-#: wp-admin/about.php:159
+#: wp-admin/about.php:171
 msgid "Terms now support metadata, just like posts. See %1$s, %2$s, and %3$s for more information."
 msgstr "Ahora los términos son compatibles con metadatos, como las entradas. Echa un vistazo a %1$s, %2$s y %3$s para obtener más información."
 
-#: wp-admin/about.php:156
+#: wp-admin/about.php:168
 msgid "Term meta"
 msgstr "Meta de término"
 
 #. translators: WordPress REST API plugin link
-#: wp-admin/about.php:148
+#: wp-admin/about.php:160
 msgid "Infrastructure is the first part of a multi-stage rollout for the REST API. Inclusion of core endpoints is targeted for an upcoming release. To get a sneak peek of the core endpoints, and for more information on extending the REST API, check out the official %s plugin."
 msgstr "La infraestructura es la primera parte de una implantación en varias etapas de la REST API. La inclusión de la parte final del núcleo está pensada para una versión posterior. Para obtener una versión anticipada de la parte final del núcleo, y más información sobre como ampliar la REST API, revisa el plugin oficial %s."
 
-#: wp-admin/about.php:131
+#: wp-admin/about.php:143
 msgid "Infrastructure for the REST API has been integrated into core, marking a new era in developing with WordPress. The REST API serves to provide developers with a path forward for building and extending RESTful APIs on top of WordPress."
 msgstr "Se ha integrado la infraestructura para la REST API en el núcleo, empezando una nueva era en el desarrollo con WordPress. La REST API sirve para dar a los proveedores un camino para construir y extender RESTful APIs sobre WordPress."
 
-#: wp-admin/about.php:129
+#: wp-admin/about.php:141
 msgid "REST API infrastructure"
 msgstr "Infraestructura de la REST API"
 
-#: wp-admin/about.php:118
+#: wp-admin/about.php:130
 msgid "In addition to post embeds, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, Reddit&nbsp;Comments, ReverbNation, Speaker&nbsp;Deck, and VideoPress."
 msgstr "Además de incrustar entradas, WordPress 4.4, añade cinco nuevos proveedores de oEmbed: Cloudup, comentarios de Reditt, ReverbNation, Speaker&nbsp;Deck, y VideoPress."
 
-#: wp-admin/about.php:117
+#: wp-admin/about.php:129
 msgid "Even more embed providers"
 msgstr "Todavía más proveedores de elementos incrustados"
 
-#: wp-admin/about.php:104
+#: wp-admin/about.php:116
 msgid "Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing."
 msgstr "Ahora también puedes incrustar tus entradas en otros sitios, incluso otros de WordPress. Sólo tienes que poner la URL en el editor e inmediatamente verás una vista previa del incrustado, incluyendo el título, el extracto y la imagen destacada si lo tienen. Incluso hemos incluido el icono del sitio y enlaces al los comentario y para compartir."
 
-#: wp-admin/about.php:103
+#: wp-admin/about.php:115
 msgid "Embed your WordPress content"
 msgstr "Insertar tu contenido de WordPress"
 
-#: wp-admin/about.php:90
+#: wp-admin/about.php:102
 msgid "WordPress now takes a smarter approach to displaying appropriate image sizes on any device, ensuring a perfect fit every time. You don&#8217;t need to do anything to your theme, it just works."
 msgstr "WordPress tiene ahora una aproximación más elegante para mostrar los tamaños de imagen adecuados en cualquier dispositivo, asegurando un encaje perfecto cada vez. No necesitas hacerle nada a tu tema, simplemente funciona."
 
-#: wp-admin/about.php:89
+#: wp-admin/about.php:101
 msgid "Responsive images"
 msgstr "Imágenes adaptativas"
 
-#: wp-admin/about.php:67
+#: wp-admin/about.php:79
 msgid "Twenty Sixteen was built to look great on any device. A fluid grid design, flexible header, fun color schemes, and more, will make your content shine."
 msgstr "Twenty Sixteen se ha hecho para que se vea bien todos los dispositivos. Un diseño en cuadrícula fluido, con cabecera flexible, paleta de colores alegre y mucho más, hará que tu contenido luzca. "
 
-#: wp-admin/about.php:66
+#: wp-admin/about.php:78
 msgid "Our newest default theme, Twenty Sixteen, is a modern take on a classic blog design."
 msgstr "Nuestro nuevo tema por defecto, Twenty Sixteen, es una propuesta nueva con un clásico diseño de blog."
 
-#: wp-admin/about.php:59
+#: wp-admin/about.php:71
 msgid "Twenty Sixteen"
 msgstr "Twenty Sixteen"
 
@@ -112,7 +112,7 @@ msgid "Welcome to %s. This is your first post. Edit or delete it, then start blo
 msgstr "Bienvenido a %s. Esta es tu primera entrada. Edita or elimínala, y empieza a blogear!"
 
 #. translators: %s: WordPress version number
-#: wp-admin/about.php:214
+#: wp-admin/about.php:226
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>Versión %s</strong> mostr&oacute; un problema de seguridad."
 
@@ -129,15 +129,15 @@ msgstr "https://es.gravatar.com/"
 msgid "Profile Picture"
 msgstr "Imagen de perfil"
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:217
 msgid "Maintenance Releases"
 msgstr "Lanzamiento de manteninmiento"
 
-#: wp-admin/about.php:208
+#: wp-admin/about.php:220
 msgid "Security Releases"
 msgstr "Lanzamiento de seguridad"
 
-#: wp-admin/about.php:211
+#: wp-admin/about.php:223
 msgid "Maintenance and Security Releases"
 msgstr "Lanzamientos de mantenimiento y seguridad"
 
@@ -317,7 +317,7 @@ msgstr "Los archivos incluídos en %s directorio serán ejecutados automáticame
 msgid "You are not allowed to manage these items."
 msgstr "No tienes permisos para gestionar estos elementos."
 
-#: wp-admin/widgets.php:431
+#: wp-admin/widgets.php:436
 msgid "This will clear all items from the inactive widgets list. You will not be able to restore any customizations."
 msgstr "Esto vaciará todos los elementos de la lista de widgets inactivos. No podrás recuperar las personalizaciones."
 
@@ -333,7 +333,7 @@ msgstr "Lista de usuarios"
 msgid "One of the selected users is not a member of this site."
 msgstr "Uno de los usuarios elegidos no es miembro de este sitio."
 
-#: wp-admin/widgets.php:423
+#: wp-admin/widgets.php:426
 msgid "Clear Inactive Widgets"
 msgstr "Vaciar los widgets inactivos"
 
@@ -975,7 +975,7 @@ msgstr "El tema actual no soporta subir una imagen de cabecera personalizado."
 msgid "You&rsquo;re using the auto-generated password for your account. Would you like to change it?"
 msgstr "Estás usando la contraseña generada automáticamente para tu cuenta. ¿Quieres cambiarla?"
 
-#: wp-admin/users.php:360
+#: wp-admin/users.php:361
 msgid "You have specified this user for removal:"
 msgstr "Has especificado que se borre a este usuario:"
 
@@ -1553,15 +1553,15 @@ msgid_plural "%d media attachments restored from the trash."
 msgstr[0] "%d medio adjunto restaurado de la papelera."
 msgstr[1] "%d medios adjuntos restaurados de la papelera."
 
-#: wp-admin/users.php:241
+#: wp-admin/users.php:242
 msgid "You have specified these users for deletion:"
 msgstr "Has seleccionado estos usuarios para ser borrados:"
 
-#: wp-admin/users.php:266
+#: wp-admin/users.php:267
 msgid "What should be done with content owned by these users?"
 msgstr "¿Qué debería hacerse con el contenido de estos usuarios?"
 
-#: wp-admin/users.php:419
+#: wp-admin/users.php:420
 msgid "%s user deleted."
 msgid_plural "%s users deleted."
 msgstr[0] "%s usuario borrado."
@@ -1975,7 +1975,7 @@ msgstr "Puedes activar el modo de escritura sin distracción usando el icono de 
 msgid "Log Out Everywhere"
 msgstr "Cerrar sesión desde cualquier parte"
 
-#: wp-admin/about.php:65
+#: wp-admin/about.php:77
 msgid "Introducing Twenty Sixteen"
 msgstr "Presentamos Twenty Sixteen"
 
@@ -2474,15 +2474,15 @@ msgstr "Detalles y vista previa"
 msgid "Delete brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their content. You can also delete multiple users at once by using Bulk Actions."
 msgstr "Borrar te lleva a la pantalla de confirmación de borrado de usuarios, donde puedes borrar permanentemente a un usuario de tu sitio y borrar su contenido. También puedes borrar varios usuarios a la vez usando las acciones en lote."
 
-#: wp-admin/users.php:264
+#: wp-admin/users.php:265
 msgid "What should be done with content owned by this user?"
 msgstr "¿Qué debería hacerse con el contenido de este usuario?"
 
-#: wp-admin/includes/ms.php:1055 wp-admin/users.php:270
+#: wp-admin/includes/ms.php:1055 wp-admin/users.php:271
 msgid "Delete all content."
 msgstr "Borrar todo el contenido."
 
-#: wp-admin/includes/ms.php:1057 wp-admin/users.php:272
+#: wp-admin/includes/ms.php:1057 wp-admin/users.php:273
 msgid "Attribute all content to:"
 msgstr "Atribuir todo el contenido a:"
 
@@ -2788,7 +2788,7 @@ msgstr "Mostrar tema anterior"
 msgid "Show next theme"
 msgstr "Mostrar el tema nuevo"
 
-#: wp-admin/widgets.php:498
+#: wp-admin/widgets.php:504
 msgid "Add Widget"
 msgstr "Añadir widget"
 
@@ -3788,23 +3788,23 @@ msgstr "En la columna <strong>En respuesta a</strong> hay tres elementos. El tex
 msgid "Used: %1$s%% of %2$s"
 msgstr "Usado %1$s%% de %2$s"
 
-#: wp-admin/users.php:250
+#: wp-admin/users.php:251
 msgid "ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>"
 msgstr "ID #%1$s: %2$s <strong>El usuario actual no será eliminado.</strong>"
 
-#: wp-admin/users.php:252 wp-admin/users.php:376
+#: wp-admin/users.php:253 wp-admin/users.php:377
 msgid "ID #%1$s: %2$s"
 msgstr "ID #%1$s: %2$s"
 
-#: wp-admin/users.php:372
+#: wp-admin/users.php:373
 msgid "ID #%1$s: %2$s <strong>The current user will not be removed.</strong>"
 msgstr "ID #%1$s: %2$s <strong>El usuario actual no será borrado.</strong>"
 
-#: wp-admin/users.php:374
+#: wp-admin/users.php:375
 msgid "ID #%1$s: %2$s <strong>You don't have permission to remove this user.</strong>"
 msgstr "ID #%1$s: %2$s <strong>No tienes permisos para borrar este usuario.</strong>"
 
-#: wp-admin/users.php:234
+#: wp-admin/users.php:235
 msgid "Please select an option."
 msgstr "Por favor, elige una opción"
 
@@ -4186,11 +4186,11 @@ msgstr "Tu archivo <code>wp-config.php</code> tiene un prefijo de tabla de base 
 msgid "Revert to the <strong>Browser Uploader</strong> by clicking the link below the drag and drop box."
 msgstr "Vuelve al <strong>Cargador del navegador</strong> haciendo clic en el enlace siguiente para poder arrastrar y soltar."
 
-#: wp-admin/users.php:417
+#: wp-admin/users.php:418
 msgid "User deleted."
 msgstr "Usuario borrado."
 
-#: wp-admin/users.php:425
+#: wp-admin/users.php:426
 msgid "New user created. <a href=\"%s\">Edit user</a>"
 msgstr "Nuevo usuario creado. <a href=\"%s\">Editar usuario</a>"
 
@@ -4953,27 +4953,27 @@ msgstr "Muestra la Barra de Herramientas en el sitio"
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:223
+#: wp-admin/about.php:235
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>La versión %1$s</strong> corregía un tema de seguridad y reparaba %2$s bug."
 msgstr[1] "<strong>La versión %1$s</strong> corregía un tema de seguridad y reparaba %2$s bugs."
 
 #. translators: %s: Codex URL
-#: wp-admin/about.php:231
+#: wp-admin/about.php:55 wp-admin/about.php:59 wp-admin/about.php:243
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Para más información, puedes ver <a href=\"%s\">las notas de lanzamiento</a>."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:227
+#: wp-admin/about.php:53 wp-admin/about.php:57 wp-admin/about.php:239
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>La versión %1$s</strong> corregía algunos temas de seguridad y reparaba %2$s bug."
 msgstr[1] "<strong>La versión %1$s</strong> corregía algunos temas de seguridad y reparaba %2$s bugs."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
-#: wp-admin/about.php:219
+#: wp-admin/about.php:231
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>La version %1$s</strong> corregía %2$s bug."
@@ -4987,20 +4987,22 @@ msgstr "¡Bienvenido a tu panel de WordPress! Esta es la pantalla que verás cua
 msgid "What&#8217;s New"
 msgstr "¿Qué hay de nuevo?"
 
-#: wp-admin/about.php:210
+#: wp-admin/about.php:52 wp-admin/about.php:222
 msgid "Maintenance and Security Release"
-msgstr "Lanzamiento de mantenimiento y seguridad"
+msgid_plural "Maintenance and Security Releases"
+msgstr[0] "Lanzamiento de mantenimiento y seguridad"
+msgstr[1] "Lanzamientos de mantenimiento y seguridad"
 
-#: wp-admin/about.php:207
+#: wp-admin/about.php:219
 msgid "Security Release"
 msgstr "Lanzamiento de seguridad"
 
-#: wp-admin/about.php:204
+#: wp-admin/about.php:216
 msgid "Maintenance Release"
 msgstr "Lanzamiento de mantenimiento"
 
 #. translators: %s: WordPress version number
-#: wp-admin/about.php:216
+#: wp-admin/about.php:228
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>La versión %s</strong> soluciona algunos problemas de seguridad."
 
@@ -5012,7 +5014,7 @@ msgstr "Esta pantalla te permite elegir la estructura de tus enlaces permanentes
 msgid "Welcome to WordPress %1$s. <a href=\"%2$s\">Learn more</a>."
 msgstr "Bienvenido a WordPress %1$s. <a href=\"%2$s\">Aprende más</a>."
 
-#: wp-admin/about.php:189
+#: wp-admin/about.php:201
 msgid "Return to Updates"
 msgstr "Regresar a las actualizaciones"
 
@@ -5302,11 +5304,11 @@ msgstr "Es común la inclusión directa de wp-admin/includes/template.php en el 
 msgid "Welcome to WordPress %s"
 msgstr "Bienvenido a WordPress %s"
 
-#: wp-admin/about.php:192
+#: wp-admin/about.php:204
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Regresar al tablero &rarr; Home"
 
-#: wp-admin/about.php:189
+#: wp-admin/about.php:201
 msgid "Return to Dashboard &rarr; Updates"
 msgstr "Regresar al tablero &rarr; Actualizaciones"
 
@@ -5318,7 +5320,7 @@ msgstr "WordPress está creado por un equipo mundial de personas apasionadas de 
 msgid "Core Developers"
 msgstr "Jefe de Desarrollo"
 
-#: wp-admin/about.php:125
+#: wp-admin/about.php:137
 msgid "Under the Hood"
 msgstr "Debajo de cofre"
 
@@ -5502,7 +5504,7 @@ msgstr "Actualizaciones %s"
 #. translators: %s: search keywords
 #: wp-admin/edit-comments.php:197 wp-admin/edit-tags.php:311
 #: wp-admin/edit.php:307 wp-admin/link-manager.php:78 wp-admin/plugins.php:515
-#: wp-admin/upload.php:224 wp-admin/users.php:480
+#: wp-admin/upload.php:224 wp-admin/users.php:481
 msgid "Search results for &#8220;%s&#8221;"
 msgstr "Resultados de búsqueda para &#8220;%s&#8221;"
 
@@ -5551,7 +5553,7 @@ msgstr "Editor"
 msgid "Installed Plugins"
 msgstr "Plugins instalados"
 
-#: wp-admin/includes/ms.php:1085 wp-admin/users.php:286
+#: wp-admin/includes/ms.php:1085 wp-admin/users.php:287
 msgid "Confirm Deletion"
 msgstr "Confirmar borrado"
 
@@ -5587,8 +5589,8 @@ msgstr "Ver"
 msgid "Super Admin"
 msgstr "Super administrador"
 
-#: wp-admin/users.php:300 wp-admin/users.php:308 wp-admin/users.php:335
-#: wp-admin/users.php:343
+#: wp-admin/users.php:301 wp-admin/users.php:309 wp-admin/users.php:336
+#: wp-admin/users.php:344
 msgid "You can&#8217;t remove users."
 msgstr "No puedes borrar usuarios."
 
@@ -5597,16 +5599,16 @@ msgstr "No puedes borrar usuarios."
 msgid "Settings saved."
 msgstr "Ajustes guardados."
 
-#: wp-admin/users.php:433
+#: wp-admin/users.php:434
 msgid "Changed roles."
 msgstr "Perfiles cambiados."
 
-#: wp-admin/users.php:444
+#: wp-admin/users.php:445
 msgid "User removed from this site."
 msgstr "Usuario borrado de este sitio."
 
 #: wp-admin/includes/dashboard.php:406 wp-admin/includes/dashboard.php:408
-#: wp-admin/users.php:487
+#: wp-admin/users.php:488
 msgid "Search Users"
 msgstr "Buscar usuarios"
 
@@ -5641,7 +5643,7 @@ msgid "For more information:"
 msgstr "Para más información:"
 
 #: wp-admin/menu.php:220 wp-admin/menu.php:222 wp-admin/user-edit.php:194
-#: wp-admin/users.php:474
+#: wp-admin/users.php:475
 msgctxt "user"
 msgid "Add New"
 msgstr "Añadir nuevo"
@@ -5993,7 +5995,7 @@ msgstr "Imágenes subidas"
 msgid "Layout"
 msgstr "Diseño de pantalla"
 
-#: wp-admin/users.php:239
+#: wp-admin/users.php:240
 msgid "You have specified this user for deletion:"
 msgstr "Ha marcado a este usuario para su eliminación:"
 
@@ -6028,7 +6030,7 @@ msgstr "Formato de entrada por defecto"
 msgid "You do not have sufficient permissions to update this site."
 msgstr "No tienes los permisos adecuados para actualizar este sitio."
 
-#: wp-admin/user-edit.php:196 wp-admin/users.php:476
+#: wp-admin/user-edit.php:196 wp-admin/users.php:477
 msgctxt "user"
 msgid "Add Existing"
 msgstr "Añadir usuario existente"
@@ -6629,7 +6631,7 @@ msgid "Home: %s"
 msgstr "Inicio: %s"
 
 #: wp-admin/import.php:57 wp-admin/includes/network.php:105
-#: wp-admin/includes/network.php:122 wp-admin/users.php:234
+#: wp-admin/includes/network.php:122 wp-admin/users.php:235
 msgid "ERROR:"
 msgstr "ERROR:"
 
@@ -7006,7 +7008,7 @@ msgstr "&mdash; No hay perfil para este sitio &mdash;"
 msgid "Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site."
 msgstr "Utiliza Publicar esto para copiar texto, imágenes y vídeos de cualquier página Web. Después corrige y añade más directamente desde Publicar esto antes de guardarlo o publicarlo en una entrada del sitio."
 
-#: wp-admin/users.php:357
+#: wp-admin/users.php:358
 msgid "Remove Users from Site"
 msgstr "Eliminar usuarios del sitio"
 
@@ -7138,7 +7140,7 @@ msgstr "Opciones de visualización"
 msgid "Remove Image"
 msgstr "Eliminar Imagen"
 
-#: wp-admin/users.php:362
+#: wp-admin/users.php:363
 msgid "You have specified these users for removal:"
 msgstr "Has especificado estos usuarios para ser eliminados:"
 
@@ -7150,19 +7152,19 @@ msgstr "No está permitido eliminar usuarios desde esta pantalla."
 msgid "You can&#8217;t delete that user."
 msgstr "No puedes eliminar este usuario."
 
-#: wp-admin/users.php:384
+#: wp-admin/users.php:385
 msgid "Confirm Removal"
 msgstr "Confirmar Eliminación"
 
-#: wp-admin/users.php:386
+#: wp-admin/users.php:387
 msgid "There are no valid users selected for removal."
 msgstr "No hay usuarios válidos seleccionados para su eliminación."
 
-#: wp-admin/users.php:447
+#: wp-admin/users.php:448
 msgid "You can't remove the current user."
 msgstr "No puedes eliminar el usuario actual."
 
-#: wp-admin/users.php:448
+#: wp-admin/users.php:449
 msgid "Other users have been removed."
 msgstr "Otros usuarios han sido eliminados."
 
@@ -7500,7 +7502,7 @@ msgid_plural "Drop-ins <span class=\"count\">(%s)</span>"
 msgstr[0] "Dependiente <span class=\"count\">(%s)</span>"
 msgstr[1] "Dependientes <span class=\"count\">(%s)</span>"
 
-#: wp-admin/about.php:192
+#: wp-admin/about.php:204
 msgid "Go to Dashboard"
 msgstr "Ir al tablero"
 
@@ -8868,31 +8870,31 @@ msgstr "No puedes editar ese usuario."
 msgid "You can&#8217;t delete users."
 msgstr "No puedes borrar usuarios."
 
-#: wp-admin/users.php:231
+#: wp-admin/users.php:232
 msgid "Delete Users"
 msgstr "Borrar usuarios"
 
-#: wp-admin/users.php:288
+#: wp-admin/users.php:289
 msgid "There are no valid users selected for deletion."
 msgstr "No se han seleccionado usuarios válidos para borrar."
 
-#: wp-admin/users.php:429
+#: wp-admin/users.php:430
 msgid "New user created."
 msgstr "Nuevo usuario creado."
 
-#: wp-admin/users.php:436
+#: wp-admin/users.php:437
 msgid "The current user&#8217;s role must have user editing capabilities."
 msgstr "El perfil del usuario actual debería poder editar usuarios."
 
-#: wp-admin/users.php:437
+#: wp-admin/users.php:438
 msgid "Other user roles have been changed."
 msgstr "Se han cambiado los perfiles de los otros usuarios."
 
-#: wp-admin/users.php:440
+#: wp-admin/users.php:441
 msgid "You can&#8217;t delete the current user."
 msgstr "No puedes borrar el usuario actual."
 
-#: wp-admin/users.php:441
+#: wp-admin/users.php:442
 msgid "Other users have been deleted."
 msgstr "Se han eliminado los otros usuarios."
 

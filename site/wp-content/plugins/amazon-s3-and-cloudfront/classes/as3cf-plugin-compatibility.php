@@ -34,6 +34,11 @@ class AS3CF_Plugin_Compatibility {
 	protected static $stream_wrappers = array();
 
 	/**
+	 * @var array
+	 */
+	protected $compatibility_addons;
+
+	/**
 	 * @param Amazon_S3_And_CloudFront $as3cf
 	 */
 	function __construct( $as3cf ) {
@@ -53,9 +58,20 @@ class AS3CF_Plugin_Compatibility {
 		add_filter( 'attachment_url_to_postid', array( $this, 'customizer_background_image' ), 10, 2 );
 
 		/*
-		 * Responsive Images WP 4.4+
+		 * Responsive Images WP 4.4
 		 */
 		add_filter( 'wp_calculate_image_srcset', array( $this, 'wp_calculate_image_srcset' ), 10, 5 );
+
+		global $wp_version;
+		if ( 0 === version_compare( $wp_version, '4.4' ) ) {
+			// Hot fix for 4.4
+			add_filter( 'the_content', array( $this, 'wp_make_content_images_responsive' ), 11 );
+		}
+
+		/*
+		 * Responsive Images WP 4.4.1+
+		 */
+		add_filter( 'wp_calculate_image_srcset_meta', array( $this, 'wp_calculate_image_srcset_meta' ), 10, 4 );
 
 		if ( $this->as3cf->is_plugin_setup() ) {
 			$this->compatibility_init_if_setup();
@@ -104,11 +120,11 @@ class AS3CF_Plugin_Compatibility {
 		global $amazon_web_services;
 
 		$all_addons = $amazon_web_services->get_addons( true );
-		if ( ! isset( $all_addons['amazon-s3-and-cloudfront']['addons']['amazon-s3-and-cloudfront-pro']['addons'] ) ) {
+		if ( ! isset( $all_addons['amazon-s3-and-cloudfront-pro']['addons'] ) ) {
 			return array();
 		}
 
-		$addons = $all_addons['amazon-s3-and-cloudfront']['addons']['amazon-s3-and-cloudfront-pro']['addons'];
+		$addons = $all_addons['amazon-s3-and-cloudfront-pro']['addons'];
 
 		return $addons;
 	}
@@ -119,8 +135,11 @@ class AS3CF_Plugin_Compatibility {
 	 * @return array
 	 */
 	public function get_compatibility_addons_to_install() {
-		$addons = $this->get_pro_addons();
+		if ( isset( $this->compatibility_addons ) ) {
+			return $this->compatibility_addons;
+		}
 
+		$addons            = $this->get_pro_addons();
 		$addons_to_install = array();
 
 		if ( empty ( $addons ) ) {
@@ -149,6 +168,8 @@ class AS3CF_Plugin_Compatibility {
 			);
 		}
 
+		$this->compatibility_addons = $addons_to_install;
+
 		return $addons_to_install;
 	}
 
@@ -167,15 +188,16 @@ class AS3CF_Plugin_Compatibility {
 			return;
 		}
 
-		$addons_to_install = $this->get_compatibility_addons_to_install();
-
-		$notice_id = 'as3cf-compat-addons';
-
-		$this->maybe_prepare_compatibility_addons_notice( $notice_id, $addons_to_install );
-
-		if ( empty( $addons_to_install ) ) {
+		if ( ! $this->should_show_compatibility_notice() ) {
+			// No addons to install, or addons haven't changed
 			return;
 		}
+
+		$notice_id         = 'as3cf-compat-addons';
+		$addons_to_install = $this->get_compatibility_addons_to_install();
+
+		// Remove previous notice to refresh addon list
+		$this->remove_compatibility_notice();
 
 		$title       = __( 'WP Offload S3 Compatibility Addons', 'amazon-s3-and-cloudfront' );
 		$compat_url  = 'https://deliciousbrains.com/wp-offload-s3/doc/compatibility-with-other-plugins/';
@@ -214,28 +236,50 @@ class AS3CF_Plugin_Compatibility {
 	}
 
 	/**
-	 * Remove the notice if exists already and undismiss the notice
-	 * if the addons available have changed.
+	 * Should show compatibility notice
 	 *
-	 * @param int $notice_id
-	 * @param array $addons_to_install
+	 * @return bool
 	 */
-	protected function maybe_prepare_compatibility_addons_notice( $notice_id, $addons_to_install ) {
-		$notice = $this->as3cf->notices->find_notice_by_id( $notice_id );
+	protected function should_show_compatibility_notice() {
+		$addons          = $this->get_compatibility_addons_to_install();
+		$previous_addons = get_site_option( 'as3cf_compat_addons_to_install', array() );
 
-		if ( is_null( $notice ) ) {
-			return;
+		if ( empty( $addons ) && empty( $previous_addons ) ) {
+			// No addons to install
+			return false;
 		}
 
-		$previous_addons_to_install = get_site_option( 'as3cf_compat_addons_to_install', array() );
+		if ( empty( $addons ) && ! empty( $previous_addons ) ) {
+			// No addons to install but previous exist
+			$this->remove_compatibility_notice( true );
 
-		if ( ! empty( $previous_addons_to_install ) && $addons_to_install !== $previous_addons_to_install ) {
-			// Remove dismissed flag for all users, so we reshow the notice with new addons
+			return false;
+		}
+
+		if ( $previous_addons === $addons ) {
+			// Addons have not changed
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Remove compatibility notice
+	 *
+	 * @param bool $delete_option
+	 */
+	protected function remove_compatibility_notice( $delete_option = false ) {
+		$notice_id = 'as3cf-compat-addons';
+
+		if ( $this->as3cf->notices->find_notice_by_id( $notice_id ) ) {
 			$this->as3cf->notices->undismiss_notice_for_all( $notice_id );
+			$this->as3cf->notices->remove_notice_by_id( $notice_id );
 		}
 
-		// Remove the notice so we refresh it later on
-		$this->as3cf->notices->remove_notice( $notice );
+		if ( $delete_option ) {
+			delete_site_option( 'as3cf_compat_addons_to_install' );
+		}
 	}
 
 	/**
@@ -321,10 +365,10 @@ class AS3CF_Plugin_Compatibility {
 		$var_type = 'GET';
 
 		if ( isset( $_GET['action'] ) ) {
-			$action = $_GET['action'];
+			$action = $this->as3cf->filter_input( 'action' );
 		} else if ( isset( $_POST['action'] ) ) {
 			$var_type = 'POST';
-			$action   = $_POST['action'];
+			$action   = $this->as3cf->filter_input( 'action', INPUT_POST );
 		} else {
 			return false;
 		}
@@ -332,7 +376,7 @@ class AS3CF_Plugin_Compatibility {
 		$context_check = true;
 		if ( ! is_null( $context_key ) ) {
 			$global        = constant( 'INPUT_' . $var_type );
-			$context       = filter_input( $global, 'context' );
+			$context       = $this->as3cf->filter_input( 'context', $global );
 			$context_check = ( $context_key === $context );
 		}
 
@@ -616,7 +660,16 @@ class AS3CF_Plugin_Compatibility {
 	 *
 	 * @return string|bool File if downloaded, false on failure
 	 */
-	protected function copy_s3_file_to_server( $s3_object, $file ) {
+	public function copy_s3_file_to_server( $s3_object, $file ) {
+		// Make sure the directory exists
+		$dir = dirname( $file );
+		if ( ! wp_mkdir_p( $dir ) ) {
+			$error_message = sprintf( __( 'The local directory %s does not exist and could not be created.', 'amazon-s3-and-cloudfront' ), $dir );
+			AS3CF_Error::log( sprintf( __( 'There was an error attempting to download the file %s from S3: %s', 'amazon-s3-and-cloudfront' ), $s3_object['key'], $error_message ) );
+
+			return false;
+		}
+
 		try {
 			$this->as3cf->get_s3client( $s3_object['region'], true )->getObject(
 				array(
@@ -626,7 +679,7 @@ class AS3CF_Plugin_Compatibility {
 				)
 			);
 		} catch ( Exception $e ) {
-			error_log( sprintf( __( 'There was an error attempting to download the file %s from S3: %s', 'amazon-s3-and-cloudfront' ), $s3_object['key'], $e->getMessage() ) );
+			AS3CF_Error::log( sprintf( __( 'There was an error attempting to download the file %s from S3: %s', 'amazon-s3-and-cloudfront' ), $s3_object['key'], $e->getMessage() ) );
 
 			return false;
 		}
@@ -710,6 +763,173 @@ class AS3CF_Plugin_Compatibility {
 	}
 
 	/**
+	 * Filters 'img' elements in post content to add 'srcset' and 'sizes' attributes for S3 URLs.
+	 *
+	 * @param string $content The raw post content to be filtered.
+	 *
+	 * @return string Converted content with 'srcset' and 'sizes' attributes added to images.
+	 */
+	public function wp_make_content_images_responsive( $content ) {
+		if ( ! preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
+			return $content;
+		}
+
+		$selected_images = $attachment_ids = array();
+
+		foreach( $matches[0] as $image ) {
+			if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
+			     ( $attachment_id = absint( $class_id[1] ) ) ) {
+
+				/*
+				 * If exactly the same image tag is used more than once, overwrite it.
+				 * All identical tags will be replaced later with 'str_replace()'.
+				 */
+				$selected_images[ $image ] = $attachment_id;
+				// Overwrite the ID when the same image is included more than once.
+				$attachment_ids[ $attachment_id ] = true;
+			}
+		}
+
+		foreach ( $selected_images as $image => $attachment_id ) {
+			if ( ! ( $s3object = $this->as3cf->is_attachment_served_by_s3( $attachment_id ) ) ) {
+				// Attachment not uploaded to S3, abort
+				continue;
+			}
+
+			$image_meta = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
+			$content    = str_replace( $image, $this->wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ), $content );
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Adds 'srcset' and 'sizes' attributes to an existing S3 'img' element.
+	 *
+	 * @param string $image         An HTML 'img' element to be filtered.
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 * @param int    $attachment_id Image attachment ID.
+	 *
+	 * @return string Converted 'img' element with 'srcset' and 'sizes' attributes added.
+	 */
+	public function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
+		// Ensure the image meta exists.
+		if ( empty( $image_meta['sizes'] ) ) {
+			return $image;
+		}
+
+		$image_src         = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : '';
+		list( $image_src ) = explode( '?', $image_src );
+
+		// Return early if we couldn't get the image source.
+		if ( ! $image_src ) {
+			return $image;
+		}
+
+		// Bail early if an image has been inserted and later edited.
+		if ( preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) &&
+		     strpos( wp_basename( $image_src ), $img_edit_hash[0] ) === false ) {
+
+			return $image;
+		}
+
+		$width  = preg_match( '/ width="([0-9]+)"/',  $image, $match_width  ) ? (int) $match_width[1]  : 0;
+		$height = preg_match( '/ height="([0-9]+)"/', $image, $match_height ) ? (int) $match_height[1] : 0;
+
+		if ( ! $width || ! $height ) {
+			/*
+			 * If attempts to parse the size value failed, attempt to use the image meta data to match
+			 * the image file name from 'src' against the available sizes for an attachment.
+			 */
+			$image_filename = wp_basename( $image_src );
+
+			if ( $image_filename === wp_basename( $image_meta['file'] ) ) {
+				$width  = (int) $image_meta['width'];
+				$height = (int) $image_meta['height'];
+			} else {
+				foreach( $image_meta['sizes'] as $image_size_data ) {
+					if ( $image_filename === $image_size_data['file'] ) {
+						$width  = (int) $image_size_data['width'];
+						$height = (int) $image_size_data['height'];
+						break;
+					}
+				}
+			}
+		}
+
+		if ( ! $width || ! $height ) {
+			return $image;
+		}
+
+		$size_array = array( $width, $height );
+		$srcset     = wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id );
+		$sizes      = false;
+
+		if ( $srcset ) {
+			// Check if there is already a 'sizes' attribute.
+			$sizes = strpos( $image, ' sizes=' );
+
+			if ( ! $sizes ) {
+				$sizes = wp_calculate_image_sizes( $size_array, $image_src, $image_meta, $attachment_id );
+			}
+		}
+
+		if ( $srcset && $sizes ) {
+			// Format the 'srcset' and 'sizes' string and escape attributes.
+			$attr = sprintf( ' srcset="%s"', esc_attr( $srcset ) );
+
+			if ( is_string( $sizes ) ) {
+				$attr .= sprintf( ' sizes="%s"', esc_attr( $sizes ) );
+			}
+
+			// Add 'srcset' and 'sizes' attributes to the image markup.
+			$image = preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
+		}
+
+		return $image;
+	}
+
+	/**
+	 * Alter the image meta data to add srcset support for object versioned S3 URLs
+	 *
+	 * @param array  $image_meta
+	 * @param array  $size_array
+	 * @param string $image_src
+	 * @param int    $attachment_id
+	 *
+	 * @return array
+	 */
+	public function wp_calculate_image_srcset_meta( $image_meta, $size_array, $image_src, $attachment_id ) {
+		if ( empty( $image_meta['file'] ) ) {
+			// Corrupt `_wp_attachment_metadata`
+			return $image_meta;
+		}
+
+		if ( false !== strpos( $image_src, $image_meta['file']  ) ) {
+			// Path matches URL, no need to change
+			return $image_meta;
+		}
+
+		if ( ! ( $s3object = $this->as3cf->is_attachment_served_by_s3( $attachment_id ) ) ) {
+			// Attachment not uploaded to S3, abort
+			return $image_meta;
+		}
+
+		$image_basename = wp_basename( $image_meta['file'] );
+
+		if ( false === strpos( $s3object['key'], $image_basename ) ) {
+			// Not the correct attachment, abort
+			return $image_meta;
+		}
+
+		// Strip the meta file prefix so the just the filename will always match
+		// the S3 URL regardless of different prefixes for the offloaded file
+		$image_meta['file'] = $image_basename;
+
+		return $image_meta;
+	}
+
+	/**
 	 * Replace local URLs with S3 ones for srcset image sources
 	 *
 	 * @param array  $sources
@@ -721,19 +941,20 @@ class AS3CF_Plugin_Compatibility {
 	 * @return array
 	 */
 	public function wp_calculate_image_srcset( $sources, $size_array, $image_src, $image_meta, $attachment_id ) {
-		if ( ! $this->as3cf->get_setting( 'serve-from-s3' ) ) {
-			// S3 URLs disabled, abort
+		if ( ! is_array( $sources ) ) {
+			// Sources corrupt
 			return $sources;
 		}
 
-		if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $attachment_id ) ) ) {
+		if ( ! ( $s3object = $this->as3cf->is_attachment_served_by_s3( $attachment_id ) ) ) {
 			// Attachment not uploaded to S3, abort
 			return $sources;
 		}
 
 		foreach ( $sources as $width => $source ) {
-			$size   = $this->find_image_size_from_width( $image_meta['sizes'], $width );
-			$s3_url = $this->as3cf->get_attachment_s3_url( $attachment_id, $s3object, null, $size, $image_meta );
+			$filename = basename( $source['url'] );
+			$size     = $this->find_image_size_from_width( $image_meta['sizes'], $width, $filename );
+			$s3_url   = $this->as3cf->get_attachment_s3_url( $attachment_id, $s3object, null, $size, $image_meta );
 
 			if ( false === $s3_url || is_wp_error( $s3_url ) ) {
 				continue;
@@ -746,16 +967,17 @@ class AS3CF_Plugin_Compatibility {
 	}
 
 	/**
-	 * Helper function to find size name from width
+	 * Helper function to find size name from width and filename
 	 *
 	 * @param array  $sizes
 	 * @param string $width
+	 * @param string $filename
 	 *
 	 * @return null|string
 	 */
-	protected function find_image_size_from_width( $sizes, $width ) {
+	protected function find_image_size_from_width( $sizes, $width, $filename ) {
 		foreach ( $sizes as $name => $size ) {
-			if ( $width === $size['width'] ) {
+			if ( $width === $size['width'] && $size['file'] === $filename ) {
 				return $name;
 			}
 		}

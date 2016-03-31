@@ -10,9 +10,9 @@ class MKS_ThemeForest_Widget extends WP_Widget {
   var $defaults;
   
 	function __construct() {
-		$widget_ops = array( 'classname' => 'mks_themeforest_widget', 'description' => __('Display ThemeForest items with this widget', 'meks') );
+		$widget_ops = array( 'classname' => 'mks_themeforest_widget', 'description' => __('Display ThemeForest items with this widget', 'meks-themeforest-smart-widget') );
 		$control_ops = array( 'id_base' => 'mks_themeforest_widget' );
-		parent::__construct( 'mks_themeforest_widget', __('Meks ThemeForest Smart Widget', 'meks'), $widget_ops, $control_ops );
+		parent::__construct( 'mks_themeforest_widget', __('Meks ThemeForest Smart Widget', 'meks-themeforest-smart-widget'), $widget_ops, $control_ops );
 		
 		$this->tf_cats = array(
 			array('name' => 'wordpress', 'title' => 'WordPress'),
@@ -43,7 +43,7 @@ class MKS_ThemeForest_Widget extends WP_Widget {
 			'orderby' => 'uploaded_on',
 			'ref' => 'meks',
 			'more_link_url' => 'http://themeforest.net/user/meks/portfolio?ref=meks',
-			'more_link_txt' => __('View more','meks'),
+			'more_link_txt' => __('View more','meks-themeforest-smart-widget'),
 			'order' => 'desc',
 			'target' => '_blank',
 			'exclude' => ''
@@ -106,7 +106,7 @@ class MKS_ThemeForest_Widget extends WP_Widget {
 			<?php endforeach; ?>
 		 </ul>
 		 <?php if(!empty($instance['more_link_url'])): ?>
-		 <?php $more_text = isset($instance['more_link_txt']) && !empty($instance['more_link_txt']) ? $instance['more_link_txt'] : __('View more', 'meks'); ?>
+		 <?php $more_text = isset($instance['more_link_txt']) && !empty($instance['more_link_txt']) ? $instance['more_link_txt'] : __('View more', 'meks-themeforest-smart-widget'); ?>
 		  <p class="mks_read_more"><a href="<?php echo esc_url($instance['more_link_url']); ?>" target="_blank" class="more"><?php echo  esc_html($more_text); ?></a></p>
 		 <?php endif; ?>
 		<?php endif; ?>
@@ -138,92 +138,92 @@ class MKS_ThemeForest_Widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, $this->defaults ); ?>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" class="widefat" />
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description', 'meks-themeforest-smart-widget'); ?>:</label>
 			<textarea id="<?php echo $this->get_field_id( 'description' ); ?>" rows="5" name="<?php echo $this->get_field_name( 'description' ); ?>" class="widefat"><?php echo $instance['description']; ?></textarea>
 		</p>
 		
 		<p>
-			<label"><?php _e('Item categories to show', 'meks'); ?>:</label><br/>
+			<label"><?php _e('Item categories to show', 'meks-themeforest-smart-widget'); ?>:</label><br/>
 			<?php foreach($this->tf_cats as $cat) : ?>
 				<input id="<?php echo $this->get_field_id( $cat['name'].'_id' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'items_type' ); ?>[]" value="<?php echo $cat['name']; ?>" <?php echo in_array($cat['name'], $instance['items_type']) ? 'checked' : ''; ?> /> <label for="<?php echo $this->get_field_id( $cat['name'].'_id' ); ?>"><?php echo $cat['title']; ?></label><br/>
 	  	<?php endforeach; ?>
 	  </p>
 	  
 	  <p>
-			<label"><?php _e('Select items from', 'meks'); ?>:</label><br/>
-			<input id="<?php echo $this->get_field_id( 'select_from_popular' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="popular" <?php checked($instance['items_from'],'popular');?> /> <label for="<?php echo $this->get_field_id( 'select_from_popular' ); ?>"><?php _e('Popular Items (WordPress Only)', 'meks'); ?></label><br/>
-			<input id="<?php echo $this->get_field_id( 'select_from_latest' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="latest" <?php checked($instance['items_from'],'latest');?> /> <label for="<?php echo $this->get_field_id( 'select_from_latest' ); ?>"><?php _e('Latest Items', 'meks'); ?></label><br/>
-			<input id="<?php echo $this->get_field_id( 'select_from_user' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="user" <?php checked($instance['items_from'],'user');?> /> <label for="<?php echo $this->get_field_id( 'select_from_user' ); ?>"><?php _e('Specific User(s)', 'meks'); ?></label>
+			<label"><?php _e('Select items from', 'meks-themeforest-smart-widget'); ?>:</label><br/>
+			<input id="<?php echo $this->get_field_id( 'select_from_popular' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="popular" <?php checked($instance['items_from'],'popular');?> /> <label for="<?php echo $this->get_field_id( 'select_from_popular' ); ?>"><?php _e('Popular Items (WordPress Only)', 'meks-themeforest-smart-widget'); ?></label><br/>
+			<input id="<?php echo $this->get_field_id( 'select_from_latest' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="latest" <?php checked($instance['items_from'],'latest');?> /> <label for="<?php echo $this->get_field_id( 'select_from_latest' ); ?>"><?php _e('Latest Items', 'meks-themeforest-smart-widget'); ?></label><br/>
+			<input id="<?php echo $this->get_field_id( 'select_from_user' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'items_from' ); ?>" value="user" <?php checked($instance['items_from'],'user');?> /> <label for="<?php echo $this->get_field_id( 'select_from_user' ); ?>"><?php _e('Specific User(s)', 'meks-themeforest-smart-widget'); ?></label>
 	  </p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'user' ); ?>"><?php _e('ThemeForest username(s)', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'user' ); ?>"><?php _e('ThemeForest username(s)', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'user' ); ?>" type="text" name="<?php echo $this->get_field_name( 'user' ); ?>" value="<?php echo strip_tags($instance['user']); ?>" class="widefat" />
-		  <small class="howto"><?php _e('For multiple users, separate by comma: i.e. user1,user2,user3', 'meks'); ?></small>
+		  <small class="howto"><?php _e('For multiple users, separate by comma: i.e. user1,user2,user3', 'meks-themeforest-smart-widget'); ?></small>
 		</p>
 
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'num_items' ); ?>"><?php _e('Number of items to show', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'num_items' ); ?>"><?php _e('Number of items to show', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'num_items' ); ?>" type="text" name="<?php echo $this->get_field_name( 'num_items' ); ?>" value="<?php echo absint($instance['num_items']); ?>" class="widefat" />
 		</p>
 		
 		<p>
-			<label><?php _e('Order by', 'meks'); ?>:</label>
+			<label><?php _e('Order by', 'meks-themeforest-smart-widget'); ?>:</label>
 				<select id="<?php echo $this->get_field_id( 'orderby' ); ?>" name="<?php echo $this->get_field_name( 'orderby' ); ?>" value="<?php echo esc_attr($instance['orderby']); ?>" class="widefat" >
-					<option value="uploaded_on" <?php selected($instance['orderby'],'uploaded_on');?>><?php _e('Upload date', 'meks'); ?></option>
-					<option value="last_update" <?php selected($instance['orderby'],'last_update');?>><?php _e('Last update', 'meks'); ?></option>
-					<option value="sales" <?php selected($instance['orderby'],'sales');?>><?php _e('Number of sales', 'meks'); ?></option>
-					<option value="cost" <?php selected($instance['orderby'],'cost');?>><?php _e('Price', 'meks'); ?></option>
-					<option value="random" <?php selected($instance['orderby'],'random');?>><?php _e('Random', 'meks'); ?></option>
+					<option value="uploaded_on" <?php selected($instance['orderby'],'uploaded_on');?>><?php _e('Upload date', 'meks-themeforest-smart-widget'); ?></option>
+					<option value="last_update" <?php selected($instance['orderby'],'last_update');?>><?php _e('Last update', 'meks-themeforest-smart-widget'); ?></option>
+					<option value="sales" <?php selected($instance['orderby'],'sales');?>><?php _e('Number of sales', 'meks-themeforest-smart-widget'); ?></option>
+					<option value="cost" <?php selected($instance['orderby'],'cost');?>><?php _e('Price', 'meks-themeforest-smart-widget'); ?></option>
+					<option value="random" <?php selected($instance['orderby'],'random');?>><?php _e('Random', 'meks-themeforest-smart-widget'); ?></option>
 		  	</select>
 		</p>
 		
 		<p>
-			<input id="<?php echo $this->get_field_id( 'order_asc' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'order' ); ?>" value="asc" <?php checked($instance['order'],'asc');?> /> <label for="<?php echo $this->get_field_id( 'order_asc' ); ?>"><?php _e('Ascending', 'meks'); ?></label>
-			<input id="<?php echo $this->get_field_id( 'order_desc' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'order' ); ?>" value="desc" <?php checked($instance['order'],'desc');?> /> <label for="<?php echo $this->get_field_id( 'order_desc' ); ?>"><?php _e('Descending', 'meks'); ?></label>
+			<input id="<?php echo $this->get_field_id( 'order_asc' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'order' ); ?>" value="asc" <?php checked($instance['order'],'asc');?> /> <label for="<?php echo $this->get_field_id( 'order_asc' ); ?>"><?php _e('Ascending', 'meks-themeforest-smart-widget'); ?></label>
+			<input id="<?php echo $this->get_field_id( 'order_desc' ); ?>" type="radio" name="<?php echo $this->get_field_name( 'order' ); ?>" value="desc" <?php checked($instance['order'],'desc');?> /> <label for="<?php echo $this->get_field_id( 'order_desc' ); ?>"><?php _e('Descending', 'meks-themeforest-smart-widget'); ?></label>
 	    </p>
 
 	    <p>
-			<label for="<?php echo $this->get_field_id( 'exclude' ); ?>"><?php _e('Exclude item(s)', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'exclude' ); ?>"><?php _e('Exclude item(s)', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'exclude' ); ?>" type="text" name="<?php echo $this->get_field_name( 'exclude' ); ?>" value="<?php echo strip_tags($instance['exclude']); ?>" class="widefat" />
-		  <small class="howto"><?php _e('Specify item ID to exclude specific item (separate by comma for multiple items): i.e. 8134834,7184572', 'meks'); ?></small>
+		  <small class="howto"><?php _e('Specify item ID to exclude specific item (separate by comma for multiple items): i.e. 8134834,7184572', 'meks-themeforest-smart-widget'); ?></small>
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'ref' ); ?>"><?php _e('Referral user', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'ref' ); ?>"><?php _e('Referral user', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'ref' ); ?>" type="text" name="<?php echo $this->get_field_name( 'ref' ); ?>" value="<?php echo strip_tags($instance['ref']); ?>" class="widefat" />
-			<small class="howto"><?php _e('Specify username if you want to use items as ThemeForest affiliate links', 'meks'); ?></small>
+			<small class="howto"><?php _e('Specify username if you want to use items as ThemeForest affiliate links', 'meks-themeforest-smart-widget'); ?></small>
 		</p>		
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'more_link_url' ); ?>"><?php _e('More link URL', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'more_link_url' ); ?>"><?php _e('More link URL', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'more_link_url' ); ?>" type="text" name="<?php echo $this->get_field_name( 'more_link_url' ); ?>" value="<?php echo esc_attr($instance['more_link_url']); ?>" class="widefat" />
-			<small class="howto"><?php _e('Specify URL if you want to show "more" link under the items list', 'meks'); ?></small>
+			<small class="howto"><?php _e('Specify URL if you want to show "more" link under the items list', 'meks-themeforest-smart-widget'); ?></small>
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'more_link_txt' ); ?>"><?php _e('More link text', 'meks'); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'more_link_txt' ); ?>"><?php _e('More link text', 'meks-themeforest-smart-widget'); ?>:</label>
 			<input id="<?php echo $this->get_field_id( 'more_link_txt' ); ?>" type="text" name="<?php echo $this->get_field_name( 'more_link_txt' ); ?>" value="<?php echo esc_attr($instance['more_link_txt']); ?>" class="widefat" />
 		</p>
 		
 		<p>
-			<label for="<?php echo $this->get_field_id( 'target' ); ?>"><?php _e('Open items in', 'meks'); ?>: </label>
+			<label for="<?php echo $this->get_field_id( 'target' ); ?>"><?php _e('Open items in', 'meks-themeforest-smart-widget'); ?>: </label>
 			<select id="<?php echo $this->get_field_id( 'target' ); ?>" name="<?php echo $this->get_field_name( 'target' ); ?>">
-				<option value="_blank" <?php selected('_blank',$instance['target']); ?>><?php _e('New Window', 'meks'); ?></option>
-				<option value="_self" <?php selected('_self',$instance['target']); ?>><?php _e('Same Window', 'meks'); ?></option>
+				<option value="_blank" <?php selected('_blank',$instance['target']); ?>><?php _e('New Window', 'meks-themeforest-smart-widget'); ?></option>
+				<option value="_self" <?php selected('_self',$instance['target']); ?>><?php _e('Same Window', 'meks-themeforest-smart-widget'); ?></option>
 			</select>
 		</p>
 		
 	<?php
 	}
 	
-	function get_items_from_users( $users = array('meks'), $type = array('wordpress') ) {
+	function get_items_from_users( $users = array('meks-themeforest-smart-widget'), $type = array('wordpress') ) {
 		
     $items = array();
 		
@@ -284,7 +284,7 @@ class MKS_ThemeForest_Widget extends WP_Widget {
 				$response = wp_remote_get( $api_url );  
 			
 				if ( is_wp_error( $response ) || ( wp_remote_retrieve_response_code( $response ) != 200 ) ) {  
-			    continue;
+			     return array();
 				}  
 			   
 				$item_data = json_decode( wp_remote_retrieve_body( $response ), true );

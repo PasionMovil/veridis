@@ -35,7 +35,7 @@ function awesome_weather_page()
 // SET SETTINGS LINK ON PLUGIN PAGE
 function awesome_weather_plugin_action_links( $links, $file ) 
 {
-	$appid = apply_filters('awesome_weather_appid', get_option( 'open-weather-key' ));
+	$appid = apply_filters( 'awesome_weather_appid', awe_get_appid() );
 	
 	if( $appid )
 	{
@@ -45,6 +45,7 @@ function awesome_weather_plugin_action_links( $links, $file )
 	{
 		$settings_link = '<a href="' . admin_url( 'options-general.php?page=awesome-weather' ) . '">' . esc_html__( 'API Key Required', 'awesome-weather' ) . '</a>';
 	}
+	
 	if( $file == 'awesome-weather/awesome-weather.php' ) array_unshift( $links, $settings_link );
 
 	$donate_link = '<a href="https://halgatewood.com/donate" target="_blank">' . esc_html__( 'Donate', 'awesome-weather' ) . '</a>';
@@ -109,7 +110,7 @@ function awesome_weather_openweather_key()
 		$setting = esc_attr( apply_filters('awesome_weather_appid', get_option( 'open-weather-key' )) );
 		echo "<input type='text' name='open-weather-key' value='$setting' style='width:70%;' />";
 		echo "<p>";
-		echo __("As of October 2015, OpenWeatherMaps requires this key to access their weather data.", 'awesome-weather');
+		echo __("As of October 2015, OpenWeatherMap requires an APP ID key to access their weather data.", 'awesome-weather');
 		echo " <a href='http://openweathermap.org/appid' target='_blank'>";
 		echo __('Get your APPID', 'awesome-weather');
 		echo "</a>";

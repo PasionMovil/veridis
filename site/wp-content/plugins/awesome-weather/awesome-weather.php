@@ -5,22 +5,14 @@ Plugin URI: https://halgatewood.com/awesome-weather
 Description: A weather widget that actually looks cool
 Author: Hal Gatewood
 Author URI: https://www.halgatewood.com
-Version: 1.5.6.1
+Version: 1.5.9
 Text Domain: awesome-weather
 Domain Path: /languages
 
 
 FILTERS AVAILABLE:
-awesome_weather_cache 						= How many seconds to cache weather: default 1800 (30 minutes).
-awesome_weather_error 						= Error message if weather is not found.
-awesome_weather_sizes 						= array of sizes for widget
-awesome_weather_extended_forecast_text 		= Change text of footer link
-awesome_weather_appid						= OpenWeatherMap APPID, improves support (now available in Settings -> Awesome Weather
-awesome_weather_units_display				= Change the F or C to &deg; or something
-awesome_weather_background_classes 			= Add or change the background classes before they display
-awesome_weather_wind_speed					= Convert the wind speed to whatever you want before it gets displayed
-awesome_weather_use_google_font				= Allows you to turn off Open Sans and use your websites main font (less page load)
-awesome_weather_google_font_queue_name		= Allows you to change the queue name if your theme is already using the Open Sans font (make this the same as your other font)
+https://halgatewood.com/docs/plugins/awesome-weather-widget/available-filters
+
 
 // CLEAR OUT THE TRANSIENT CACHE
 add to your URL 'clear_awesome_widget' 
@@ -36,7 +28,18 @@ $awesome_weather_sizes = apply_filters( 'awesome_weather_sizes' , array( 'tall',
 // SETUP
 function awesome_weather_setup()
 {
-	load_plugin_textdomain( 'awesome-weather', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	$locale = apply_filters('plugin_locale', get_locale(), 'awesome-weather');
+	$mofile = WP_LANG_DIR . "/awesome-weather/awesome-weather-" . $locale . '.mo';
+	
+	if( file_exists( $mofile ) )
+	{
+		load_textdomain( 'awesome-weather', $mofile );
+	}
+	else
+	{
+		load_plugin_textdomain( 'awesome-weather', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
 	add_action(	'admin_menu', 'awesome_weather_setting_page_menu' );
 }
 add_action('plugins_loaded', 'awesome_weather_setup', 99999);
@@ -74,6 +77,8 @@ function awesome_weather_logic( $atts )
 {
 	global $awesome_weather_sizes;
 	
+	$dt_today = date( 'Ymd', current_time( 'timestamp', 0 ) );
+	
 	$rtn 						= "";
 	$weather_data				= array();
 	$location 					= isset($atts['location']) ? $atts['location'] : false;
@@ -84,6 +89,7 @@ function awesome_weather_logic( $atts )
 	$override_title 			= isset($atts['override_title']) ? $atts['override_title'] : false;
 	$days_to_show 				= isset($atts['forecast_days']) ? $atts['forecast_days'] : 5;
 	$show_stats 				= (isset($atts['hide_stats']) AND $atts['hide_stats'] == 1) ? 0 : 1;
+	$show_attribution 			= (isset($atts['hide_attribution']) AND $atts['hide_attribution'] == 1) ? 0 : 1;
 	$background_by_weather 		= (isset($atts['background_by_weather']) AND $atts['background_by_weather'] == 1) ? 1 : 0;
 	$show_link 					= (isset($atts['show_link']) AND $atts['show_link'] == 1) ? 1 : 0;
 	$background					= isset($atts['background']) ? $atts['background'] : false;
@@ -93,8 +99,8 @@ function awesome_weather_logic( $atts )
 	$locale						= 'en';
 
 	$sytem_locale = get_locale();
-	$available_locales = array( 'en', 'es', 'sp', 'fr', 'it', 'de', 'pt', 'ro', 'pl', 'ru', 'uk', 'ua', 'fi', 'nl', 'bg', 'sv', 'se', 'ca', 'tr', 'hr', 'zh', 'zh_tw', 'zh_cn', 'hu' ); 
-	
+	$available_locales = apply_filters('awesome_weather_available_locales', array( 'en', 'es', 'sp', 'fr', 'it', 'de', 'pt', 'ro', 'pl', 'ru', 'uk', 'ua', 'fi', 'nl', 'bg', 'sv', 'se', 'sk', 'ca', 'tr', 'hr', 'zh', 'zh_tw', 'zh_cn', 'hu' ) ); 
+
 	
     // CHECK FOR LOCALE
     if( in_array( $sytem_locale, $available_locales ) ) $locale = $sytem_locale;
@@ -109,7 +115,7 @@ function awesome_weather_logic( $atts )
     
   
 	// DISPLAY SYMBOL
-	$units_display_symbol = apply_filters('awesome_weather_units_display', "&deg;" );
+	$units_display_symbol = apply_filters('awesome_weather_units_display', '&deg;' );
     if( isset($atts['units_display_symbol']) ) $units_display_symbol = $atts['units_display_symbol'];
     
 
@@ -120,18 +126,18 @@ function awesome_weather_logic( $atts )
 	//FIND AND CACHE CITY ID
 	if( $owm_city_id )
 	{
-		$city_name_slug 			= sanitize_title( $location );;
+		$city_name_slug 			= sanitize_title( $location );
 		$api_query					= "id=" . $owm_city_id;
 	}
 	else if( is_numeric($location) )
 	{
-		$city_name_slug 			= sanitize_title( $location );;
-		$api_query					= "id=" . $location;
+		$city_name_slug 			= sanitize_title( $location );
+		$api_query					= "id=" . urlencode($location);
 	}
 	else
 	{
 		$city_name_slug 			= sanitize_title( $location );
-		$api_query					= "q=" . $location;
+		$api_query					= "q=" . urlencode($location);
 	}
 	
 	
@@ -167,7 +173,7 @@ function awesome_weather_logic( $atts )
 		// NOW
 		$now_ping = "http://api.openweathermap.org/data/2.5/weather?" . $api_query . "&lang=" . $locale . "&units=" . $units . $appid_string;
 		$now_ping_get = wp_remote_get( $now_ping );
-	
+		
 	
 		// PING URL ERROR
 		if( is_wp_error( $now_ping_get ) )  return awesome_weather_error( $now_ping_get->get_error_message()  ); 
@@ -187,46 +193,56 @@ function awesome_weather_logic( $atts )
 		
 		
 		// FORECAST
-		if( $days_to_show != "hide" )
-		{
-			$forecast_ping = "http://api.openweathermap.org/data/2.5/forecast/daily?" . $api_query . "&lang=" . $locale . "&units=" . $units ."&cnt=7" . $appid_string;
-			$forecast_ping_get = wp_remote_get( $forecast_ping );
+		$forecast_ping = "http://api.openweathermap.org/data/2.5/forecast/daily?" . $api_query . "&lang=" . $locale . "&units=" . $units ."&cnt=7" . $appid_string;
+		$forecast_ping_get = wp_remote_get( $forecast_ping );
 		
-			if( is_wp_error( $forecast_ping_get ) ) 
-			{
-				return awesome_weather_error( $forecast_ping_get->get_error_message()  ); 
-			}	
-			
-			$forecast_data = json_decode( $forecast_ping_get['body'] );
-			
-			if( isset($forecast_data->cod) AND $forecast_data->cod == 404 )
-			{
-				return awesome_weather_error( $forecast_data->message ); 
-			}
-			else
-			{
-				$weather_data['forecast'] = $forecast_data;
-			}
+		if( is_wp_error( $forecast_ping_get ) ) 
+		{
+			return awesome_weather_error( $forecast_ping_get->get_error_message()  ); 
+		}	
+		
+		$forecast_data = json_decode( $forecast_ping_get['body'] );
+		
+		if( isset($forecast_data->cod) AND $forecast_data->cod == 404 )
+		{
+			return awesome_weather_error( $forecast_data->message ); 
+		}
+		else
+		{
+			$weather_data['forecast'] = $forecast_data;
 		}	
 		
 		if($weather_data['now'] OR $weather_data['forecast'])
 		{
-			// SET THE TRANSIENT, CACHE FOR A LITTLE OVER THREE HOURS
 			set_transient( $weather_transient_name, $weather_data, apply_filters( 'awesome_weather_cache', 1800 ) ); 
 		}
 	}
-
-
+	
+	
 
 	// NO WEATHER
 	if( !$weather_data OR !isset($weather_data['now'])) return awesome_weather_error();
 	
+
 	
 	// TODAYS TEMPS
 	$today 			= $weather_data['now'];
-	$today_temp 	= round($today->main->temp);
-	$today_high 	= round($today->main->temp_max);
-	$today_low 		= round($today->main->temp_min);
+	$today_temp 	= isset($today->main->temp) ? round($today->main->temp) : false;
+	
+	
+	// GET TODAY FROM FORECAST IF AVAILABLE
+	if( isset($weather_data['forecast']) AND isset($weather_data['forecast']->list) AND isset($weather_data['forecast']->list[0]) )
+	{
+		$forecast_today = $weather_data['forecast']->list[0];
+		$today_high = round($forecast_today->temp->max);
+		$today_low = round($forecast_today->temp->min);
+	}
+	else
+	{
+		$today_high = isset($today->main->temp_max) ? round($today->main->temp_max) : false;
+		$today_low 	= isset($today->main->temp_min) ? round($today->main->temp_min) : false;
+	}
+	
 	
 	// TEXT COLOR
 	if( substr(trim($text_color), 0, 1) != "#" ) $text_color = "#" . $text_color;
@@ -245,7 +261,7 @@ function awesome_weather_logic( $atts )
 		$inline_style .= " background-color: {$custom_bg_color}; ";
 		$background_classes[] = "awe_custom";
 	}
-	else
+	else if( $today_temp )
 	{
 		// COLOR OF WIDGET
 		if($units == "imperial")
@@ -273,13 +289,14 @@ function awesome_weather_logic( $atts )
 	// DATA
 	$header_title = $override_title ? $override_title : $today->name;
 	
-	$today->main->humidity 		= round($today->main->humidity);
-	$today->wind->speed 		= round($today->wind->speed);
 	
+	// WIND
 	$wind_label = array ( __('N', 'awesome-weather'), __('NNE', 'awesome-weather'), __('NE', 'awesome-weather'), __('ENE', 'awesome-weather'), __('E', 'awesome-weather'), __('ESE', 'awesome-weather'), __('SE', 'awesome-weather'), __('SSE', 'awesome-weather'), __('S', 'awesome-weather'), __('SSW', 'awesome-weather'), __('SW', 'awesome-weather'), __('WSW', 'awesome-weather'), __('W', 'awesome-weather'), __('WNW', 'awesome-weather'), __('NW', 'awesome-weather'), __('NNW', 'awesome-weather') );
 						
-	$wind_direction = $wind_label[ fmod((($today->wind->deg + 11) / 22.5),16) ];
-	
+	$wind_direction = false;
+	if( isset($today->wind->deg) ) $wind_direction = apply_filters('awesome_weather_wind_direction', $wind_label[ fmod((($today->wind->deg + 11) / 22.5),16) ]);
+
+
 	$background_classes[] = ($show_stats) ? "awe_with_stats" : "awe_without_stats";
 	
 
@@ -351,47 +368,48 @@ function awesome_weather_logic( $atts )
 		if( !$background_by_weather) $rtn .= "<div class=\"awesome-weather-darken\">";
 	}
 
-	$rtn .= "
-			<div class=\"awesome-weather-header\">{$header_title}</div>
-			<div class=\"awesome-weather-current-temp\">
-				<strong>$today_temp<sup>{$units_display_symbol}</sup></strong>
-			</div><!-- /.awesome-weather-current-temp -->";	
+	$rtn .= "<div class=\"awesome-weather-header\">{$header_title}</div>";
+	$rtn .= "<div class=\"awesome-weather-current-temp\"><strong>{$today_temp}<sup>{$units_display_symbol}</sup></strong></div><!-- /.awesome-weather-current-temp -->";	
 	
-	if($show_stats)
+	if($show_stats AND isset($today->main) )
 	{
-		$wind_speed = (	$units == "imperial" ) ? __('mph', 'awesome-weather') : __('m/s', 'awesome-weather');
-		$wind_speed_obj = apply_filters('awesome_weather_wind_speed', array( 'text' => $wind_speed, 'speed' => $today->wind->speed, 'direction' => $wind_direction ), $today->wind->speed, $wind_direction );
+		$wind_speed = isset($today->wind->speed) ? $today->wind->speed : false;
+		
+		$wind_speed_text 	= ( $units == "imperial" ) ? __('mph', 'awesome-weather') : __('m/s', 'awesome-weather');
+		$wind_speed_obj = apply_filters('awesome_weather_wind_speed', array( 
+																				'text' => apply_filters('awesome_weather_wind_speed_text', $wind_speed_text), 
+																				'speed' => round($wind_speed), 
+																				'direction' => $wind_direction ), $wind_speed, $wind_direction );
 	
-		$rtn .= "
-			<div class=\"awesome-weather-todays-stats\">
-				<div class=\"awe_desc\">{$today->weather[0]->description}</div>
-				<div class=\"awe_humidty\">" . __('humidity:', 'awesome-weather') . " {$today->main->humidity}% </div>
-				<div class=\"awe_wind\">" . __('wind:', 'awesome-weather') . " {$wind_speed_obj['speed']} {$wind_speed_obj['text']} {$wind_speed_obj['direction']}</div>
-				<div class=\"awe_highlow\"> "  .__('H', 'awesome-weather') . " {$today_high} &bull; " . __('L', 'awesome-weather') . " {$today_low} </div>	
-			</div><!-- /.awesome-weather-todays-stats -->";
+		// CURRENT WEATHER STATS
+		$rtn .= '<div class="awesome-weather-todays-stats">';
+		if( isset($today->weather[0]->description) ) $rtn .= '<div class="awe_desc">' . $today->weather[0]->description . '</div>';
+		if( isset($today->main->humidity) ) $rtn .= '<div class="awe_humidty">' . __('humidity:', 'awesome-weather') . " " . $today->main->humidity . '%</div>';
+		if( $wind_speed AND $wind_direction) $rtn .= '<div class="awe_wind">' . __('wind:', 'awesome-weather') . ' ' .$wind_speed_obj['speed'] . $wind_speed_obj['text'] . ' ' .$wind_speed_obj['direction'] . '</div>';
+		if( $today_high AND $today_low) $rtn .= '<div class="awe_highlow">' . __('H', 'awesome-weather') . ' ' . $today_high . ' &bull; ' . __('L', 'awesome-weather') . ' ' . $today_low . '</div>';	
+		$rtn .= '</div><!-- /.awesome-weather-todays-stats -->';
 	}
 
 	if($days_to_show != "hide")
 	{
 		$rtn .= "<div class=\"awesome-weather-forecast awe_days_{$days_to_show} awecf\">";
 		$c = 1;
-		$dt_today = date( 'Ymd', current_time( 'timestamp', 0 ) );
 		$forecast = $weather_data['forecast'];
 		$days_to_show = (int) $days_to_show;
+		$days_of_week = apply_filters( 'awesome_weather_days_of_week', array( __('Sun' ,'awesome-weather'), __('Mon' ,'awesome-weather'), __('Tue' ,'awesome-weather'), __('Wed' ,'awesome-weather'), __('Thu' ,'awesome-weather'), __('Fri' ,'awesome-weather'), __('Sat' ,'awesome-weather') ) );
+		
+		if(!isset($forecast->list)) $forecast->list = array();
 		
 		foreach( (array) $forecast->list as $forecast )
 		{
 			if( $dt_today >= date('Ymd', $forecast->dt)) continue;
-			$days_of_week = array( __('Sun' ,'awesome-weather'), __('Mon' ,'awesome-weather'), __('Tue' ,'awesome-weather'), __('Wed' ,'awesome-weather'), __('Thu' ,'awesome-weather'), __('Fri' ,'awesome-weather'), __('Sat' ,'awesome-weather') );
-			
 			$forecast->temp = (int) $forecast->temp->day;
 			$day_of_week = $days_of_week[ date('w', $forecast->dt) ];
 			$rtn .= "
 				<div class=\"awesome-weather-forecast-day\">
 					<div class=\"awesome-weather-forecast-day-temp\">{$forecast->temp}<sup>{$units_display_symbol}</sup></div>
-					<div class=\"awesome-weather-forecast-day-abbr\">$day_of_week</div>
-				</div>
-			";
+					<div class=\"awesome-weather-forecast-day-abbr\">{$day_of_week}</div>
+				</div>";
 			if($c == $days_to_show) break;
 			$c++;
 		}
@@ -400,19 +418,21 @@ function awesome_weather_logic( $atts )
 	
 	if($show_link AND isset($today->id))
 	{
-		$show_link_text = apply_filters('awesome_weather_extended_forecast_text' , __('extended forecast', 'awesome-weather'));
-
+		$show_link_text 		= apply_filters('awesome_weather_extended_forecast_text' , __('extended forecast', 'awesome-weather'));
+		$extended_url_target 	= apply_filters('awesome_weather_extended_url_target', '_blank');
 		$rtn .= "<div class=\"awesome-weather-more-weather-link\">";
-		$rtn .= "<a href=\"http://openweathermap.org/city/{$today->id}\" target=\"_blank\">{$show_link_text}</a>";		
+		$rtn .= "<a href=\"http://openweathermap.org/city/{$today->id}\" target=\"{$extended_url_target}\">{$show_link_text}</a>";		
 		$rtn .= "</div> <!-- /.awesome-weather-more-weather-link -->";
 	}
 	
+	if( $show_attribution ) $rtn .= "<div class=\"awesome-weather-attribution\">" . __('Weather from', 'awesome-weather') . " OpenWeatherMap</div>";
+	
 	if($background) 
 	{ 
-		if( !$background_by_weather) $rtn .= "</div> <!-- /.awesome-weather-darken -->";
-		$rtn .= "</div> <!-- /.awesome-weather-cover -->";
+		if( !$background_by_weather) $rtn .= "</div><!-- /.awesome-weather-darken -->";
+		$rtn .= "</div><!-- /.awesome-weather-cover -->";
 	}
-	
+
 	$rtn .= "</div> <!-- /.awesome-weather-wrap -->";
 	return $rtn;
 }
@@ -430,13 +450,13 @@ function awesome_weather_error( $msg = false )
 		// DISPLAY ADMIN
 		if ( current_user_can( 'manage_options' ) ) 
 		{
-			echo "<div class='awesome-weather-error'>" . $msg . "</div>";
+			return "<div class='awesome-weather-error'>" . $msg . "</div>";
 		}
 	}
 	else if( $error_handling == "display-all")
 	{
 		// DISPLAY ALL
-		echo "<div class='awesome-weather-error'>" . $msg . "</div>";
+		return "<div class='awesome-weather-error'>" . $msg . "</div>";
 	}
 	else
 	{
@@ -455,8 +475,7 @@ function awesome_weather_admin_scripts( $hook )
 	wp_enqueue_style('wp-color-picker');
     wp_enqueue_script('wp-color-picker'); 
 	
-    wp_enqueue_script( 'awesome_weather_admin_script', plugin_dir_url( __FILE__ ) . '/awesome-weather-widget.js', array('jquery','underscore') );
-    
+    wp_enqueue_script( 'awesome_weather_admin_script', plugin_dir_url( __FILE__ ) . '/awesome-weather-widget-admin.js', array('jquery','underscore') );
     
 	wp_localize_script( 'awesome_weather_admin_script', 'awe_script', array(
 			'no_owm_city'				=> esc_attr(__("No city found in OpenWeatherMap.", 'awesome-weather')),
@@ -470,250 +489,10 @@ function awesome_weather_admin_scripts( $hook )
 add_action( 'admin_enqueue_scripts', 'awesome_weather_admin_scripts' );
 
 
-
-// AWESOME WEATHER WIDGET, WIDGET CLASS, SO MANY WIDGETS
-class AwesomeWeatherWidget extends WP_Widget 
-{
-	function AwesomeWeatherWidget() { parent::__construct(false, $name = 'Awesome Weather Widget'); }
-
-    function widget($args, $instance) 
-    {	
-        extract( $args );
-        
-        $location 					= isset($instance['location']) ? $instance['location'] : false;
-        $owm_city_id 				= isset($instance['owm_city_id']) ? $instance['owm_city_id'] : false;
-        $override_title 			= isset($instance['override_title']) ? $instance['override_title'] : false;
-        $widget_title 				= isset($instance['widget_title']) ? $instance['widget_title'] : false;
-        $units 						= isset($instance['units']) ? $instance['units'] : false;
-        $size 						= isset($instance['size']) ? $instance['size'] : false;
-        $forecast_days 				= isset($instance['forecast_days']) ? $instance['forecast_days'] : false;
-        $hide_stats 				= (isset($instance['hide_stats']) AND $instance['hide_stats'] == 1) ? 1 : 0;
-        $show_link 					= (isset($instance['show_link']) AND $instance['show_link'] == 1) ? 1 : 0;
-        $background_by_weather 		= (isset($instance['background_by_weather']) AND $instance['background_by_weather'] == 1) ? 1 : 0;
-        $background					= isset($instance['background']) ? $instance['background'] : false;
-        $custom_bg_color			= isset($instance['custom_bg_color']) ? $instance['custom_bg_color'] : false;
-        $text_color					= isset($instance['text_color']) ? $instance['text_color'] : "#ffffff";
-		
-		echo $before_widget;
-		if($widget_title != "") echo $before_title . $widget_title . $after_title;
-		echo awesome_weather_logic( array( 
-											'location' => $location, 
-											'owm_city_id' => $owm_city_id,
-											'override_title' => $override_title, 
-											'size' => $size, 
-											'units' => $units, 
-											'forecast_days' => $forecast_days, 
-											'hide_stats' => $hide_stats, 
-											'show_link' => $show_link, 
-											'background' => $background, 
-											'custom_bg_color' => $custom_bg_color,
-											'background_by_weather' => $background_by_weather,
-											'text_color' => $text_color 
-										));
-		echo $after_widget;
-    }
- 
-    function update($new_instance, $old_instance) 
-    {		
-		$instance = $old_instance;
-		$instance['location'] 					= strip_tags($new_instance['location']);
-		$instance['owm_city_id'] 				= strip_tags($new_instance['owm_city_id']);
-		$instance['override_title'] 			= strip_tags($new_instance['override_title']);
-		$instance['widget_title'] 				= strip_tags($new_instance['widget_title']);
-		$instance['units'] 						= strip_tags($new_instance['units']);
-		$instance['size'] 						= strip_tags($new_instance['size']);
-		$instance['forecast_days'] 				= strip_tags($new_instance['forecast_days']);
-		$instance['background'] 				= strip_tags($new_instance['background']);
-		$instance['custom_bg_color'] 			= strip_tags($new_instance['custom_bg_color']);
-		$instance['text_color'] 				= strip_tags($new_instance['text_color']);
-		$instance['background_by_weather'] 		= (isset($new_instance['background_by_weather']) AND $new_instance['background_by_weather'] == 1) ? 1 : 0;
-		$instance['hide_stats'] 				= (isset($new_instance['hide_stats']) AND $new_instance['hide_stats'] == 1) ? 1 : 0;
-		$instance['show_link'] 					= (isset($new_instance['show_link']) AND $new_instance['show_link'] == 1) ? 1 : 0;
-        return $instance;
-    }
- 
-    function form($instance) 
-    {	
-    	global $awesome_weather_sizes;
-    	
-        $location 					= isset($instance['location']) ? esc_attr($instance['location']) : "";
-        $owm_city_id 				= isset($instance['owm_city_id']) ? esc_attr($instance['owm_city_id']) : "";
-        $override_title 			= isset($instance['override_title']) ? esc_attr($instance['override_title']) : "";
-        $widget_title 				= isset($instance['widget_title']) ? esc_attr($instance['widget_title']) : "";
-        $selected_size 				= isset($instance['size']) ? esc_attr($instance['size']) : "wide";
-        $units 						= (isset($instance['units']) AND strtoupper($instance['units']) == "C") ? "C" : "F";
-        $forecast_days 				= isset($instance['forecast_days']) ? esc_attr($instance['forecast_days']) : 5;
-        $hide_stats 				= (isset($instance['hide_stats']) AND $instance['hide_stats'] == 1) ? 1 : 0;
-        $background_by_weather 		= (isset($instance['background_by_weather']) AND $instance['background_by_weather'] == 1) ? 1 : 0;
-        $show_link 					= (isset($instance['show_link']) AND $instance['show_link'] == 1) ? 1 : 0;
-        $background					= isset($instance['background']) ? esc_attr($instance['background']) : "";
-        $custom_bg_color			= isset($instance['custom_bg_color']) ? esc_attr($instance['custom_bg_color']) : "";
-        $text_color					= isset($instance['text_color']) ? esc_attr($instance['text_color']) : "#ffffff";
-        
-        
-        
-        $appid = apply_filters( 'awesome_weather_appid', awe_get_appid() );
-
-        $wp_theme = wp_get_theme();
-		$wp_theme = $wp_theme->get('TextDomain');
-	?>
-	
-		<style>
-			.awe-suggest { font-size: 0.9em; border-bottom: solid 1px #ccc; padding: 5px 1px; font-weight: bold; }
-			.awe-size-options { padding: 1px 10px; background: #efefef; }
-		</style>
-	
-	
-		<?php if(!$appid) { ?>
-		<div style="background: #dc3232; color: #fff; padding: 10px; margin: 10px;">
-			<?php
-				echo __("As of October 2015, OpenWeatherMap requires an APP ID key to access their weather data.", 'awesome-weather');
-				echo " <a href='http://openweathermap.org/appid' target='_blank' style='color: #fff;'>";
-				echo __('Get your APPID', 'awesome-weather');
-				echo "</a> ";
-				echo __("and add it to the new settings page.");
-				?>
-		</div>
-		<?php } ?>
-	
-        <p>
-          <label for="<?php echo $this->get_field_id('location'); ?>">
-          	<?php _e('Search for Your Location:', 'awesome-weather'); ?><br />
-          	<small><?php _e('(i.e: London,UK or New York City,NY)', 'awesome-weather'); ?></small>
-          </label> 
-          <input data-cityidfield="<?php echo $this->get_field_id('owm_city_id'); ?>" data-unitsfield="<?php echo $this->get_field_id('units'); ?>" class="widefat  awe-location-search-field-openweathermaps" style="margin-top: 4px;" id="<?php echo $this->get_field_id('location'); ?>" name="<?php echo $this->get_field_name('location'); ?>" type="text" value="<?php echo $location; ?>" />
-        </p>
-        
-		<p>
-			<label for="<?php echo $this->get_field_id('owm_city_id'); ?>">
-				<?php _e('OpenWeatherMap City ID:', 'awesome-weather-pro'); ?><br>
-				<small><?php _e('(use the field above to find the ID for your city)', 'awesome-weather'); ?></small>
-			</label>
-			<input class="widefat" style="margin-top: 4px; line-height: 1.5em;" id="<?php echo $this->get_field_id('owm_city_id'); ?>" name="<?php echo $this->get_field_name('owm_city_id'); ?>" type="text" value="<?php echo $owm_city_id; ?>" />
-		</p>
-	
-		<span id="awe-owm-spinner-<?php echo $this->get_field_id('location'); ?>" class="hidden"><img src="/wp-admin/images/spinner.gif"></span>
-		<div id="owmid-selector-<?php echo $this->get_field_id('location'); ?>"></div>
-
-		<?php if( !$owm_city_id ) { ?>
-			<script>jQuery('#<?php echo $this->get_field_id('location'); ?>').trigger('keyup');</script>
-		<?php } ?>
-      
-        <p>
-          <label for="<?php echo $this->get_field_id('override_title'); ?>"><?php _e('Override Title:', 'awesome-weather'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('override_title'); ?>" name="<?php echo $this->get_field_name('override_title'); ?>" type="text" value="<?php echo $override_title; ?>" />
-        </p>
-                
-        <p>
-          <label for="<?php echo $this->get_field_id('units'); ?>"><?php _e('Units:', 'awesome-weather'); ?></label>  &nbsp;
-          <input id="<?php echo $this->get_field_id('units'); ?>" name="<?php echo $this->get_field_name('units'); ?>" type="radio" value="F" <?php if($units == "F") echo ' checked="checked"'; ?> /> F &nbsp; &nbsp;
-          <input id="<?php echo $this->get_field_id('units'); ?>" name="<?php echo $this->get_field_name('units'); ?>" type="radio" value="C" <?php if($units == "C") echo ' checked="checked"'; ?> /> C
-        </p>
-        
-        <div class="awe-size-options">
-
-        <?php if( $wp_theme == "twentytwelve") { ?><div class="awe-suggest"> Suggested settings: Wide, 5 Days</div><?php } ?>
-        <?php if( $wp_theme == "twentythirteen") { ?><div class="awe-suggest"> Suggested settings: Tall, 4 Days</div><?php } ?>
-        <?php if( $wp_theme == "twentyfourteen") { ?><div class="awe-suggest"> Suggested settings: Tall, 3 Days</div><?php } ?>
-        <?php if( $wp_theme == "twentyfifteen") { ?><div class="awe-suggest"> Suggested settings: Tall, 4 Days</div><?php } ?>
-        <?php if( $wp_theme == "twentysixteen") { ?><div class="awe-suggest"> Suggested settings: Wide, 5 Days</div><?php } ?>
-
-		<p>
-          <label for="<?php echo $this->get_field_id('size'); ?>"><?php _e('Size:', 'awesome-weather'); ?></label> 
-          <select class="widefat" id="<?php echo $this->get_field_id('size'); ?>" name="<?php echo $this->get_field_name('size'); ?>">
-          	<?php foreach($awesome_weather_sizes as $size) { ?>
-          	<option value="<?php echo $size; ?>"<?php if($selected_size == $size) echo " selected=\"selected\""; ?>><?php echo $size; ?></option>
-          	<?php } ?>
-          </select>
-		</p>
-        
-		<p>
-          <label for="<?php echo $this->get_field_id('forecast_days'); ?>"><?php _e('Forecast:', 'awesome-weather'); ?></label> 
-          <select class="widefat" id="<?php echo $this->get_field_id('forecast_days'); ?>" name="<?php echo $this->get_field_name('forecast_days'); ?>">
-          	<option value="5"<?php if($forecast_days == 5) echo " selected=\"selected\""; ?>>5 Days</option>
-          	<option value="4"<?php if($forecast_days == 4) echo " selected=\"selected\""; ?>>4 Days</option>
-          	<option value="3"<?php if($forecast_days == 3) echo " selected=\"selected\""; ?>>3 Days</option>
-          	<option value="2"<?php if($forecast_days == 2) echo " selected=\"selected\""; ?>>2 Days</option>
-          	<option value="1"<?php if($forecast_days == 1) echo " selected=\"selected\""; ?>>1 Days</option>
-          	<option value="hide"<?php if($forecast_days == 'hide') echo " selected=\"selected\""; ?>>Don't Show</option>
-          </select>
-		</p>
-		
-        </div>
-		
-        <p>
-          <label for="<?php echo $this->get_field_id('background'); ?>"><?php _e('Background Image:', 'awesome-weather'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('background'); ?>" name="<?php echo $this->get_field_name('background'); ?>" type="text" value="<?php echo $background; ?>" />
-        </p>
-        
-        <p>
-          <input id="<?php echo $this->get_field_id('background_by_weather'); ?>" name="<?php echo $this->get_field_name('background_by_weather'); ?>" type="checkbox" value="1" <?php if($background_by_weather) echo ' checked="checked"'; ?> />
-          <label for="<?php echo $this->get_field_id('background_by_weather'); ?>"><?php _e('Use Different Background Images Based on Weather', 'awesome-weather'); ?></label>  <a href="https://halgatewood.com/docs/plugins/awesome-weather-widget/creating-different-backgrounds-for-different-weather" target="_blank">(?)</a> &nbsp;
-        </p>
-        
-        <p>
-          <label for="<?php echo $this->get_field_id('custom_bg_color'); ?>"><?php _e('Custom Background Color:', 'awesome-weather'); ?></label><br />
-          <small><?php _e('overrides color changing', 'awesome-weather'); ?>: #7fb761 or rgba(0,0,0,0.5)</small>
-          <input class="widefat" id="<?php echo $this->get_field_id('custom_bg_color'); ?>" name="<?php echo $this->get_field_name('custom_bg_color'); ?>" type="text" value="<?php echo $custom_bg_color; ?>" />
-        </p>
-        
-		<p>
-		    <label for="<?php echo $this->get_field_id( 'text_color' ); ?>" style="display:block;"><?php _e( 'Text Color', 'awesome-weather' ); ?></label> 
-		    <input class="widefat color-picker" id="<?php echo $this->get_field_id( 'text_color' ); ?>" name="<?php echo $this->get_field_name( 'text_color' ); ?>" type="text" value="<?php echo esc_attr( $text_color ); ?>" />
-		</p>
-		
-		<script type="text/javascript">
-		    jQuery(document).ready(function($) 
-		    { 
-		            jQuery('#<?php echo $this->get_field_id( 'text_color' ); ?>').on('focus', function(){
-		                var parent = jQuery(this).parent();
-		                jQuery(this).wpColorPicker()
-		                parent.find('.wp-color-result').click();
-		            }); 
-		            
-		            jQuery('#<?php echo $this->get_field_id( 'text_color' ); ?>').wpColorPicker()
-		    }); 
-		</script>
-		
-        <p>
-          <input id="<?php echo $this->get_field_id('hide_stats'); ?>" name="<?php echo $this->get_field_name('hide_stats'); ?>" type="checkbox" value="1" <?php if($hide_stats) echo ' checked="checked"'; ?> />
-          <label for="<?php echo $this->get_field_id('hide_stats'); ?>"><?php _e('Hide Stats', 'awesome-weather'); ?></label> 
-          
-        </p>
-		
-        <p>
-          <input id="<?php echo $this->get_field_id('show_link'); ?>" name="<?php echo $this->get_field_name('show_link'); ?>" type="checkbox" value="1" <?php if($show_link) echo ' checked="checked"'; ?> />
-		  <label for="<?php echo $this->get_field_id('show_link'); ?>"><?php _e('Link to OpenWeatherMap', 'awesome-weather'); ?></label>  &nbsp;
-        </p> 
-                
-        <p>
-          <label for="<?php echo $this->get_field_id('widget_title'); ?>"><?php _e('Widget Title: (optional)', 'awesome-weather'); ?></label> 
-          <input class="widefat" id="<?php echo $this->get_field_id('widget_title'); ?>" name="<?php echo $this->get_field_name('widget_title'); ?>" type="text" value="<?php echo $widget_title; ?>" />
-        </p>
-        <?php 
-    }
-}
-
-add_action( 'widgets_init', create_function('', 'return register_widget("AwesomeWeatherWidget");') );
-
-
-
-// SETTINGS
-require_once( dirname(__FILE__) . "/awesome-weather-settings.php");    
-
-
-
 // GET APPID
 function awe_get_appid()
 {
-	if( defined('AWESOME_WEATHER_APPID') )
-	{
-		return AWESOME_WEATHER_APPID;
-	}
-	else
-	{
-		return get_option( 'open-weather-key' );
-	}
+	return defined('AWESOME_WEATHER_APPID') ? AWESOME_WEATHER_APPID : get_option( 'open-weather-key' );
 }
 
 
@@ -726,9 +505,10 @@ function awe_ping_owm_for_id( )
 	if($appid) $appid_string = '&APPID=' . $appid;
 	
 	$location = urlencode($_GET['location']);
-	$units = $_GET['location'] == "C" ? "metric" : "imperial";
+	$units = $_GET['units'] == "C" ? "metric" : "imperial";
 	$owm_ping = "http://api.openweathermap.org/data/2.5/find?q=" . $location ."&units=" . $units . "&mode=json" . $appid_string;
 	$owm_ping_get = wp_remote_get( $owm_ping );
+	header("Content-Type: application/json");
 	echo $owm_ping_get['body'];
 	die;
 }
@@ -753,3 +533,13 @@ function awesome_weather_preset_condition_names_openweathermaps( $weather_code )
 	else if( $weather_code == 951 ) 											return "calm";
 	else if( $weather_code > 951 AND $weather_code < 962 ) 						return "breeze";
 }
+
+
+
+
+// WIDGET
+require_once( dirname(__FILE__) . "/widget.php"); 
+
+
+// SETTINGS
+require_once( dirname(__FILE__) . "/awesome-weather-settings.php");  

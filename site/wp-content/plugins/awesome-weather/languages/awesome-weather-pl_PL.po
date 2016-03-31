@@ -1,204 +1,320 @@
-# Copyright (C) 2013 Awesome Weather Widget
-# This file is distributed under the same license as the Awesome Weather Widget package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Awesome Weather Widget 1.3.1\n"
+"Project-Id-Version: Awesome Weather Widget 1.5.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/awesome-weather\n"
-"POT-Creation-Date: 2013-09-27 16:36:26+00:00\n"
+"POT-Creation-Date: 2016-01-09 06:34:11+00:00\n"
+"PO-Revision-Date: Sat Jan 09 2016 00:42:36 GMT-0600 (CST)\n"
+"Last-Translator: Hal Gatewood <hal@halgatewood.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Polish\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10 >= 2 && n%10<=4 "
+"&&(n%100<10||n%100 >= 20)? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-01-16 20:19+0100\n"
-"Last-Translator: \n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: Poedit 1.6.3\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
-"Language: pl_PL\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Loco-Target-Locale: pl_PL"
 
-#: awesome-weather.php:69
-msgid "C"
-msgstr "°C"
+#: awesome-weather-settings.php:17
+msgid "Weather Widget Cache Cleared"
+msgstr ""
 
-#: awesome-weather.php:69
-msgid "F"
-msgstr "°F"
+#: awesome-weather-settings.php:28
+msgid "Clear all Awesome Weather Widget Cache"
+msgstr ""
 
-#: awesome-weather.php:228
-msgid "N"
-msgstr "płn."
+#: awesome-weather-settings.php:42
+msgid "Settings"
+msgstr ""
 
-#: awesome-weather.php:229
-msgid "NNE"
-msgstr "płn. - płn. wsch."
+#: awesome-weather-settings.php:46
+msgid "API Key Required"
+msgstr ""
 
-#: awesome-weather.php:230
-msgid "NE"
-msgstr "płn. wsch."
+#: awesome-weather-settings.php:51
+msgid "Donate"
+msgstr ""
 
-#: awesome-weather.php:231
-msgid "ENE"
-msgstr "wsch. - płn. wsch."
+#: awesome-weather-settings.php:54
+msgid "Upgrade"
+msgstr ""
 
-#: awesome-weather.php:232
-msgid "E"
-msgstr "wsch."
+#: awesome-weather-settings.php:69
+msgid "OpenWeatherMaps APPID"
+msgstr ""
 
-#: awesome-weather.php:233
-msgid "ESE"
-msgstr "wsch. - płd. wsch."
+#: awesome-weather-settings.php:70
+msgid "Error Handling"
+msgstr ""
 
-#: awesome-weather.php:234
-msgid "SE"
-msgstr "płd. wsch."
+#: awesome-weather-settings.php:106
+msgid "Defined in wp-config"
+msgstr ""
 
-#: awesome-weather.php:235
-msgid "SSE"
-msgstr "płd. - płd. wsch."
+#: awesome-weather-settings.php:113
+msgid ""
+"As of October 2015, OpenWeatherMaps requires this key to access their "
+"weather data."
+msgstr ""
 
-#: awesome-weather.php:236
-msgid "S"
-msgstr "płd."
+#: awesome-weather-settings.php:115 widget.php:99
+msgid "Get your APPID"
+msgstr ""
 
-#: awesome-weather.php:237
-msgid "SSW"
-msgstr "płd. - płd. zach."
+#: awesome-weather-settings.php:126
+msgid "Hidden in Source"
+msgstr ""
 
-#: awesome-weather.php:238
-msgid "SW"
-msgstr "płd. zach."
+#: awesome-weather-settings.php:127
+msgid "Display if Admin"
+msgstr ""
 
-#: awesome-weather.php:239
-msgid "WSW"
-msgstr "zach. - płd. zach."
+#: awesome-weather-settings.php:128
+msgid "Display for Anyone"
+msgstr ""
 
-#: awesome-weather.php:240
-msgid "W"
-msgstr "zach."
+#: awesome-weather-settings.php:131
+msgid "What should the plugin do when there is an error?"
+msgstr ""
 
-#: awesome-weather.php:241
-msgid "WNW"
-msgstr "zach. - płn. zach."
-
-#: awesome-weather.php:242
-msgid "NW"
-msgstr "płn. zach."
-
-#: awesome-weather.php:243
-msgid "NNW"
-msgstr "płn. - płn. zach."
-
-#: awesome-weather.php:280
-msgid "km/h"
-msgstr "km/h"
-
-#: awesome-weather.php:280
-msgid "mph"
-msgstr "mph"
-
-#: awesome-weather.php:287
-msgid "humidity:"
-msgstr "wilgotność:"
-
-#: awesome-weather.php:288
-msgid "wind:"
-msgstr "wiatr:"
-
-#: awesome-weather.php:289
-msgid "H"
-msgstr "Max:"
-
-#: awesome-weather.php:289
-msgid "L"
-msgstr "Min:"
-
-#: awesome-weather.php:305
-msgid "Sun"
-msgstr "Nd"
-
-#: awesome-weather.php:305
-msgid "Mon"
-msgstr "Pon"
-
-#: awesome-weather.php:305
-msgid "Tue"
-msgstr "Wt"
-
-#: awesome-weather.php:305
-msgid "Wed"
-msgstr "Śr"
-
-#: awesome-weather.php:305
-msgid "Thu"
-msgstr "Czw"
-
-#: awesome-weather.php:305
-msgid "Fri"
-msgstr "Pt"
-
-#: awesome-weather.php:305
-msgid "Sat"
-msgstr "Sob"
-
-#: awesome-weather.php:323
-msgid "extended forecast"
-msgstr "rozszerzona prognoza"
-
-#: awesome-weather.php:344
-msgid "No weather information available"
-msgstr "Brak danych pogodowych"
-
-#: awesome-weather.php:405
-msgid "Location:"
-msgstr "Lokalizacja"
-
-#: awesome-weather.php:406
-msgid "(i.e: London,UK or New York City,NY)"
-msgstr "(np.: Londyn,UK lub Nowy Jork, NY)"
-
-#: awesome-weather.php:412
-msgid "Override Title:"
-msgstr "niestandardowy tytuł"
-
-#: awesome-weather.php:417
-msgid "Units:"
-msgstr "Jednostki"
-
-#: awesome-weather.php:423
-msgid "Size:"
-msgstr "rozmiar"
-
-#: awesome-weather.php:432
-msgid "Forecast:"
-msgstr "Prognoza"
-
-#: awesome-weather.php:444
-msgid "Background Image:"
-msgstr "Obrazek tła"
-
-#: awesome-weather.php:449
-msgid "Custom Background Color:"
-msgstr "Niestandardowy kolor tła"
-
-#: awesome-weather.php:450
-msgid "(overrides color changing, use hex #7fb761)"
-msgstr "Nadpisywanie domyślnego koloru, użyj hex #7fb761"
+#: awesome-weather.php:355
+msgid "m/s"
+msgstr ""
 
 #: awesome-weather.php:455
-msgid "Hide Stats:"
-msgstr "Ukryj statystyki"
+msgid "No city found in OpenWeatherMap."
+msgstr ""
 
-#: awesome-weather.php:460
-msgid "Link to OpenWeatherMap:"
-msgstr "Link do OpenWeatherMap"
+#: awesome-weather.php:456
+msgid "Only one location found. The ID has been set automatically above."
+msgstr ""
+
+#: awesome-weather.php:457
+msgid "Please confirm your city: &nbsp;"
+msgstr ""
+
+#: widget.php:97
+msgid ""
+"As of October 2015, OpenWeatherMap requires an APP ID key to access their "
+"weather data."
+msgstr ""
+
+#: widget.php:101
+msgid "and add it to the new settings page."
+msgstr ""
+
+#: widget.php:108
+msgid "Search for Your Location:"
+msgstr ""
+
+#: widget.php:109
+msgid "(i.e: London or New York City)"
+msgstr ""
+
+#: widget.php:116
+msgid "OpenWeatherMap City ID:"
+msgstr ""
+
+#: widget.php:117
+msgid "(use the field above to find the ID for your city)"
+msgstr ""
+
+#: widget.php:178
+msgid "Use Different Background Images Based on Weather"
+msgstr ""
+
+#: widget.php:183
+msgid "overrides color changing"
+msgstr ""
+
+#: widget.php:188
+msgid "Text Color"
+msgstr ""
+
+#: widget.php:207
+msgid "Hide Current Condition Stats"
+msgstr ""
+
+#: widget.php:213
+msgid "Link to OpenWeatherMap"
+msgstr ""
+
+#: widget.php:217
+msgid "Widget Title: (optional)"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://halgatewood.com/awesome-weather"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.halgatewood.com"
+msgstr ""
 
 #. Plugin Name of the plugin/theme
+#: awesome-weather-settings.php:13
 msgid "Awesome Weather Widget"
 msgstr "Awesome Weather Widget"
 
-#. Plugin URI of the plugin/theme
-msgid "http://halgatewood.com/awesome-weather"
-msgstr "http://halgatewood.com/awesome-weather"
+#: awesome-weather.php:75
+msgid "C"
+msgstr "°C"
+
+#: awesome-weather.php:75
+msgid "F"
+msgstr "°F"
+
+#: awesome-weather.php:271
+msgid "N"
+msgstr "płn."
+
+#: awesome-weather.php:271
+msgid "NNE"
+msgstr "płn. - płn. wsch."
+
+#: awesome-weather.php:271
+msgid "NE"
+msgstr "płn. wsch."
+
+#: awesome-weather.php:271
+msgid "ENE"
+msgstr "wsch. - płn. wsch."
+
+#: awesome-weather.php:271
+msgid "E"
+msgstr "wsch."
+
+#: awesome-weather.php:271
+msgid "ESE"
+msgstr "wsch. - płd. wsch."
+
+#: awesome-weather.php:271
+msgid "SE"
+msgstr "płd. wsch."
+
+#: awesome-weather.php:271
+msgid "SSE"
+msgstr "płd. - płd. wsch."
+
+#: awesome-weather.php:271
+msgid "S"
+msgstr "płd."
+
+#: awesome-weather.php:271
+msgid "SSW"
+msgstr "płd. - płd. zach."
+
+#: awesome-weather.php:271
+msgid "SW"
+msgstr "płd. zach."
+
+#: awesome-weather.php:271
+msgid "WSW"
+msgstr "zach. - płd. zach."
+
+#: awesome-weather.php:271
+msgid "W"
+msgstr "zach."
+
+#: awesome-weather.php:271
+msgid "WNW"
+msgstr "zach. - płn. zach."
+
+#: awesome-weather.php:271
+msgid "NW"
+msgstr "płn. zach."
+
+#: awesome-weather.php:271
+msgid "NNW"
+msgstr "płn. - płn. zach."
+
+#: awesome-weather.php:355
+msgid "mph"
+msgstr "mph"
+
+#: awesome-weather.php:364
+msgid "humidity:"
+msgstr "wilgotność:"
+
+#: awesome-weather.php:365
+msgid "wind:"
+msgstr "wiatr:"
+
+#: awesome-weather.php:366
+msgid "H"
+msgstr "Max:"
+
+#: awesome-weather.php:366
+msgid "L"
+msgstr "Min:"
+
+#: awesome-weather.php:377
+msgid "Sun"
+msgstr "Nd"
+
+#: awesome-weather.php:377
+msgid "Mon"
+msgstr "Pon"
+
+#: awesome-weather.php:377
+msgid "Tue"
+msgstr "Wt"
+
+#: awesome-weather.php:377
+msgid "Wed"
+msgstr "Śr"
+
+#: awesome-weather.php:377
+msgid "Thu"
+msgstr "Czw"
+
+#: awesome-weather.php:377
+msgid "Fri"
+msgstr "Pt"
+
+#: awesome-weather.php:377
+msgid "Sat"
+msgstr "Sob"
+
+#: awesome-weather.php:397
+msgid "extended forecast"
+msgstr "rozszerzona prognoza"
+
+#: awesome-weather.php:420
+msgid "No weather information available"
+msgstr "Brak danych pogodowych"
+
+#: widget.php:130
+msgid "Override Title:"
+msgstr "niestandardowy tytuł"
+
+#: widget.php:135
+msgid "Units:"
+msgstr "Jednostki"
+
+#: widget.php:149
+msgid "Size:"
+msgstr "rozmiar"
+
+#: widget.php:158
+msgid "Forecast:"
+msgstr "Prognoza"
+
+#: widget.php:172
+msgid "Background Image:"
+msgstr "Obrazek tła"
+
+#: widget.php:182
+msgid "Custom Background Color:"
+msgstr "Niestandardowy kolor tła"
 
 #. Description of the plugin/theme
 msgid "A weather widget that actually looks cool"
@@ -207,7 +323,3 @@ msgstr "A weather widget that actually looks cool"
 #. Author of the plugin/theme
 msgid "Hal Gatewood"
 msgstr "Hal Gatewood"
-
-#. Author URI of the plugin/theme
-msgid "http://www.halgatewood.com"
-msgstr "http://www.halgatewood.com"

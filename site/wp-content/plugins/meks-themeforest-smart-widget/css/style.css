@@ -1,4 +1,4 @@
-ul.mks_themeforest_widget_ul  li{
+ul.mks_themeforest_widget_ul li{
 	width: 80px !important;
 	height: 80px;
 	display: inline-block !important;
@@ -7,7 +7,7 @@ ul.mks_themeforest_widget_ul  li{
 	vertical-align: top;
 }
 
-ul.mks_themeforest_widget_ul  li img{
+ul.mks_themeforest_widget_ul li img{
 	width: 80px;
 	height: 80px;
 	margin: 0;

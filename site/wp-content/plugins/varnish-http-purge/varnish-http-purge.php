@@ -3,14 +3,14 @@
 Plugin Name: Varnish HTTP Purge
 Plugin URI: http://wordpress.org/extend/plugins/varnish-http-purge/
 Description: Sends HTTP PURGE requests to URLs of changed posts/pages when they are modified.
-Version: 3.7.3
+Version: 3.8
 Author: Mika Epstein
 Author URI: http://halfelf.org/
 License: http://www.apache.org/licenses/LICENSE-2.0
 Text Domain: varnish-http-purge
 Network: true
 
-Copyright 2013-2015: Mika A. Epstein (email: ipstenu@ipstenu.org)
+Copyright 2013-2016: Mika A. Epstein (email: ipstenu@halfelf.org)
 
 Original Author: Leon Weidauer ( http:/www.lnwdr.de/ )
 
@@ -25,29 +25,60 @@ Original Author: Leon Weidauer ( http:/www.lnwdr.de/ )
 
 */
 
+/**
+ * Purge Varnish Class
+ *
+ * @since 2.0
+ */
+
 class VarnishPurger {
 	protected $purgeUrls = array();
 
+	/**
+	 * Init
+	 *
+	 * @since 2.0
+	 * @access public
+	 */
 	public function __construct() {
-		defined('varnish-http-purge') ||define('varnish-http-purge', true);
+		defined('varnish-http-purge') || define('varnish-http-purge', true);
 		defined('VHP_VARNISH_IP') || define('VHP_VARNISH_IP', false );
 		add_action( 'init', array( &$this, 'init' ) );
 		add_action( 'activity_box_end', array( $this, 'varnish_rightnow' ), 100 );
 	}
 
+	/**
+	 * Plugin Init
+	 *
+	 * @since 1.0
+	 * @access public
+	 */
 	public function init() {
 		global $blog_id;
 		load_plugin_textdomain( 'varnish-http-purge' );
 
-		foreach ($this->getRegisterEvents() as $event) {
-			add_action( $event, array($this, 'purgePost'), 10, 2 );
+		// get my events
+		$events = $this->getRegisterEvents();
+
+		// make sure we have events and it's an array
+		if ( ! empty( $events ) ) {
+
+			// Force it to be an array, in case someone's stupid
+			$events = (array) $events;
+
+			// Add the action for each event
+			foreach ( $events as $event) {
+				add_action( $event, array($this, 'purgePost'), 10, 2 );
+			}
 		}
 		add_action( 'shutdown', array($this, 'executePurge') );
 
+		// Success: Admin notice when purging
 		if ( isset($_GET['vhp_flush_all']) && check_admin_referer('varnish-http-purge') ) {
 			add_action( 'admin_notices' , array( $this, 'purgeMessage'));
 		}
 
+		// Warning: No Pretty Permalinks!
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can('manage_options') ) {
 			add_action( 'admin_notices' , array( $this, 'prettyPermalinksMessage'));
 		}
@@ -65,14 +96,31 @@ class VarnishPurger {
 
 	}
 
+	/**
+	 * Purge Message
+	 * Informs of a succcessful purge
+	 *
+	 * @since 2.0
+	 */
 	function purgeMessage() {
 		echo "<div id='message' class='updated fade'><p><strong>".__('Varnish cache purged!', 'varnish-http-purge')."</strong></p></div>";
 	}
 
+	/**
+	 * Permalinks Message
+	 * Explains you need Pretty Permalinks on to use this plugin
+	 *
+	 * @since 2.0
+	 */
 	function prettyPermalinksMessage() {
 		echo "<div id='message' class='error'><p>".__( 'Varnish HTTP Purge requires you to use custom permalinks. Please go to the <a href="options-permalink.php">Permalinks Options Page</a> to configure them.', 'varnish-http-purge' )."</p></div>";
 	}
 
+	/**
+	 * Varnish Purge Button in the Admin Bar
+	 *
+	 * @since 2.0
+	 */
 	function varnish_rightnow_adminbar($admin_bar){
 		$admin_bar->add_menu( array(
 			'id'	=> 'purge-varnish-cache-all',
@@ -84,15 +132,22 @@ class VarnishPurger {
 		));
 	}
 
+	/**
+	 * Varnish Right Now Information
+	 * This information is put on the Dashboard 'Right now' widget
+	 *
+	 * @since 1.0
+	 */
 	function varnish_rightnow() {
 		global $blog_id;
-		$url = wp_nonce_url(admin_url('?vhp_flush_all'), 'varnish-http-purge');
+		$url = wp_nonce_url(add_query_arg('vhp_flush_all', 1), 'varnish-http-purge');
 		$intro = sprintf( __('<a href="%1$s">Varnish HTTP Purge</a> automatically purges your posts when published or updated. Sometimes you need a manual flush.', 'varnish-http-purge' ), 'http://wordpress.org/plugins/varnish-http-purge/' );
 		$button =  __('Press the button below to force it to purge your entire cache.', 'varnish-http-purge' );
 		$button .= '</p><p><span class="button"><a href="'.$url.'"><strong>';
 		$button .= __('Purge Varnish', 'varnish-http-purge' );
 		$button .= '</strong></a></span>';
-		$nobutton =  __('You do not have permission to purge the cache for the whole site. Please contact your adminstrator.', 'varnish-http-purge' );
+		$nobutton =  __('You do not have permission to purge the cache for the whole site. Please contact your administrator.', 'varnish-http-purge' );
+
 		if (
 			// SingleSite - admins can always purge
 			( !is_multisite() && current_user_can('activate_plugins') ) ||
@@ -108,24 +163,43 @@ class VarnishPurger {
 		echo "<p class='varnish-rightnow'>$text</p>\n";
 	}
 
+	/**
+	 * Registered Events
+	 * These are when the purge is triggered
+	 *
+	 * @since 1.0
+	 * @access protected
+	 */
 	protected function getRegisterEvents() {
-		return array(
-			'save_post',
-			'deleted_post',
-			'trashed_post',
-			'edit_post',
-			'delete_attachment',
-			'switch_theme',
+
+		// Define registered purge events
+		$actions = array(
+			'save_post',            // Save a post
+			'deleted_post',         // Delete a post
+			'trashed_post',         // Empty Trashed post
+			'edit_post',            // Edit a post - includes leaving comments
+			'delete_attachment',    // Delete an attachment - includes re-uploading
+			'switch_theme',         // Change theme
 		);
+
+		// send back the actions array, filtered
+		// @param array $actions the actions that trigger the purge event
+		return apply_filters( 'varnish_http_purge_events', $actions );
 	}
 
+	/**
+	 * Execute Purge
+	 * Run the purge command for the URLs. Calls $this->purgeUrl for each URL
+	 *
+	 * @since 1.0
+	 * @access protected
+	 */
 	public function executePurge() {
 		$purgeUrls = array_unique($this->purgeUrls);
 
 		if (empty($purgeUrls)) {
-			if ( isset($_GET['vhp_flush_all']) && current_user_can('manage_options') && check_admin_referer('varnish-http-purge') ) {
+			if ( isset($_GET['vhp_flush_all']) && check_admin_referer('varnish-http-purge') ) {
 				$this->purgeUrl( home_url() .'/?vhp-regex' );
-			   // wp_cache_flush();
 			}
 		} else {
 			foreach($purgeUrls as $url) {
@@ -134,10 +208,16 @@ class VarnishPurger {
 		}
 	}
 
-	protected function purgeUrl($url) {
-		// Parse the URL for proxy proxies
+	/**
+	 * Purge URL
+	 * Parse the URL for proxy proxies
+	 *
+	 * @since 1.0
+	 * @param array $url the url to be purged
+	 * @access protected
+	 */
+	public function purgeUrl($url) {
 		$p = parse_url($url);
-
 
 		if ( isset($p['query']) && ( $p['query'] == 'vhp-regex' ) ) {
 			$pregex = '.*';
@@ -181,11 +261,19 @@ class VarnishPurger {
 
 		// Cleanup CURL functions to be wp_remote_request and thus better
 		// http://wordpress.org/support/topic/incompatability-with-editorial-calendar-plugin
-		wp_remote_request($purgeme, array('method' => 'PURGE', 'headers' => array( 'host' => $p['host'], 'X-Purge-Method' => $varnish_x_purgemethod ) ) );
+		$response = wp_remote_request($purgeme, array('method' => 'PURGE', 'headers' => array( 'host' => $p['host'], 'X-Purge-Method' => $varnish_x_purgemethod ) ) );
 
-		do_action('after_purge_url', $url, $purgeme);
+		do_action('after_purge_url', $url, $purgeme, $response);
 	}
 
+	/**
+	 * Purge Post
+	 * Flush the post
+	 *
+	 * @since 1.0
+	 * @param array $url the url to be purged
+	 * @access public
+	 */
 	public function purgePost($postId) {
 
 		// If this is a valid post we want to purge the post, the home page and any associated tags & cats
@@ -254,7 +342,6 @@ class VarnishPurger {
 			foreach ($listofurls as $url) {
 				array_push($this->purgeUrls, $url ) ;
 			}
-
 		}
 
         // Filter to add or remove urls to the array of purged urls
@@ -266,3 +353,8 @@ class VarnishPurger {
 }
 
 $purger = new VarnishPurger();
+
+// WP-CLI
+if ( defined('WP_CLI') && WP_CLI ) {
+	include( 'wp-cli.php' );
+}

@@ -95,3 +95,4 @@
 
 /* ERROR */
 div.awesome-weather-error { color: #ed7469; font-weight: bold; display: block; padding: 10px; text-align: center; border: solid 1px #ed7469; text-transform: uppercase; }
+.awesome-weather-attribution { text-align: center; font-size: 9px; font-weight: bold; font-family: sans-serif; padding: 5px; }
